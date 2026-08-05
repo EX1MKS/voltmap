@@ -1,0 +1,1024 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/png" href="../asset/img/favicon.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VOLTMAP</title>
+  <meta name="description"
+    content="Discover reliable EV charging stations worldwide. Fast charging, real-time availability, P2P charging, and battery intelligence." />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300..800&display=swap" rel="stylesheet" />
+
+  <!-- FontAwesome Free 7 -->
+  <link rel="stylesheet" href="../../node_modules/@fortawesome/fontawesome-free/css/all.min.css" />
+
+  <!-- Leaflet & MarkerCluster CSS -->
+  <link rel="stylesheet" href="../../node_modules/leaflet/dist/leaflet.css" />
+  <link rel="stylesheet" href="../../node_modules/leaflet.markercluster/dist/MarkerCluster.css" />
+  <link rel="stylesheet" href="../../node_modules/leaflet.markercluster/dist/MarkerCluster.Default.css" />
+
+  <!-- AOS (Animate On Scroll) CSS -->
+  <link rel="stylesheet" href="../../node_modules/aos/dist/aos.css" />
+
+  <!-- Fancybox CSS -->
+  <link rel="stylesheet" href="../../node_modules/@fancyapps/ui/dist/fancybox/fancybox.css" />
+
+  <!-- Swiper CSS -->
+  <link rel="stylesheet" href="../../node_modules/swiper/swiper-bundle.min.css" />
+
+  <!-- Tailwind & Application CSS -->
+  <link rel="stylesheet" href="../asset/css/output.css" />
+</head>
+
+<body class="min-h-screen bg-white text-[var(--primary)] flex flex-col font-sans overflow-x-hidden">
+
+  <!-- ==========================================
+       1. FIXED HEADER & NAVBAR
+       ========================================== -->
+  <header id="header-navbar"
+    class="fixed top-4 left-0 z-50 w-full px-4 sm:px-8 transition-all duration-500 ease-in-out opacity-100 pointer-events-auto translate-y-0">
+    <div id="navbar-container"
+      class="mx-auto max-w-full h-[64px] overflow-hidden rounded-[24px] transition-all duration-500 bg-transparent border border-transparent shadow-none">
+      <nav class="flex h-[64px] items-center justify-between px-6 sm:px-10">
+        <!-- Logo -->
+        <a href="#" id="nav-logo" data-nav-target="home"
+          class="flex items-center gap-2.5 text-[22px] font-black tracking-[6px] transition-colors duration-300 will-change-transform text-white group">
+          <div
+            class="w-8 h-8 rounded-full bg-[var(--secondary)] flex items-center justify-center text-white group-hover:scale-105 transition-transform">
+            <i class="fa-solid fa-bolt text-sm text-white"></i>
+          </div>
+          <span class="font-extrabold tracking-[4px] text-xl">VOLTMAP</span>
+        </a>
+
+        <!-- Desktop Nav Center Items -->
+        <div id="nav-menu" class="hidden lg:flex items-center gap-10 text-sm font-bold tracking-wide">
+          <div data-menu="Home" data-nav-target="home" class="will-change-transform cursor-pointer">
+            <button
+              class="nav-link-btn flex items-center gap-1.5 transition duration-300 text-white/90 hover:text-white">
+              <span>Home</span>
+            </button>
+          </div>
+          <div data-menu="Charging" data-nav-target="explore" class="will-change-transform cursor-pointer">
+            <button
+              class="nav-link-btn flex items-center gap-1.5 transition duration-300 text-white/90 hover:text-white">
+              <span>Charging</span>
+            </button>
+          </div>
+          <div data-menu="Technology" class="will-change-transform cursor-pointer">
+            <button
+              class="nav-link-btn flex items-center gap-1.5 transition duration-300 text-white/90 hover:text-white">
+              <span>Technology</span>
+            </button>
+          </div>
+          <div data-menu="Discover" class="will-change-transform cursor-pointer">
+            <button
+              class="nav-link-btn flex items-center gap-1.5 transition duration-300 text-white/90 hover:text-white">
+              <span>Discover</span>
+            </button>
+          </div>
+          <div data-menu="About" class="will-change-transform cursor-pointer">
+            <button
+              class="nav-link-btn flex items-center gap-1.5 transition duration-300 text-white/90 hover:text-white">
+              <span>About</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Right Actions -->
+        <div id="nav-actions" class="flex items-center gap-3">
+          <button data-nav-target="explore"
+            class="hidden md:flex h-11 items-center gap-2 rounded-full bg-[var(--secondary)] px-6 text-sm font-bold text-white shadow-sm transition hover:bg-[var(--secondary-hover)] hover:scale-[1.02] active:scale-95 will-change-transform">
+            <i class="fa-solid fa-bolt text-xs text-white"></i>
+            <span>Explore Map</span>
+          </button>
+
+          <button aria-label="User Account"
+            class="nav-icon-circle hidden sm:grid h-11 w-11 place-items-center rounded-full transition-all duration-300 will-change-transform bg-white/15 text-white border border-white/20 hover:bg-white/25">
+            <i class="fa-solid fa-user text-sm"></i>
+          </button>
+
+          <button id="mobile-hamburger-btn" aria-label="Toggle Mobile Menu"
+            class="nav-icon-circle grid h-11 w-11 place-items-center rounded-full lg:hidden transition-all duration-300 will-change-transform bg-white/15 text-white border border-white/20 hover:bg-white/25">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+        </div>
+      </nav>
+
+      <!-- MegaMenu Dropdown Container -->
+      <div id="megamenu-container" class="hidden px-8 py-8 bg-[var(--background)]"></div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer -->
+  <div id="mobile-drawer" data-open="false"
+    class="fixed top-[85px] left-4 right-4 z-40 overflow-hidden rounded-3xl bg-white shadow-2xl transition-all duration-300 lg:hidden border border-gray-100 pointer-events-none opacity-0 -translate-y-5">
+    <div class="flex flex-col gap-5 p-6">
+      <div data-mobile-nav="home" class="py-1 border-b border-gray-50 cursor-pointer text-gray-800 font-bold text-base">
+        Home
+      </div>
+      <div data-mobile-nav="explore"
+        class="py-1 border-b border-gray-50 cursor-pointer text-gray-800 font-bold text-base">
+        Charging & Map
+      </div>
+      <div data-mobile-nav="home" class="py-1 border-b border-gray-50 cursor-pointer text-gray-800 font-bold text-base">
+        Technology
+      </div>
+      <div data-mobile-nav="home" class="py-1 border-b border-gray-50 cursor-pointer text-gray-800 font-bold text-base">
+        Discover
+      </div>
+      <div data-mobile-nav="home" class="py-1 border-b border-gray-50 cursor-pointer text-gray-800 font-bold text-base">
+        About
+      </div>
+      <button data-mobile-nav="explore"
+        class="mt-2 h-12 rounded-full bg-[var(--secondary)] font-bold text-white flex items-center justify-center gap-2 shadow-md hover:bg-[var(--secondary-hover)] transition">
+        <i class="fa-solid fa-bolt text-white"></i>
+        <span>Explore Map</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       MAIN CONTENT CONTAINER
+       ========================================== -->
+  <main class="flex-1 w-full">
+
+    <!-- ==========================================
+         VIEW 1: HOME PAGE (#home-view)
+         ========================================== -->
+    <div id="home-view" class="w-full">
+
+      <!-- SECTION 1: HERO SECTION -->
+      <section id="hero-section"
+        class="relative h-screen min-h-[600px] max-h-[1080px] w-full flex flex-col justify-end pt-20 sm:pt-24 lg:pt-28 pb-6 sm:pb-8 lg:pb-10 px-4 sm:px-6 lg:px-15 overflow-hidden bg-slate-950 text-white">
+        <!-- Background Slideshow -->
+        <div id="hero-bg"
+          class="absolute inset-0 z-0 overflow-hidden pointer-events-none transition-transform duration-75 ease-out will-change-transform">
+          <img src="../asset/img/images/hero_ev_station1.jpg" alt="Fast Charging Station 1"
+            class="hero-bg-img absolute inset-0 w-full h-[120%] object-cover object-center transition-opacity duration-1000 ease-in-out opacity-100" />
+          <img src="../asset/img/images/hero_ev_station2.jpg" alt="Fast Charging Station 2"
+            class="hero-bg-img absolute inset-0 w-full h-[120%] object-cover object-center transition-opacity duration-1000 ease-in-out opacity-0" />
+          <img src="../asset/img/images/hero_ev_station3.jpg" alt="Fast Charging Station 3"
+            class="hero-bg-img absolute inset-0 w-full h-[120%] object-cover object-center transition-opacity duration-1000 ease-in-out opacity-0" />
+          <img src="../asset/img/images/hero_ev_station4.jpg" alt="Fast Charging Station 4"
+            class="hero-bg-img absolute inset-0 w-full h-[120%] object-cover object-center transition-opacity duration-1000 ease-in-out opacity-0" />
+          <img src="../asset/img/images/hero_ev_station5.jpg" alt="Fast Charging Station 5"
+            class="hero-bg-img absolute inset-0 w-full h-[120%] object-cover object-center transition-opacity duration-1000 ease-in-out opacity-0" />
+          <img src="../asset/img/images/hero_ev_station6.jpg" alt="Fast Charging Station 6"
+            class="hero-bg-img absolute inset-0 w-full h-[120%] object-cover object-center transition-opacity duration-1000 ease-in-out opacity-0" />
+
+          <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/50 to-slate-950/20"></div>
+          <div class="absolute inset-0 bg-gradient-to-r from-slate-950/80 via-slate-950/40 to-transparent"></div>
+        </div>
+
+        <!-- Hero Content -->
+        <div class="relative z-10 max-w-7xl mx-auto w-full flex flex-col justify-end gap-3 sm:gap-5 md:gap-6">
+          <div class="max-w-4xl space-y-2 sm:space-y-3 lg:space-y-4">
+            <h1 id="hero-title"
+              class="text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-black tracking-tight leading-[0.96] text-white select-none will-change-transform">
+              <span class="block overflow-hidden py-0.5">
+                <span class="hero-title-word inline-block">Stay</span>
+                <span class="hero-title-word inline-block relative text-electric font-black">Charged</span>
+              </span>
+              <span class="block overflow-hidden py-0.5">
+                <span class="hero-title-word inline-block text-white">Explore Without</span>
+                <span class="hero-title-word inline-block relative text-wind font-black">
+                  Limits
+                  <svg
+                    class="absolute -inset-x-3 -inset-y-1 w-[calc(100%+1.5rem)] h-[calc(100%+0.5rem)] pointer-events-none overflow-visible opacity-60"
+                    viewBox="0 0 200 60" fill="none" preserveAspectRatio="none">
+                    <path d="M -10,20 Q 60,12 130,24 T 210,18" stroke="#b8f4fcff" stroke-width="2"
+                      stroke-linecap="round" class="animate-wind-line-1"></path>
+                    <path d="M -20,40 Q 50,32 120,46 T 200,38" stroke="#95e3e9ff" stroke-width="2"
+                      stroke-linecap="round" class="animate-wind-line-2"></path>
+                  </svg>
+                </span>
+              </span>
+            </h1>
+
+            <p id="hero-subtitle"
+              class="text-base sm:text-lg md:text-xl font-medium text-gray-200/90 max-w-2xl leading-relaxed will-change-transform">
+              Discover reliable charging stations worldwide<br class="hidden sm:inline" />
+              and enjoy worry-free journeys
+            </p>
+          </div>
+
+          <!-- Actions -->
+          <div id="hero-actions" class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2 md:pt-3">
+            <button data-nav-target="explore"
+              class="h-12 sm:h-14 lg:h-15 px-6 sm:px-8 rounded-full bg-[var(--secondary)] text-white font-extrabold text-sm sm:text-base lg:text-lg flex items-center justify-center gap-3 shadow-xl hover:bg-[var(--secondary-hover)] hover:scale-[1.03] active:scale-95 transition-all duration-300 group will-change-transform">
+              <span>Find Nearby Chargers</span>
+              <div
+                class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/20 flex items-center justify-center group-hover:translate-x-1 transition-transform">
+                <i class="fa-solid fa-arrow-right text-xs sm:text-sm text-white"></i>
+              </div>
+            </button>
+
+            <button data-fancybox href="../asset/img/images/hero_ev_station41.jpg"
+              class="h-12 sm:h-14 lg:h-15 px-6 sm:px-8 rounded-full bg-black/40 backdrop-blur-md border border-white/40 text-white font-bold text-sm sm:text-base lg:text-lg flex items-center justify-center gap-3 hover:bg-white/20 hover:border-white hover:scale-[1.02] active:scale-95 transition-all duration-300 will-change-transform">
+              <span>Install Chargers</span>
+            </button>
+          </div>
+
+          <!-- Features & Slideshow Controls -->
+          <div id="hero-features"
+            class="pt-4 lg:pt-5 border-t border-white/15 grid grid-cols-2 md:grid-cols-4 gap-3 text-white/80">
+            <div class="flex items-center gap-2.5 sm:gap-3 will-change-transform">
+              <div
+                class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white/10 flex items-center justify-center text-[var(--secondary)] shrink-0">
+                <i class="fa-solid fa-bolt text-sm sm:text-base"></i>
+              </div>
+              <div>
+                <div class="text-xs sm:text-sm font-bold text-white leading-tight">Fast Charger Filter</div>
+                <div class="text-[10px] sm:text-xs text-gray-300">Find DC fast chargers nearby</div>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2.5 sm:gap-3 will-change-transform">
+              <div
+                class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white/10 flex items-center justify-center text-[var(--secondary)] shrink-0">
+                <i class="fa-solid fa-map-pin text-sm sm:text-base"></i>
+              </div>
+              <div>
+                <div class="text-xs sm:text-sm font-bold text-white leading-tight">24/7 Availability</div>
+                <div class="text-[10px] sm:text-xs text-gray-300">Check station status 24/7</div>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2.5 sm:gap-3 will-change-transform">
+              <div
+                class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white/10 flex items-center justify-center text-[var(--secondary)] shrink-0">
+                <i class="fa-solid fa-globe text-sm sm:text-base"></i>
+              </div>
+              <div>
+                <div class="text-xs sm:text-sm font-bold text-white leading-tight">Global Coverage</div>
+                <div class="text-[10px] sm:text-xs text-gray-300">Thousands of charging stations</div>
+              </div>
+            </div>
+
+            <div
+              class="flex md:ml-auto ml-0 items-center gap-1.5 sm:gap-2 md:w-fit w-full bg-black/40 backdrop-blur-md px-3.5 py-2 rounded-full border border-white/15 will-change-transform justify-center">
+              <button data-hero-indicator="0" aria-label="Hero slide 1"
+                class="h-2 rounded-full transition-all duration-500 w-6 sm:w-7 bg-[var(--secondary)] shadow-sm shadow-[var(--secondary)]"></button>
+              <button data-hero-indicator="1" aria-label="Hero slide 2"
+                class="h-2 rounded-full transition-all duration-500 w-2 bg-white/40 hover:bg-white/70"></button>
+              <button data-hero-indicator="2" aria-label="Hero slide 3"
+                class="h-2 rounded-full transition-all duration-500 w-2 bg-white/40 hover:bg-white/70"></button>
+              <button data-hero-indicator="3" aria-label="Hero slide 4"
+                class="h-2 rounded-full transition-all duration-500 w-2 bg-white/40 hover:bg-white/70"></button>
+              <button data-hero-indicator="4" aria-label="Hero slide 5"
+                class="h-2 rounded-full transition-all duration-500 w-2 bg-white/40 hover:bg-white/70"></button>
+              <button data-hero-indicator="5" aria-label="Hero slide 6"
+                class="h-2 rounded-full transition-all duration-500 w-2 bg-white/40 hover:bg-white/70"></button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 2: STATS SECTION -->
+      <section id="stats-section" class="w-full py-16 md:py-24 px-4 sm:px-6 lg:px-12 bg-white text-[var(--primary)]">
+        <div class="max-w-7xl mx-auto flex flex-col lg:flex-row gap-6 lg:gap-8 items-stretch">
+          <!-- Left Animated Wave Ribbon Banner -->
+          <div
+            class="w-full lg:w-[52%] relative rounded-[32px] md:rounded-[40px] overflow-hidden min-h-[440px] sm:min-h-[500px] lg:min-h-[560px] flex flex-col justify-center border border-blue-100/60 shadow-md">
+            <svg class="absolute inset-0 -top-[20%] md:-top-[10%] lg:w-screen w-[200vw] h-[120%] pointer-events-none"
+              viewBox="0 0 100 100" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="greenGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#52C133"></stop>
+                  <stop offset="50%" stop-color="#46B428"></stop>
+                  <stop offset="100%" stop-color="#5CD73B"></stop>
+                </linearGradient>
+                <radialGradient id="greenAura" cx="40%" cy="40%" r="60%">
+                  <stop offset="0%" stop-color="#96F07A" stop-opacity="0.45"></stop>
+                  <stop offset="100%" stop-color="#52C133" stop-opacity="0"></stop>
+                </radialGradient>
+              </defs>
+              <rect width="100" height="100" fill="#F0F5FB"></rect>
+              <path id="stats-back-path"
+                d="M -5,26 C 11,48 29,4 45,26 C 61,50 79,8 105,26 L 105,94 C 79,80 61,104 45,94 C 29,78 11,102 -5,94 Z"
+                fill="#3DA721" fill-opacity="0.3"></path>
+              <path id="stats-main-path"
+                d="M 0,32 C 15.6,55 34.4,10 50,32 C 65.6,58 84.4,14 100,32 L 100,88 C 84.4,74 65.6,98 50,88 C 34.4,74 15.6,96 0,88 Z"
+                fill="url(#greenGrad)"></path>
+              <path id="stats-aura-path"
+                d="M 0,32 C 15.6,55 34.4,10 50,32 C 65.6,58 84.4,14 100,32 L 100,88 C 84.4,74 65.6,98 50,88 C 34.4,74 15.6,96 0,88 Z"
+                fill="url(#greenAura)"></path>
+            </svg>
+
+            <!-- Floating Leaves -->
+            <div id="stats-particles" class="absolute inset-0 pointer-events-none z-10 overflow-hidden">
+              <div class="absolute top-[30%] left-[12%] text-white/45 text-2xl sm:text-3xl transform -rotate-12"><i
+                  class="fa-solid fa-leaf"></i></div>
+              <div class="absolute top-[48%] left-[45%] text-white/35 text-4xl sm:text-5xl transform rotate-45"><i
+                  class="fa-solid fa-leaf"></i></div>
+              <div class="absolute top-[25%] left-[72%] text-white/50 text-xl sm:text-2xl transform -rotate-45"><i
+                  class="fa-solid fa-leaf"></i></div>
+              <div class="absolute top-[68%] left-[25%] text-white/40 text-3xl sm:text-4xl transform rotate-12"><i
+                  class="fa-solid fa-leaf"></i></div>
+              <div class="absolute top-[10%] left-[58%] text-white/30 text-lg sm:text-xl transform rotate-90"><i
+                  class="fa-solid fa-leaf"></i></div>
+              <div class="absolute top-[78%] left-[68%] text-white/45 text-2xl sm:text-3xl transform -rotate-30"><i
+                  class="fa-solid fa-leaf"></i></div>
+            </div>
+
+            <div class="relative z-10 p-8 sm:p-12 lg:p-14 max-w-xl" data-aos="fade-right">
+              <h2
+                class="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-[#1A0C01] leading-[1.06] select-none">
+                From <span class="font-black text-[#0F0701]">city streets</span><br />
+                to <span class="font-black text-[#0F0701]">cross-country</span><br />
+                <span class="font-black text-[#0F0701]">adventures</span>
+              </h2>
+            </div>
+          </div>
+
+          <!-- Right Statistics Grid -->
+          <div
+            class="w-full lg:w-[48%] rounded-[32px] md:rounded-[40px] bg-[#F0F5FB] p-6 sm:p-10 lg:p-12 border border-blue-100/60 shadow-md flex flex-col justify-between gap-8"
+            data-aos="fade-left">
+            <div class="space-y-2 border-b border-gray-300/60 pb-6">
+              <div class="text-xs font-extrabold uppercase tracking-[3px] text-gray-500">Our Impact in Numbers</div>
+              <h3 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-[var(--primary)]">
+                The World's EV Charging Network, All in One Place
+              </h3>
+            </div>
+
+            <div class="flex flex-col gap-6 sm:gap-8">
+              <div
+                class="group relative flex flex-col gap-1 pb-6 sm:pb-8 border-b border-gray-300/70 transition-all duration-300 hover:translate-x-2">
+                <div class="flex items-baseline justify-between">
+                  <div id="stat-val-0"
+                    class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-[var(--primary)] group-hover:text-[var(--secondary)] transition-colors duration-300">
+                    0+</div>
+                  <div
+                    class="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center text-[var(--primary)] group-hover:bg-[var(--secondary)] group-hover:text-white transition-all duration-300">
+                    <i class="fa-solid fa-charging-station text-base"></i>
+                  </div>
+                </div>
+                <div class="text-base sm:text-lg font-bold text-gray-900 tracking-wide mt-1">Charging Stations</div>
+                <div class="text-xs sm:text-sm text-gray-500 font-medium max-w-sm">Ultra-fast connectors across key
+                  transport corridors</div>
+              </div>
+
+              <div
+                class="group relative flex flex-col gap-1 pb-6 sm:pb-8 border-b border-gray-300/70 transition-all duration-300 hover:translate-x-2">
+                <div class="flex items-baseline justify-between">
+                  <div id="stat-val-1"
+                    class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-[var(--primary)] group-hover:text-[var(--secondary)] transition-colors duration-300">
+                    0</div>
+                  <div
+                    class="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center text-[var(--primary)] group-hover:bg-[var(--secondary)] group-hover:text-white transition-all duration-300">
+                    <i class="fa-solid fa-globe text-base"></i>
+                  </div>
+                </div>
+                <div class="text-base sm:text-lg font-bold text-gray-900 tracking-wide mt-1">Countries</div>
+                <div class="text-xs sm:text-sm text-gray-500 font-medium max-w-sm">Seamless roaming network spanning
+                  continents</div>
+              </div>
+
+              <div
+                class="group relative flex flex-col gap-1 pb-6 sm:pb-8 last:border-b-0 transition-all duration-300 hover:translate-x-2">
+                <div class="flex items-baseline justify-between">
+                  <div id="stat-val-2"
+                    class="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-[var(--primary)] group-hover:text-[var(--secondary)] transition-colors duration-300">
+                    0.0%</div>
+                  <div
+                    class="w-10 h-10 rounded-full bg-white shadow-sm flex items-center justify-center text-[var(--primary)] group-hover:bg-[var(--secondary)] group-hover:text-white transition-all duration-300">
+                    <i class="fa-solid fa-circle-check text-base"></i>
+                  </div>
+                </div>
+                <div class="text-base sm:text-lg font-bold text-gray-900 tracking-wide mt-1">Uptime</div>
+                <div class="text-xs sm:text-sm text-gray-500 font-medium max-w-sm">Industry-leading charger hardware
+                  availability</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 3: CHARGE TYPE SECTION -->
+      <section id="chargetype-section" class="relative w-full overflow-hidden bg-white text-slate-900">
+        <!-- 1. PINNED BATTERY FILL HERO -->
+        <div id="battery-pin-wrapper"
+          class="relative z-40 w-full h-screen flex flex-col items-center justify-center px-0 bg-white text-slate-950 overflow-hidden">
+          <div class="relative z-20 max-w-4xl mx-auto text-center flex flex-col items-center gap-8 md:gap-12">
+            <h2 id="battery-hero-title"
+              class="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight leading-[1.02] text-slate-950 select-none">
+              Powering Every <br />EV Journey
+            </h2>
+
+            <div id="battery-capsule"
+              class="relative w-[90vw] sm:w-full max-w-2xl h-14 sm:h-20 rounded-full bg-slate-100 p-2 shadow-inner border border-slate-200/80 flex items-center overflow-hidden z-20 will-change-transform">
+              <div id="battery-fill"
+                class="absolute left-2 top-2 bottom-2 bg-[var(--secondary)] rounded-full flex items-center justify-end px-1 sm:px-1.5 shadow-md ease-out"
+                style="width: 60px; min-width: 56px;">
+                <div id="battery-bolt-icon"
+                  class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-slate-950 flex items-center justify-center text-white shrink-0 shadow-lg">
+                  <i class="fa-solid fa-bolt text-base sm:text-xl text-white"></i>
+                </div>
+              </div>
+            </div>
+
+            <div id="battery-scroll-indicator"
+              class="flex items-center gap-2 text-slate-700 font-bold tracking-widest text-xs uppercase animate-bounce mt-2">
+              <i class="fa-solid fa-arrow-down text-sm text-slate-900"></i>
+              <span>Scroll to explore</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. CORE CHARGE TYPE HORIZONTAL SLIDER -->
+        <div class="relative z-30 w-full min-h-screen -mt-2 pt-0 pb-0">
+          <div id="slider-pin-container" data-slider-section
+            class="relative w-full min-h-screen flex flex-col justify-start overflow-hidden pt-10 md:pt-8 pb-4 sm:pb-8 z-10 shadow-[0_-5px_0_0_#52C133]">
+            <div class="absolute top-0 left-0 right-0 h-4 bg-[#52C133] pointer-events-none z-0"></div>
+
+            <!-- Waves -->
+            <div class="absolute -top-3 left-0 right-0 h-96 pointer-events-none overflow-hidden z-0">
+              <svg class="absolute -top-2 left-0 w-[200%] h-34 text-[#52C133] animate-wave-flow-1"
+                viewBox="0 0 1600 120" preserveAspectRatio="none">
+                <path d="M0,70 C250,120 550,10 800,70 C1050,130 1350,20 1600,70 L1600,0 L0,0 Z" fill="currentColor">
+                </path>
+              </svg>
+              <svg class="absolute top-0 left-0 w-[200%] h-46 text-[#52C133]/70 animate-wave-flow-2"
+                viewBox="0 0 1600 120" preserveAspectRatio="none">
+                <path d="M0,70 C250,120 550,10 800,70 C1050,130 1350,20 1600,70 L1600,0 L0,0 Z" fill="currentColor">
+                </path>
+              </svg>
+              <svg class="absolute top-4 left-0 w-[200%] h-55 text-[#52C133]/35 animate-wave-flow-3"
+                viewBox="0 0 1600 120" preserveAspectRatio="none">
+                <path d="M0,70 C250,120 550,10 800,70 C1050,130 1350,20 1600,70 L1600,0 L0,0 Z" fill="currentColor">
+                </path>
+              </svg>
+            </div>
+
+            <div
+              class="max-w-7xl z-20 w-full mx-auto px-4 sm:px-8 lg:px-12 text-center space-y-1 text-slate-950 mb-3 sm:mb-6 shrink-0">
+              <h3 class="text-[6.5vw] md:text-5xl lg:text-6xl font-black tracking-tight text-white">
+                Right Charger For Every EV
+              </h3>
+            </div>
+
+            <!-- Horizontal Track -->
+            <div class="mx-auto w-full px-4 h-full z-20">
+              <div class="relative w-full overflow-hidden p-3 sm:p-5">
+                <div id="vehicle-slider-track"
+                  class="flex items-stretch gap-4 sm:gap-6 md:gap-8 pr-[30vw] sm:pr-[25vw] md:pr-[35vw] will-change-transform h-[70vh] xl:h-[80vh]">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 4: INSTALL CHARGER SECTION -->
+      <section id="installcharger-section"
+        class="relative w-full py-20 md:py-36 px-4 sm:px-6 lg:px-12 bg-white text-slate-900 overflow-hidden select-none">
+        <!-- SVG Background -->
+        <div class="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-hidden">
+          <svg class="w-full h-full min-w-[1200px]" viewBox="0 0 1440 900" fill="none" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="greenWaveGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#10B981" stop-opacity="0.8"></stop>
+                <stop offset="25%" stop-color="#22C55E" stop-opacity="1"></stop>
+                <stop offset="50%" stop-color="#52C133" stop-opacity="1"></stop>
+                <stop offset="75%" stop-color="#4ADE80" stop-opacity="0.9"></stop>
+                <stop offset="100%" stop-color="#16A34A" stop-opacity="0.8"></stop>
+              </linearGradient>
+              <linearGradient id="electricCoreGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#DCFCE7"></stop>
+                <stop offset="50%" stop-color="#FFFFFF"></stop>
+                <stop offset="100%" stop-color="#DCFCE7"></stop>
+              </linearGradient>
+              <filter id="neonGreenGlow" x="-20%" y="-50%" width="140%" height="200%">
+                <feGaussianBlur stdDeviation="10" result="blur1"></feGaussianBlur>
+                <feGaussianBlur stdDeviation="20" result="blur2"></feGaussianBlur>
+                <feMerge>
+                  <feMergeNode in="blur2"></feMergeNode>
+                  <feMergeNode in="blur1"></feMergeNode>
+                  <feMergeNode in="SourceGraphic"></feMergeNode>
+                </feMerge>
+              </filter>
+              <filter id="softGlow" x="-10%" y="-30%" width="120%" height="160%">
+                <feGaussianBlur stdDeviation="6" result="blur"></feGaussianBlur>
+                <feMerge>
+                  <feMergeNode in="blur"></feMergeNode>
+                  <feMergeNode in="SourceGraphic"></feMergeNode>
+                </feMerge>
+              </filter>
+            </defs>
+            <path d="M -50 320 C 250 180, 450 480, 750 360 C 1050 240, 1250 180, 1500 220" stroke="#22C55E"
+              stroke-width="36" stroke-linecap="round" opacity="0.18" filter="url(#neonGreenGlow)"
+              class="animate-wave-main"></path>
+            <path d="M -50 340 C 280 200, 420 500, 780 340 C 1080 200, 1280 200, 1500 240"
+              stroke="url(#greenWaveGradient)" stroke-width="18" stroke-linecap="round" opacity="0.4"
+              filter="url(#softGlow)" class="animate-wave-secondary"></path>
+            <path d="M -50 330 C 260 190, 440 490, 760 350 C 1060 220, 1260 190, 1500 230"
+              stroke="url(#greenWaveGradient)" stroke-width="8" stroke-linecap="round" filter="url(#softGlow)"
+              class="animate-wave-main"></path>
+            <path d="M -50 330 C 260 190, 440 490, 760 350 C 1060 220, 1260 190, 1500 230"
+              stroke="url(#electricCoreGradient)" stroke-width="2.5" stroke-linecap="round" opacity="0.9"
+              class="animate-wave-main"></path>
+            <path d="M -50 330 C 260 190, 440 490, 760 350 C 1060 220, 1260 190, 1500 230" stroke="#86EFAC"
+              stroke-width="4" stroke-dasharray="20 180" stroke-linecap="round" class="animate-electric-pulse"></path>
+            <path d="M -50 360 C 300 480, 550 200, 850 380 C 1150 520, 1300 260, 1500 300" stroke="#10B981"
+              stroke-width="3" stroke-dasharray="12 120" opacity="0.35" class="animate-wave-counter"></path>
+          </svg>
+        </div>
+
+        <div class="relative z-10 max-w-7xl mx-auto space-y-24 md:space-y-36">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
+            <div class="lg:col-span-6 space-y-6 text-left" data-aos="fade-up">
+              <h2 class="text-3xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight leading-[1.1]">
+                Power Your Home or Business
+              </h2>
+              <p class="text-slate-600 text-base sm:text-xl font-medium leading-relaxed max-w-xl">
+                Whether you're installing your first home charger or expanding your commercial charging network, VoltMap
+                helps you find the right solution.
+              </p>
+              <div class="pt-2">
+                <button data-fancybox href="../asset/img/images/hero_ev_station41.jpg"
+                  class="inline-flex items-center gap-3 text-sm sm:text-base font-extrabold text-slate-950 tracking-wider uppercase group hover:text-emerald-600 transition-colors duration-300 focus:outline-none">
+                  <span>Get Started</span>
+                  <span
+                    class="w-8 h-8 rounded-full bg-slate-100 group-hover:bg-emerald-500 group-hover:text-white text-slate-900 flex items-center justify-center transition-all duration-300 shadow-sm">
+                    <i
+                      class="fa-solid fa-arrow-right text-xs group-hover:translate-x-0.5 transition-transform duration-300"></i>
+                  </span>
+                </button>
+              </div>
+            </div>
+
+            <div class="lg:col-span-6" data-aos="fade-up" data-aos-delay="100">
+              <div
+                class="relative rounded-[28px] sm:rounded-[36px] overflow-hidden shadow-2xl shadow-emerald-950/10 border border-slate-200/80 bg-slate-900 group transition-all duration-500 hover:shadow-emerald-500/20">
+                <img src="../asset/img/images/hero_ev_station41.jpg" alt="EV Charging Station"
+                  class="simple-parallax-img w-full h-[320px] sm:h-[420px] object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out" />
+              </div>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
+            <div class="lg:col-span-6 order-2 lg:order-1" data-aos="fade-up">
+              <div
+                class="relative rounded-[28px] sm:rounded-[36px] overflow-hidden shadow-2xl shadow-emerald-950/10 border border-slate-200/80 bg-slate-900 group transition-all duration-500 hover:shadow-emerald-500/20">
+                <img src="../asset/img/images/hero_ev_station12.jpg" alt="EV Driver Smiling"
+                  class="simple-parallax-img w-full h-[320px] sm:h-[420px] object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out" />
+              </div>
+            </div>
+
+            <div class="lg:col-span-6 space-y-6 text-left order-1 lg:order-2" data-aos="fade-up" data-aos-delay="100">
+              <h2 class="text-3xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight leading-[1.1]">
+                Building the Future of EV Charging
+              </h2>
+              <p class="text-slate-600 text-base sm:text-xl font-medium leading-relaxed max-w-xl">
+                Learn about our mission to make electric vehicle charging more accessible, reliable, and convenient for
+                drivers everywhere.
+              </p>
+              <div class="pt-2">
+                <button data-nav-target="explore"
+                  class="inline-flex items-center gap-3 text-sm sm:text-base font-extrabold text-slate-950 tracking-wider uppercase group hover:text-emerald-600 transition-colors duration-300 focus:outline-none">
+                  <span>ABOUT US</span>
+                  <span
+                    class="w-8 h-8 rounded-full bg-slate-100 group-hover:bg-emerald-500 group-hover:text-white text-slate-900 flex items-center justify-center transition-all duration-300 shadow-sm">
+                    <i
+                      class="fa-solid fa-arrow-right text-xs group-hover:translate-x-0.5 transition-transform duration-300"></i>
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 5: P2P SHARING SECTION -->
+      <section id="p2p-section"
+        class="relative w-full py-20 md:py-32 px-4 sm:px-6 lg:px-12 bg-[var(--surface-subtle)] text-[var(--primary)] overflow-hidden border-t border-[var(--surface-border)]">
+        <div
+          class="absolute top-10 -left-20 w-80 h-80 rounded-full bg-[var(--secondary)]/10 blur-3xl pointer-events-none">
+        </div>
+        <div
+          class="absolute bottom-10 -right-20 w-96 h-96 rounded-full bg-[var(--volt-100)] blur-3xl pointer-events-none">
+        </div>
+
+        <div class="relative z-10 max-w-7xl mx-auto space-y-16">
+          <div class="text-center max-w-3xl mx-auto space-y-4" data-aos="fade-up">
+            <div
+              class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[var(--volt-100)] text-[var(--secondary-deep)] font-extrabold text-xs uppercase tracking-widest shadow-xs">
+              <i class="fa-solid fa-house-signal"></i> Innovation: Peer-to-Peer Charging
+            </div>
+            <h2 class="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight text-[var(--primary)]">
+              Ubah Charger Rumah Anda Menjadi <br class="hidden sm:inline" />
+              <span class="text-[var(--secondary-deep)]">Sumber Pendapatan Pasif</span>
+            </h2>
+            <p class="text-gray-600 text-base sm:text-xl font-medium">
+              Bergabunglah dalam jaringan <strong>P2P Charge Sharing</strong> Voltmap. Sewakan pengisi daya EV rumah
+              atau bisnis Anda kepada sesama pengemudi EV secara aman dan otomatis.
+            </p>
+          </div>
+
+          <!-- 2-Column Split -->
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+            <div
+              class="lg:col-span-7 relative rounded-[32px] bg-slate-900 text-white p-8 sm:p-12 overflow-hidden shadow-2xl border border-gray-800 flex flex-col justify-between group"
+              data-aos="fade-right">
+              <div
+                class="absolute inset-0 bg-cover bg-center opacity-40 group-hover:scale-105 transition-transform duration-700 pointer-events-none"
+                style="background-image: url('https://images.unsplash.com/photo-1593941707882-a5bba14938c7?auto=format&amp;fit=crop&amp;w=1200&amp;q=80');">
+              </div>
+              <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/70 to-transparent z-0"></div>
+
+              <div class="relative z-10 flex items-center justify-between gap-4">
+                <div
+                  class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md text-xs font-bold text-emerald-400 border border-emerald-400/30">
+                  <span class="w-2 h-2 rounded-full bg-[var(--secondary)] animate-ping"></span>
+                  <span>P2P Sharing Verified</span>
+                </div>
+                <div
+                  class="w-10 h-10 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center text-[var(--secondary)]">
+                  <i class="fa-solid fa-users"></i>
+                </div>
+              </div>
+
+              <div class="relative z-10 my-10 space-y-4">
+                <h3 class="text-2xl sm:text-4xl font-black leading-snug">
+                  Pasang Charger di Rumah &amp; Monetisasi Otomatis Lewat Aplikasi
+                </h3>
+                <p class="text-gray-300 text-sm sm:text-base leading-relaxed max-w-xl">
+                  Dapatkan paket instalasi stasiun pengisian resmi dari tim teknisi Voltmap. Sistem pembayaran aman
+                  otomatis langsung ditransfer ke rekening Anda setiap sesi charging selesai.
+                </p>
+              </div>
+
+              <div
+                class="relative z-10 grid grid-cols-1 sm:grid-cols-3 gap-4 pt-6 border-t border-white/15 text-xs font-semibold text-gray-300">
+                <div class="flex items-center gap-2">
+                  <i class="fa-solid fa-shield-halved text-[var(--secondary)] text-sm"></i>
+                  <span>Asuransi Kerusakan 100%</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <i class="fa-solid fa-bolt text-[var(--secondary)] text-sm"></i>
+                  <span>Kontrol Akses Pintar App</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <i class="fa-solid fa-coins text-[var(--secondary)] text-sm"></i>
+                  <span>Bebas Biaya Admin Awal</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Calculator Widget -->
+            <div
+              class="lg:col-span-5 rounded-[32px] bg-white p-8 sm:p-10 shadow-xl border border-[var(--surface-border)] flex flex-col justify-between space-y-6"
+              data-aos="fade-left">
+              <div>
+                <div class="flex items-center justify-between pb-4 border-b border-gray-100">
+                  <div>
+                    <h4 class="text-xl font-extrabold text-[var(--primary)]">Kalkulator Pendapatan P2P</h4>
+                    <p class="text-xs text-gray-500 font-medium mt-0.5">Estimasi potensi penghasilan charger Anda</p>
+                  </div>
+                  <div
+                    class="w-10 h-10 rounded-full bg-[var(--volt-50)] text-[var(--secondary-deep)] flex items-center justify-center font-bold">
+                    <i class="fa-solid fa-sliders"></i>
+                  </div>
+                </div>
+
+                <div class="space-y-6 mt-6">
+                  <div class="space-y-2">
+                    <div class="flex justify-between text-xs font-bold text-gray-700">
+                      <span>Jam Disewakan / Hari</span>
+                      <span id="p2p-hours-label" class="text-[var(--secondary-deep)] font-extrabold">5 Jam</span>
+                    </div>
+                    <input id="p2p-hours-slider" type="range" min="1" max="16" value="5"
+                      class="w-full h-2 rounded-lg bg-gray-200 accent-[var(--secondary)] cursor-pointer" />
+                    <div class="flex justify-between text-[10px] text-gray-400 font-medium">
+                      <span>1 Jam</span>
+                      <span>8 Jam</span>
+                      <span>16 Jam</span>
+                    </div>
+                  </div>
+
+                  <div class="space-y-2">
+                    <div class="flex justify-between text-xs font-bold text-gray-700">
+                      <span>Daya Stasiun (kW)</span>
+                    </div>
+                    <div class="grid grid-cols-3 gap-2">
+                      <button data-p2p-kw="7"
+                        class="py-2 rounded-xl text-xs font-bold transition border bg-gray-50 text-gray-700 border-gray-200 hover:bg-gray-100">7
+                        kW Wallbox</button>
+                      <button data-p2p-kw="11"
+                        class="py-2 rounded-xl text-xs font-bold transition border bg-gray-50 text-gray-700 border-gray-200 hover:bg-gray-100">11
+                        kW Wallbox</button>
+                      <button data-p2p-kw="22"
+                        class="py-2 rounded-xl text-xs font-bold transition border bg-[var(--secondary)] text-white border-[var(--secondary)] shadow-sm">22
+                        kW Wallbox</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="p-6 rounded-2xl bg-[var(--volt-50)] border border-[var(--volt-100)] space-y-2">
+                <div class="text-xs font-bold uppercase tracking-wider text-[var(--secondary-deep)]">
+                  Estimasi Pendapatan Bersih / Bulan
+                </div>
+                <div id="p2p-income-display"
+                  class="text-4xl sm:text-5xl font-black text-[var(--primary)] tracking-tight">
+                  $1,155 <span class="text-xs font-bold text-gray-500 font-sans">/ bulan</span>
+                </div>
+                <p class="text-[11px] text-gray-600 font-medium">
+                  *Dihitung berdasarkan rata-rata tarif sewa $0.35/kWh dengan asumsi efisiensi 90%.
+                </p>
+              </div>
+
+              <button
+                class="w-full py-4 rounded-full bg-[var(--secondary)] text-white font-extrabold text-sm sm:text-base flex items-center justify-center gap-3 shadow-lg hover:bg-[var(--secondary-hover)] transition-all hover:scale-[1.01] active:scale-95">
+                <span>Daftarkan Charger Rumah Sekarang</span>
+                <i class="fa-solid fa-arrow-right text-xs"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 6: FIND NEARBY CHARGER SECTION -->
+      <section id="findnearby-section"
+        class="w-full py-16 md:py-24 px-4 sm:px-6 lg:px-12 bg-white text-[var(--primary)] border-t border-gray-100 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+            <div
+              class="lg:col-span-5 flex flex-col justify-between bg-slate-900 text-white rounded-3xl p-8 sm:p-10 shadow-2xl border border-slate-800 relative overflow-hidden group"
+              data-aos="fade-right">
+              <div
+                class="absolute top-0 right-0 w-64 h-64 bg-[var(--secondary)]/10 rounded-full blur-3xl pointer-events-none group-hover:bg-[var(--secondary)]/20 transition-all duration-700">
+              </div>
+              <div class="absolute bottom-0 left-0 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl pointer-events-none">
+              </div>
+
+              <div class="relative z-10 space-y-6">
+                <div
+                  class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-800 text-emerald-400 text-xs font-extrabold border border-slate-700">
+                  <i class="fa-solid fa-globe text-emerald-400"></i>
+                  <span>GLOBAL EV NETWORK</span>
+                </div>
+
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-white leading-tight">
+                  Find Charger Wherever You Are
+                </h2>
+
+                <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+                  Connect seamlessly to over <strong class="text-emerald-400">15,000+ EV chargers</strong> across 6
+                  continents. Whether traveling locally in Bali or driving worldwide, Voltmap keeps your electric
+                  journey fully powered.
+                </p>
+
+                <div class="grid grid-cols-2 gap-4 pt-2 border-t border-slate-800">
+                  <div class="p-3.5 rounded-2xl bg-slate-800/80 border border-slate-700/60">
+                    <div class="flex items-center gap-2 text-emerald-400 text-xs font-bold mb-1">
+                      <i class="fa-solid fa-charging-station"></i>
+                      <span>15,000+</span>
+                    </div>
+                    <p class="text-[11px] text-slate-400 font-medium">Stasiun Global</p>
+                  </div>
+
+                  <div class="p-3.5 rounded-2xl bg-slate-800/80 border border-slate-700/60">
+                    <div class="flex items-center gap-2 text-blue-400 text-xs font-bold mb-1">
+                      <i class="fa-solid fa-globe"></i>
+                      <span>6 Benua</span>
+                    </div>
+                    <p class="text-[11px] text-slate-400 font-medium">Jangkauan Luas</p>
+                  </div>
+
+                  <div class="p-3.5 rounded-2xl bg-slate-800/80 border border-slate-700/60">
+                    <div class="flex items-center gap-2 text-amber-400 text-xs font-bold mb-1">
+                      <i class="fa-solid fa-shield-halved"></i>
+                      <span>99.8%</span>
+                    </div>
+                    <p class="text-[11px] text-slate-400 font-medium">Uptime Network</p>
+                  </div>
+
+                  <div class="p-3.5 rounded-2xl bg-slate-800/80 border border-slate-700/60">
+                    <div class="flex items-center gap-2 text-purple-400 text-xs font-bold mb-1">
+                      <i class="fa-solid fa-clock"></i>
+                      <span>24/7 Live</span>
+                    </div>
+                    <p class="text-[11px] text-slate-400 font-medium">Status Real-time</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="pt-8 relative z-10">
+                <button data-nav-target="explore"
+                  class="w-full py-4 px-6 rounded-2xl bg-[var(--secondary)] text-white text-sm font-extrabold hover:bg-[var(--secondary-hover)] shadow-lg shadow-emerald-500/20 hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-3 group">
+                  <i class="fa-solid fa-bolt text-white text-xs"></i>
+                  <span>Jelajahi Peta Stasiun Interaktif</span>
+                  <i class="fa-solid fa-arrow-right text-xs group-hover:translate-x-1.5 transition-transform"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Leaflet World Map Container -->
+            <div
+              class="lg:col-span-7 relative h-[450px] sm:h-[520px] rounded-3xl overflow-hidden shadow-2xl border border-slate-200/80 bg-slate-950 group"
+              data-aos="fade-left">
+              <div id="world-map-container" class="w-full h-full"></div>
+              <div
+                class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent pointer-events-none">
+              </div>
+
+              <div
+                class="absolute inset-x-4 bottom-4 z-[400] bg-slate-900/90 backdrop-blur-md border border-slate-700/80 text-white rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-2xl">
+                <div class="flex items-center gap-3">
+                  <div
+                    class="w-9 h-9 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-sm shrink-0">
+                    ⚡</div>
+                  <div>
+                    <p class="text-xs font-black text-white flex items-center gap-2">Total 15.000+ Stasiun Terdaftar di
+                      Dunia</p>
+                    <p class="text-[11px] text-slate-400 mt-0.5">Menampilkan distribusi charger per benua (Tanpa
+                      Antartika)</p>
+                  </div>
+                </div>
+                <button data-nav-target="explore"
+                  class="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-[var(--secondary)] text-white text-xs font-bold hover:bg-[var(--secondary-hover)] transition flex items-center justify-center gap-2 shrink-0 shadow-md">
+                  <span>Buka Peta</span>
+                  <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+
+  </main>
+
+  <!-- ==========================================
+       FOOTER SECTION (#footer-section)
+       ========================================== -->
+  <footer id="footer-section"
+    class="w-full bg-[var(--primary)] text-white pt-16 pb-12 px-4 sm:px-6 lg:px-12 border-t border-gray-800">
+    <div class="max-w-7xl mx-auto space-y-12">
+      <div
+        class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8 pb-12 border-b border-gray-800">
+        <div class="space-y-2">
+          <div class="flex items-center gap-3">
+            <div
+              class="w-9 h-9 rounded-full bg-[var(--secondary)] flex items-center justify-center text-white font-bold">
+              <i class="fa-solid fa-bolt"></i>
+            </div>
+            <span class="text-2xl font-black tracking-[4px]">VOLTMAP</span>
+          </div>
+          <p class="text-gray-400 text-sm max-w-md">
+            Accelerating the transition to sustainable mobility through high-speed, reliable EV charging infrastructure
+            across Europe and beyond.
+          </p>
+        </div>
+
+        <div class="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
+          <input type="email" placeholder="Enter your email for network updates"
+            class="w-full sm:w-80 h-12 px-5 rounded-full bg-gray-900 border border-gray-700 text-sm font-medium text-white placeholder-gray-500 focus:outline-none focus:border-[var(--secondary)]" />
+          <button
+            class="w-full sm:w-auto h-12 px-7 rounded-full bg-[var(--secondary)] font-extrabold text-white text-sm hover:bg-[var(--secondary-hover)] transition">
+            Subscribe
+          </button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 text-sm text-gray-400">
+        <div class="space-y-3">
+          <h4 class="text-xs font-bold text-white uppercase tracking-wider">For Drivers</h4>
+          <ul class="space-y-2">
+            <li><a href="#" class="hover:text-white transition">Station Finder</a></li>
+            <li><a href="#" class="hover:text-white transition">Charging Rates</a></li>
+            <li><a href="#" class="hover:text-white transition">Voltmap Card</a></li>
+            <li><a href="#" class="hover:text-white transition">Mobile App</a></li>
+          </ul>
+        </div>
+
+        <div class="space-y-3">
+          <h4 class="text-xs font-bold text-white uppercase tracking-wider">For Business</h4>
+          <ul class="space-y-2">
+            <li><a href="#" class="hover:text-white transition">Host a Charger</a></li>
+            <li><a href="#" class="hover:text-white transition">Fleet Charging</a></li>
+            <li><a href="#" class="hover:text-white transition">Partner Portal</a></li>
+            <li><a href="#" class="hover:text-white transition">Retail Locations</a></li>
+          </ul>
+        </div>
+
+        <div class="space-y-3">
+          <h4 class="text-xs font-bold text-white uppercase tracking-wider">Company</h4>
+          <ul class="space-y-2">
+            <li><a href="#" class="hover:text-white transition">About Us</a></li>
+            <li><a href="#" class="hover:text-white transition">Stories &amp; News</a></li>
+            <li><a href="#" class="hover:text-white transition">Investor Relations</a></li>
+            <li><a href="#" class="hover:text-white transition">Careers</a></li>
+          </ul>
+        </div>
+
+        <div class="space-y-3">
+          <h4 class="text-xs font-bold text-white uppercase tracking-wider">Support</h4>
+          <ul class="space-y-2">
+            <li><a href="#" class="hover:text-white transition">Help Center</a></li>
+            <li><a href="#" class="hover:text-white transition">24/7 Hotline</a></li>
+            <li><a href="#" class="hover:text-white transition">Network Status</a></li>
+            <li><a href="#" class="hover:text-white transition">Contact Us</a></li>
+          </ul>
+        </div>
+
+        <div class="col-span-2 md:col-span-4 lg:col-span-1 space-y-4">
+          <h4 class="text-xs font-bold text-white uppercase tracking-wider">Follow Us</h4>
+          <div class="flex items-center gap-3">
+            <a href="#" aria-label="Twitter"
+              class="w-9 h-9 rounded-full bg-gray-900 border border-gray-800 flex items-center justify-center text-gray-400 hover:text-white hover:bg-gray-800 transition">
+              <i class="fa-brands fa-x-twitter text-sm"></i>
+            </a>
+            <a href="#" aria-label="Instagram"
+              class="w-9 h-9 rounded-full bg-gray-900 border border-gray-800 flex items-center justify-center text-gray-400 hover:text-white hover:bg-gray-800 transition">
+              <i class="fa-brands fa-instagram text-sm"></i>
+            </a>
+            <a href="#" aria-label="LinkedIn"
+              class="w-9 h-9 rounded-full bg-gray-900 border border-gray-800 flex items-center justify-center text-gray-400 hover:text-white hover:bg-gray-800 transition">
+              <i class="fa-brands fa-linkedin text-sm"></i>
+            </a>
+            <a href="#" aria-label="GitHub"
+              class="w-9 h-9 rounded-full bg-gray-900 border border-gray-800 flex items-center justify-center text-gray-400 hover:text-white hover:bg-gray-800 transition">
+              <i class="fa-brands fa-github text-sm"></i>
+            </a>
+          </div>
+          <div class="text-xs text-gray-500 pt-2">
+            Powered by 100% renewable wind &amp; solar energy.
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="pt-8 border-t border-gray-800/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gray-500">
+        <div>© 2026 Voltmap B.V. All rights reserved.</div>
+        <div class="flex items-center gap-6">
+          <a href="#" class="hover:text-gray-400 transition">Privacy Policy</a>
+          <a href="#" class="hover:text-gray-400 transition">Terms of Service</a>
+          <a href="#" class="hover:text-gray-400 transition">Cookie Settings</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==========================================
+       CURTAIN PAGE TRANSITION OVERLAY
+       ========================================== -->
+  <div id="page-curtain-overlay" class="fixed inset-0 z-[9999] pointer-events-none w-screen h-screen hidden">
+    <script>
+      if (sessionStorage.getItem("voltmap_transition") === "true") {
+        document.getElementById("page-curtain-overlay").classList.remove("hidden");
+      }
+    </script>
+    <div id="curtain-layer-1" class="absolute inset-0 bg-[var(--secondary)]"></div>
+    <div id="curtain-layer-2" class="absolute inset-0 bg-[var(--background)] flex flex-col items-center justify-center">
+      <div class="flex flex-col items-center justify-center animate-pulse-glow">
+        <img src="../asset/img/logo.png" alt="Voltmap Logo"
+          class="h-20 w-auto object-contain drop-shadow-[0_0_25px_rgba(82,193,51,0.45)]" />
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       LIBRARY SCRIPTS (CDN & MODULES)
+       ========================================== -->
+  <!-- jQuery v4.0 -->
+  <script src="../../node_modules/jquery/dist/jquery.min.js"></script>
+
+  <!-- GSAP v3.15 + Plugins -->
+  <script src="../../node_modules/gsap/dist/gsap.min.js"></script>
+  <script src="../../node_modules/gsap/dist/ScrollTrigger.min.js"></script>
+  <script src="../../node_modules/gsap/dist/ScrollToPlugin.min.js"></script>
+
+  <!-- Leaflet & Leaflet MarkerCluster -->
+  <script src="../../node_modules/leaflet/dist/leaflet.js"></script>
+  <script src="../../node_modules/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
+
+  <!-- SimpleParallax.js v7.0 -->
+  <script src="../../node_modules/simple-parallax-js/dist/vanilla/simpleParallaxVanilla.umd.js"></script>
+
+  <!-- Animate On Scroll (AOS) -->
+  <script src="../../node_modules/aos/dist/aos.js"></script>
+
+  <!-- Typed.js -->
+  <script src="../../node_modules/typed.js/dist/typed.umd.js"></script>
+
+  <!-- Fancybox -->
+  <script src="../../node_modules/@fancyapps/ui/dist/fancybox/fancybox.umd.js"></script>
+
+  <!-- Swiper JS -->
+  <script src="../../node_modules/swiper/swiper-bundle.min.js"></script>
+
+  <!-- Application Module Script -->
+  <script type="module" src="../asset/js/app.js"></script>
+</body>
+
+</html>

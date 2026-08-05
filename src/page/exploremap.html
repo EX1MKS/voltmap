@@ -1,0 +1,414 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="../asset/img/favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VOLTMAP - Explore Map</title>
+    <meta name="description"
+        content="Discover reliable EV charging stations worldwide. Fast charging, real-time availability, P2P charging, and battery intelligence." />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300..800&display=swap" rel="stylesheet" />
+
+    <!-- FontAwesome Free 7 -->
+    <link rel="stylesheet" href="../../node_modules/@fortawesome/fontawesome-free/css/all.min.css" />
+
+    <!-- Leaflet & MarkerCluster CSS -->
+    <link rel="stylesheet" href="../../node_modules/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="../../node_modules/leaflet.markercluster/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="../../node_modules/leaflet.markercluster/dist/MarkerCluster.Default.css" />
+
+    <!-- AOS (Animate On Scroll) CSS -->
+    <link rel="stylesheet" href="../../node_modules/aos/dist/aos.css" />
+
+    <!-- Fancybox CSS -->
+    <link rel="stylesheet" href="../../node_modules/@fancyapps/ui/dist/fancybox/fancybox.css" />
+
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="../../node_modules/swiper/swiper-bundle.min.css" />
+
+    <!-- Tailwind & Application CSS -->
+    <link rel="stylesheet" href="../asset/css/output.css" />
+</head>
+
+<body class="min-h-screen bg-white text-white flex flex-col font-sans overflow-x-hidden">
+
+    <!-- ==========================================
+       1. FIXED HEADER & NAVBAR
+       ========================================== -->
+    <header id="header-navbar"
+        class="fixed top-4 left-0 z-50 w-full px-4 sm:px-8 transition-all duration-500 ease-in-out opacity-100 pointer-events-auto translate-y-0">
+        <div id="navbar-container"
+            class="mx-auto max-w-full h-[64px] overflow-hidden rounded-[24px] transition-all duration-500 bg-slate-900/90 backdrop-blur-md border border-slate-800 shadow-xl">
+            <nav class="flex h-[64px] items-center justify-between px-6 sm:px-10">
+                <!-- Logo -->
+                <a href="index.html" id="nav-logo"
+                    class="flex items-center gap-2.5 text-[22px] font-black tracking-[6px] transition-colors duration-300 will-change-transform text-white group">
+                    <div
+                        class="w-8 h-8 rounded-full bg-[var(--secondary)] flex items-center justify-center text-white group-hover:scale-105 transition-transform">
+                        <i class="fa-solid fa-bolt text-sm text-white"></i>
+                    </div>
+                    <span class="font-extrabold tracking-[4px] text-xl">VOLTMAP</span>
+                </a>
+
+                <!-- Desktop Nav Center Items -->
+                <div id="nav-menu" class="hidden lg:flex items-center gap-10 text-sm font-bold tracking-wide">
+                    <div class="will-change-transform cursor-pointer">
+                        <a href="index.html"
+                            class="nav-link-btn flex items-center gap-1.5 transition duration-300 text-white/90 hover:text-white">
+                            <span>Home</span>
+                        </a>
+                    </div>
+                    <div class="will-change-transform cursor-pointer">
+                        <a href="exploremap.html"
+                            class="nav-link-btn flex items-center gap-1.5 transition duration-300 text-[var(--secondary)] font-extrabold">
+                            <span>Charging</span>
+                        </a>
+                    </div>
+                    <div class="will-change-transform cursor-pointer">
+                        <a href="index.html#installcharger-section"
+                            class="nav-link-btn flex items-center gap-1.5 transition duration-300 text-white/90 hover:text-white">
+                            <span>Technology</span>
+                        </a>
+                    </div>
+                    <div class="will-change-transform cursor-pointer">
+                        <a href="index.html#p2p-section"
+                            class="nav-link-btn flex items-center gap-1.5 transition duration-300 text-white/90 hover:text-white">
+                            <span>Discover</span>
+                        </a>
+                    </div>
+                    <div class="will-change-transform cursor-pointer">
+                        <a href="index.html#stats-section"
+                            class="nav-link-btn flex items-center gap-1.5 transition duration-300 text-white/90 hover:text-white">
+                            <span>About</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right Actions -->
+                <div id="nav-actions" class="flex items-center gap-3">
+                    <a href="exploremap.html"
+                        class="hidden md:flex h-11 items-center gap-2 rounded-full bg-[var(--secondary)] px-6 text-sm font-bold text-white shadow-sm transition hover:bg-[var(--secondary-hover)] hover:scale-[1.02] active:scale-95 will-change-transform">
+                        <i class="fa-solid fa-bolt text-xs text-white"></i>
+                        <span>Explore Map</span>
+                    </a>
+
+                    <button aria-label="User Account"
+                        class="nav-icon-circle hidden sm:grid h-11 w-11 place-items-center rounded-full transition-all duration-300 will-change-transform bg-white/15 text-white border border-white/20 hover:bg-white/25">
+                        <i class="fa-solid fa-user text-sm"></i>
+                    </button>
+
+                    <button id="mobile-hamburger-btn" aria-label="Toggle Mobile Menu"
+                        class="nav-icon-circle grid h-11 w-11 place-items-center rounded-full lg:hidden transition-all duration-300 will-change-transform bg-white/15 text-white border border-white/20 hover:bg-white/25">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                </div>
+            </nav>
+
+            <!-- MegaMenu Dropdown Container -->
+            <div id="megamenu-container" class="hidden px-8 py-8 bg-[var(--background)]"></div>
+        </div>
+    </header>
+
+    <!-- Mobile Drawer -->
+    <div id="mobile-drawer" data-open="false"
+        class="fixed top-[85px] left-4 right-4 z-40 overflow-hidden rounded-3xl bg-white shadow-2xl transition-all duration-300 lg:hidden border border-gray-100 pointer-events-none opacity-0 -translate-y-5">
+        <div class="flex flex-col gap-5 p-6">
+            <a href="index.html" class="py-1 border-b border-gray-50 cursor-pointer text-gray-800 font-bold text-base">
+                Home
+            </a>
+            <a href="exploremap.html"
+                class="py-1 border-b border-gray-50 cursor-pointer text-[var(--secondary-deep)] font-extrabold text-base">
+                Charging & Map
+            </a>
+            <a href="index.html" class="py-1 border-b border-gray-50 cursor-pointer text-gray-800 font-bold text-base">
+                Technology
+            </a>
+            <a href="index.html" class="py-1 border-b border-gray-50 cursor-pointer text-gray-800 font-bold text-base">
+                Discover
+            </a>
+            <a href="index.html" class="py-1 border-b border-gray-50 cursor-pointer text-gray-800 font-bold text-base">
+                About
+            </a>
+            <a href="exploremap.html"
+                class="mt-2 h-12 rounded-full bg-[var(--secondary)] font-bold text-white flex items-center justify-center gap-2 shadow-md hover:bg-[var(--secondary-hover)] transition">
+                <i class="fa-solid fa-bolt text-white"></i>
+                <span>Explore Map</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- ==========================================
+       MAIN CONTENT CONTAINER
+       ========================================== -->
+    <main class="flex-1 w-full pt-24 pb-8 px-4 sm:px-6 lg:px-8">
+
+        <!-- ==========================================
+         VIEW: EXPLORE MAP PAGE (#explore-view)
+         ========================================== -->
+        <div id="explore-view" class="min-h-screen bg-slate-900 text-white flex flex-col">
+            <div class="max-w-7xl mx-auto w-full mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                    <div class="flex items-center gap-3">
+                        <a href="index.html"
+                            class="w-10 h-10 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-gray-300 hover:text-white hover:bg-slate-700 transition"
+                            title="Kembali ke Beranda">
+                            <i class="fa-solid fa-arrow-left"></i>
+                        </a>
+                        <div>
+                            <div class="flex items-center gap-2">
+                                <span
+                                    class="px-3 py-0.5 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                                    LIVE BALI NETWORK
+                                </span>
+                                <span class="text-xs text-slate-400">1,500+ Active Stations</span>
+                            </div>
+                            <h1 class="text-2xl sm:text-3xl font-black text-white mt-1">
+                                Peta Jelajah Stasiun EV Bali
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-3 flex-wrap">
+                    <div
+                        class="bg-slate-800/90 border border-slate-700/80 rounded-2xl px-4 py-2 flex items-center gap-3">
+                        <div
+                            class="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-xs">
+                            ⚡</div>
+                        <div>
+                            <p class="text-[10px] text-slate-400 font-medium">Stasiun Tersedia</p>
+                            <p class="text-sm font-black text-emerald-400">1,240 Stasiun</p>
+                        </div>
+                    </div>
+
+                    <div
+                        class="bg-slate-800/90 border border-slate-700/80 rounded-2xl px-4 py-2 flex items-center gap-3">
+                        <div
+                            class="w-8 h-8 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center font-bold text-xs">
+                            📍</div>
+                        <div>
+                            <p class="text-[10px] text-slate-400 font-medium">SPKLU Publik</p>
+                            <p class="text-sm font-black text-blue-400">500 Lokasi</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Map Grid -->
+            <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-6 flex-1">
+                <!-- Sidebar -->
+                <div
+                    class="lg:col-span-5 flex flex-col gap-4 h-[650px] lg:h-[750px] bg-slate-800/80 backdrop-blur-md rounded-3xl p-5 border border-slate-700/80 shadow-2xl">
+                    <div class="relative">
+                        <i
+                            class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+                        <input id="bali-search-input" type="text"
+                            placeholder="Cari lokasi, nama SPKLU, atau tipe konektor..."
+                            class="w-full bg-slate-900 border border-slate-700 rounded-2xl py-3 pl-11 pr-11 text-sm font-medium text-white placeholder-slate-500 focus:outline-none focus:border-[var(--secondary)] transition shadow-inner" />
+                    </div>
+
+                    <div class="flex items-center justify-between gap-2 overflow-x-auto pb-1 no-scrollbar">
+                        <div class="flex items-center gap-2">
+                            <button data-bali-filter="Semua"
+                                class="px-3.5 py-1.5 rounded-full text-xs font-bold transition whitespace-nowrap bg-[var(--secondary)] text-white shadow-md shadow-emerald-500/20">Semua</button>
+                            <button data-bali-filter="Public Station"
+                                class="px-3.5 py-1.5 rounded-full text-xs font-bold transition whitespace-nowrap bg-slate-900 text-slate-400 hover:text-white">Public
+                                Station</button>
+                            <button data-bali-filter="Shared Home Charger"
+                                class="px-3.5 py-1.5 rounded-full text-xs font-bold transition whitespace-nowrap bg-slate-900 text-slate-400 hover:text-white">Shared
+                                Home Charger</button>
+                        </div>
+                        <span id="bali-filtered-count" class="text-xs text-slate-400 font-medium shrink-0">1500
+                            hasil</span>
+                    </div>
+
+                    <div id="bali-stations-list" class="flex-1 overflow-y-auto pr-1 space-y-3 custom-scrollbar"></div>
+                </div>
+
+                <!-- Leaflet Map Container -->
+                <div
+                    class="lg:col-span-7 relative h-[650px] lg:h-[750px] rounded-3xl overflow-hidden shadow-2xl border border-slate-700/80 bg-slate-950">
+                    <div id="bali-map-container" class="w-full h-full"></div>
+                    <div
+                        class="absolute bottom-4 left-4 right-4 z-[400] bg-slate-900/90 backdrop-blur-md border border-slate-700/80 rounded-2xl p-3 px-5 flex items-center justify-between shadow-xl">
+                        <div class="flex items-center gap-2">
+                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
+                            <span id="bali-visible-count" class="text-xs font-bold text-slate-200">Menampilkan stasiun
+                                di Bali</span>
+                        </div>
+                        <span class="hidden sm:inline text-xs text-slate-400">Navigasi Peta Aktif</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- ==========================================
+       FOOTER SECTION (#footer-section)
+       ========================================== -->
+    <footer id="footer-section"
+        class="w-full bg-[var(--primary)] text-white pt-16 pb-12 px-4 sm:px-6 lg:px-12 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto space-y-12">
+            <div
+                class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8 pb-12 border-b border-gray-800">
+                <div class="space-y-2">
+                    <div class="flex items-center gap-3">
+                        <div
+                            class="w-9 h-9 rounded-full bg-[var(--secondary)] flex items-center justify-center text-white font-bold">
+                            <i class="fa-solid fa-bolt"></i>
+                        </div>
+                        <span class="text-2xl font-black tracking-[4px]">VOLTMAP</span>
+                    </div>
+                    <p class="text-gray-400 text-sm max-w-md">
+                        Accelerating the transition to sustainable mobility through high-speed, reliable EV charging
+                        infrastructure
+                        across Europe and beyond.
+                    </p>
+                </div>
+
+                <div class="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
+                    <input type="email" placeholder="Enter your email for network updates"
+                        class="w-full sm:w-80 h-12 px-5 rounded-full bg-gray-900 border border-gray-700 text-sm font-medium text-white placeholder-gray-500 focus:outline-none focus:border-[var(--secondary)]" />
+                    <button
+                        class="w-full sm:w-auto h-12 px-7 rounded-full bg-[var(--secondary)] font-extrabold text-white text-sm hover:bg-[var(--secondary-hover)] transition">
+                        Subscribe
+                    </button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 text-sm text-gray-400">
+                <div class="space-y-3">
+                    <h4 class="text-xs font-bold text-white uppercase tracking-wider">For Drivers</h4>
+                    <ul class="space-y-2">
+                        <li><a href="exploremap.html" class="hover:text-white transition">Station Finder</a></li>
+                        <li><a href="#" class="hover:text-white transition">Charging Rates</a></li>
+                        <li><a href="#" class="hover:text-white transition">Voltmap Card</a></li>
+                        <li><a href="#" class="hover:text-white transition">Mobile App</a></li>
+                    </ul>
+                </div>
+
+                <div class="space-y-3">
+                    <h4 class="text-xs font-bold text-white uppercase tracking-wider">For Business</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-white transition">Commercial Chargers</a></li>
+                        <li><a href="#" class="hover:text-white transition">Fleet Management</a></li>
+                        <li><a href="#" class="hover:text-white transition">Partner Program</a></li>
+                        <li><a href="#" class="hover:text-white transition">Host a Charger</a></li>
+                    </ul>
+                </div>
+
+                <div class="space-y-3">
+                    <h4 class="text-xs font-bold text-white uppercase tracking-wider">Company</h4>
+                    <ul class="space-y-2">
+                        <li><a href="index.html#stats-section" class="hover:text-white transition">About Us</a></li>
+                        <li><a href="#" class="hover:text-white transition">Careers</a></li>
+                        <li><a href="#" class="hover:text-white transition">Press &amp; Media</a></li>
+                        <li><a href="#" class="hover:text-white transition">Sustainability</a></li>
+                    </ul>
+                </div>
+
+                <div class="space-y-3">
+                    <h4 class="text-xs font-bold text-white uppercase tracking-wider">Support</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-white transition">Help Center</a></li>
+                        <li><a href="#" class="hover:text-white transition">Contact Us</a></li>
+                        <li><a href="#" class="hover:text-white transition">Network Status</a></li>
+                        <li><a href="#" class="hover:text-white transition">Driver FAQ</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-span-2 md:col-span-4 lg:col-span-1 space-y-3">
+                    <h4 class="text-xs font-bold text-white uppercase tracking-wider">Connect With Us</h4>
+                    <div class="flex items-center gap-3">
+                        <a href="#"
+                            class="w-9 h-9 rounded-full bg-gray-900 border border-gray-800 flex items-center justify-center text-gray-400 hover:text-white hover:border-gray-600 transition">
+                            <i class="fa-brands fa-x-twitter"></i>
+                        </a>
+                        <a href="#"
+                            class="w-9 h-9 rounded-full bg-gray-900 border border-gray-800 flex items-center justify-center text-gray-400 hover:text-white hover:border-gray-600 transition">
+                            <i class="fa-brands fa-linkedin-in"></i>
+                        </a>
+                        <a href="#"
+                            class="w-9 h-9 rounded-full bg-gray-900 border border-gray-800 flex items-center justify-center text-gray-400 hover:text-white hover:border-gray-600 transition">
+                            <i class="fa-brands fa-instagram"></i>
+                        </a>
+                        <a href="#"
+                            class="w-9 h-9 rounded-full bg-gray-900 border border-gray-800 flex items-center justify-center text-gray-400 hover:text-white hover:border-gray-600 transition">
+                            <i class="fa-brands fa-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div
+                class="pt-8 border-t border-gray-800/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gray-500">
+                <div>© 2026 Voltmap B.V. All rights reserved.</div>
+                <div class="flex items-center gap-6">
+                    <a href="#" class="hover:text-gray-400 transition">Privacy Policy</a>
+                    <a href="#" class="hover:text-gray-400 transition">Terms of Service</a>
+                    <a href="#" class="hover:text-gray-400 transition">Cookie Settings</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ==========================================
+       CURTAIN PAGE TRANSITION OVERLAY
+       ========================================== -->
+    <div id="page-curtain-overlay" class="fixed inset-0 z-[9999] pointer-events-none w-screen h-screen hidden">
+        <script>
+            if (sessionStorage.getItem("voltmap_transition") === "true") {
+                document.getElementById("page-curtain-overlay").classList.remove("hidden");
+            }
+        </script>
+        <div id="curtain-layer-1" class="absolute inset-0 bg-[var(--secondary)]"></div>
+        <div id="curtain-layer-2"
+            class="absolute inset-0 bg-[var(--background)] flex flex-col items-center justify-center">
+            <div class="flex flex-col items-center justify-center animate-pulse-glow">
+                <img src="../asset/img/logo.png" alt="Voltmap Logo"
+                    class="h-20 w-auto object-contain drop-shadow-[0_0_25px_rgba(82,193,51,0.45)]" />
+            </div>
+        </div>
+    </div>
+
+    <!-- ==========================================
+       LIBRARY SCRIPTS (CDN & MODULES)
+       ========================================== -->
+    <!-- jQuery v4.0 -->
+    <script src="../../node_modules/jquery/dist/jquery.min.js"></script>
+
+    <!-- GSAP v3.15 + Plugins -->
+    <script src="../../node_modules/gsap/dist/gsap.min.js"></script>
+    <script src="../../node_modules/gsap/dist/ScrollTrigger.min.js"></script>
+    <script src="../../node_modules/gsap/dist/ScrollToPlugin.min.js"></script>
+
+    <!-- Leaflet & Leaflet MarkerCluster -->
+    <script src="../../node_modules/leaflet/dist/leaflet.js"></script>
+    <script src="../../node_modules/leaflet.markercluster/dist/leaflet.markercluster.js"></script>
+
+    <!-- SimpleParallax.js v7.0 -->
+    <script src="../../node_modules/simple-parallax-js/dist/vanilla/simpleParallaxVanilla.umd.js"></script>
+
+    <!-- Animate On Scroll (AOS) -->
+    <script src="../../node_modules/aos/dist/aos.js"></script>
+
+    <!-- Typed.js -->
+    <script src="../../node_modules/typed.js/dist/typed.umd.js"></script>
+
+    <!-- Fancybox -->
+    <script src="../../node_modules/@fancyapps/ui/dist/fancybox/fancybox.umd.js"></script>
+
+    <!-- Swiper JS -->
+    <script src="../../node_modules/swiper/swiper-bundle.min.js"></script>
+
+    <!-- Application Module Script -->
+    <script type="module" src="../asset/js/app.js"></script>
+</body>
+
+</html>
