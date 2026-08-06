@@ -1,5 +1,6 @@
 import { menuData, vehicleChargeTypes, continentMarkers, generateMockStations } from "./data.js";
 import { initNavbarEntrance, initHeroAnimations, initStatsAnimations, initChargeTypeAnimations } from "./animations.js";
+import { renderNavbar } from "./navbar.js";
 
 // Use global jQuery loaded from CDN
 const $ = window.jQuery || window.$;
@@ -29,6 +30,15 @@ let p2pHours = 5;
 let p2pKw = 22;
 
 $(document).ready(() => {
+  // If on standalone Explore Map page (exploremap.html)
+  if ($("#explore-view").length && !$("#home-view").length) {
+    activePage = "explore";
+  }
+
+  // Render JS Navbar Component
+  renderNavbar("#navbar-app", { activePage });
+  updateNavbarStyle();
+
   // Play initial page entrance curtain transition
   playCurtainEntrance();
 
@@ -55,9 +65,7 @@ $(document).ready(() => {
   // Initialize Third Party Libraries if available
   initPlugins();
 
-  // If on standalone Explore Map page (exploremap.html)
-  if ($("#explore-view").length && !$("#home-view").length) {
-    activePage = "explore";
+  if (activePage === "explore") {
     initBaliMap();
   }
 });
