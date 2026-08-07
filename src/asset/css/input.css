@@ -4,6 +4,18 @@
 @theme {
   --font-sans: "Funnel Display", sans-serif;
   --font-display: "Funnel Display", sans-serif;
+
+  /* Color Tokens for Tailwind v4 Utilities (text-secondary, bg-primary, etc.) */
+  --color-primary: #0F172A;
+  --color-secondary: #52C133;
+  --color-secondary-hover: #16A34A;
+  --color-secondary-deep: #15803D;
+  --color-volt-50: #F0FDF4;
+  --color-volt-100: #DCFCE7;
+  --color-background: #FFFFFF;
+  --color-surface-subtle: #F8FAFC;
+  --color-surface-border: #E2E8F0;
+  --color-dark-600: #475569;
 }
 
 :root {
@@ -378,6 +390,7 @@ body {
     opacity: 0;
     transform: translateY(15px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -395,6 +408,7 @@ body {
   0% {
     transform: translateY(100%);
   }
+
   100% {
     transform: translateY(0);
   }
@@ -404,6 +418,7 @@ body {
   0% {
     transform: translateY(0);
   }
+
   100% {
     transform: translateY(-100%);
   }
@@ -439,4 +454,13 @@ body {
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
   animation: wipeOut 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.08s forwards;
+}
+
+/* Leaflet Continent Custom Markers */
+.leaflet-div-icon.custom-continent-marker {
+  background: transparent !important;
+  border: none !important;
+  width: auto !important;
+  height: auto !important;
+  transform: translate(-50%, -50%);
 }

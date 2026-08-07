@@ -495,188 +495,37 @@
         </div>
       </section>
 
-      <!-- SECTION 5: P2P SHARING SECTION -->
-      <section id="p2p-section"
-        class="relative w-full py-20 md:py-32 px-4 sm:px-6 lg:px-12 bg-[var(--surface-subtle)] text-[var(--primary)] overflow-hidden border-t border-[var(--surface-border)]">
-        <div
-          class="absolute top-10 -left-20 w-80 h-80 rounded-full bg-[var(--secondary)]/10 blur-3xl pointer-events-none">
-        </div>
-        <div
-          class="absolute bottom-10 -right-20 w-96 h-96 rounded-full bg-[var(--volt-100)] blur-3xl pointer-events-none">
-        </div>
-
-        <div class="relative z-10 max-w-7xl mx-auto space-y-16">
-          <div class="text-center max-w-3xl mx-auto space-y-4" data-aos="fade-up">
-            <div
-              class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[var(--volt-100)] text-[var(--secondary-deep)] font-extrabold text-xs uppercase tracking-widest shadow-xs">
-              <i class="fa-solid fa-house-signal"></i> Innovation: Peer-to-Peer Charging
-            </div>
-            <h2 class="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight text-[var(--primary)]">
-              Ubah Charger Rumah Anda Menjadi <br class="hidden sm:inline" />
-              <span class="text-[var(--secondary-deep)]">Sumber Pendapatan Pasif</span>
-            </h2>
-            <p class="text-gray-600 text-base sm:text-xl font-medium">
-              Bergabunglah dalam jaringan <strong>P2P Charge Sharing</strong> Voltmap. Sewakan pengisi daya EV rumah
-              atau bisnis Anda kepada sesama pengemudi EV secara aman dan otomatis.
-            </p>
-          </div>
-
-          <!-- 2-Column Split -->
-          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
-            <div
-              class="lg:col-span-7 relative rounded-[32px] bg-slate-900 text-white p-8 sm:p-12 overflow-hidden shadow-2xl border border-gray-800 flex flex-col justify-between group"
-              data-aos="fade-right">
-              <div
-                class="absolute inset-0 bg-cover bg-center opacity-40 group-hover:scale-105 transition-transform duration-700 pointer-events-none"
-                style="background-image: url('https://images.unsplash.com/photo-1593941707882-a5bba14938c7?auto=format&amp;fit=crop&amp;w=1200&amp;q=80');">
-              </div>
-              <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/70 to-transparent z-0"></div>
-
-              <div class="relative z-10 flex items-center justify-between gap-4">
-                <div
-                  class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md text-xs font-bold text-emerald-400 border border-emerald-400/30">
-                  <span class="w-2 h-2 rounded-full bg-[var(--secondary)] animate-ping"></span>
-                  <span>P2P Sharing Verified</span>
-                </div>
-                <div
-                  class="w-10 h-10 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center text-[var(--secondary)]">
-                  <i class="fa-solid fa-users"></i>
-                </div>
-              </div>
-
-              <div class="relative z-10 my-10 space-y-4">
-                <h3 class="text-2xl sm:text-4xl font-black leading-snug">
-                  Pasang Charger di Rumah &amp; Monetisasi Otomatis Lewat Aplikasi
-                </h3>
-                <p class="text-gray-300 text-sm sm:text-base leading-relaxed max-w-xl">
-                  Dapatkan paket instalasi stasiun pengisian resmi dari tim teknisi Voltmap. Sistem pembayaran aman
-                  otomatis langsung ditransfer ke rekening Anda setiap sesi charging selesai.
-                </p>
-              </div>
-
-              <div
-                class="relative z-10 grid grid-cols-1 sm:grid-cols-3 gap-4 pt-6 border-t border-white/15 text-xs font-semibold text-gray-300">
-                <div class="flex items-center gap-2">
-                  <i class="fa-solid fa-shield-halved text-[var(--secondary)] text-sm"></i>
-                  <span>Asuransi Kerusakan 100%</span>
-                </div>
-                <div class="flex items-center gap-2">
-                  <i class="fa-solid fa-bolt text-[var(--secondary)] text-sm"></i>
-                  <span>Kontrol Akses Pintar App</span>
-                </div>
-                <div class="flex items-center gap-2">
-                  <i class="fa-solid fa-coins text-[var(--secondary)] text-sm"></i>
-                  <span>Bebas Biaya Admin Awal</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Calculator Widget -->
-            <div
-              class="lg:col-span-5 rounded-[32px] bg-white p-8 sm:p-10 shadow-xl border border-[var(--surface-border)] flex flex-col justify-between space-y-6"
-              data-aos="fade-left">
-              <div>
-                <div class="flex items-center justify-between pb-4 border-b border-gray-100">
-                  <div>
-                    <h4 class="text-xl font-extrabold text-[var(--primary)]">Kalkulator Pendapatan P2P</h4>
-                    <p class="text-xs text-gray-500 font-medium mt-0.5">Estimasi potensi penghasilan charger Anda</p>
-                  </div>
-                  <div
-                    class="w-10 h-10 rounded-full bg-[var(--volt-50)] text-[var(--secondary-deep)] flex items-center justify-center font-bold">
-                    <i class="fa-solid fa-sliders"></i>
-                  </div>
-                </div>
-
-                <div class="space-y-6 mt-6">
-                  <div class="space-y-2">
-                    <div class="flex justify-between text-xs font-bold text-gray-700">
-                      <span>Jam Disewakan / Hari</span>
-                      <span id="p2p-hours-label" class="text-[var(--secondary-deep)] font-extrabold">5 Jam</span>
-                    </div>
-                    <input id="p2p-hours-slider" type="range" min="1" max="16" value="5"
-                      class="w-full h-2 rounded-lg bg-gray-200 accent-[var(--secondary)] cursor-pointer" />
-                    <div class="flex justify-between text-[10px] text-gray-400 font-medium">
-                      <span>1 Jam</span>
-                      <span>8 Jam</span>
-                      <span>16 Jam</span>
-                    </div>
-                  </div>
-
-                  <div class="space-y-2">
-                    <div class="flex justify-between text-xs font-bold text-gray-700">
-                      <span>Daya Stasiun (kW)</span>
-                    </div>
-                    <div class="grid grid-cols-3 gap-2">
-                      <button data-p2p-kw="7"
-                        class="py-2 rounded-xl text-xs font-bold transition border bg-gray-50 text-gray-700 border-gray-200 hover:bg-gray-100">7
-                        kW Wallbox</button>
-                      <button data-p2p-kw="11"
-                        class="py-2 rounded-xl text-xs font-bold transition border bg-gray-50 text-gray-700 border-gray-200 hover:bg-gray-100">11
-                        kW Wallbox</button>
-                      <button data-p2p-kw="22"
-                        class="py-2 rounded-xl text-xs font-bold transition border bg-[var(--secondary)] text-white border-[var(--secondary)] shadow-sm">22
-                        kW Wallbox</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="p-6 rounded-2xl bg-[var(--volt-50)] border border-[var(--volt-100)] space-y-2">
-                <div class="text-xs font-bold uppercase tracking-wider text-[var(--secondary-deep)]">
-                  Estimasi Pendapatan Bersih / Bulan
-                </div>
-                <div id="p2p-income-display"
-                  class="text-4xl sm:text-5xl font-black text-[var(--primary)] tracking-tight">
-                  $1,155 <span class="text-xs font-bold text-gray-500 font-sans">/ bulan</span>
-                </div>
-                <p class="text-[11px] text-gray-600 font-medium">
-                  *Dihitung berdasarkan rata-rata tarif sewa $0.35/kWh dengan asumsi efisiensi 90%.
-                </p>
-              </div>
-
-              <button
-                class="w-full py-4 rounded-full bg-[var(--secondary)] text-white font-extrabold text-sm sm:text-base flex items-center justify-center gap-3 shadow-lg hover:bg-[var(--secondary-hover)] transition-all hover:scale-[1.01] active:scale-95">
-                <span>Daftarkan Charger Rumah Sekarang</span>
-                <i class="fa-solid fa-arrow-right text-xs"></i>
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- SECTION 6: FIND NEARBY CHARGER SECTION -->
+      <!-- SECTION 5: FIND NEARBY CHARGER SECTION -->
       <section id="findnearby-section"
-        class="w-full py-16 md:py-24 px-4 sm:px-6 lg:px-12 bg-white text-[var(--primary)] border-t border-gray-100 relative overflow-hidden">
+        class="w-full py-16 md:py-24 px-4 sm:px-6 lg:px-12 bg-white text-[var(--primary)] relative overflow-hidden">
         <div class="max-w-7xl mx-auto">
-          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+          <div class="flex flex-col lg:flex-row items-stretch gap-8 lg:gap-10">
             <div
-              class="lg:col-span-5 flex flex-col justify-between bg-slate-900 text-white rounded-3xl p-8 sm:p-10 shadow-2xl border border-slate-800 relative overflow-hidden group"
+              class="w-full lg:w-[36%] flex flex-col justify-between bg-[#F0F5FB] text-black rounded-3xl p-8 sm:p-10 border border-blue-100/60 shadow-md relative overflow-hidden group shrink-0"
               data-aos="fade-right">
               <div
                 class="absolute top-0 right-0 w-64 h-64 bg-[var(--secondary)]/10 rounded-full blur-3xl pointer-events-none group-hover:bg-[var(--secondary)]/20 transition-all duration-700">
               </div>
               <div class="absolute bottom-0 left-0 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl pointer-events-none">
               </div>
-
               <div class="relative z-10 space-y-6">
-                <div
-                  class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-800 text-emerald-400 text-xs font-extrabold border border-slate-700">
-                  <i class="fa-solid fa-globe text-emerald-400"></i>
-                  <span>GLOBAL EV NETWORK</span>
-                </div>
-
-                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-white leading-tight">
-                  Find Charger Wherever You Are
+                <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-black leading-tight">
+                  <div>Find Charger</div>
+                  <div class="inline-flex items-center gap-3 mt-1 whitespace-nowrap">
+                    <span class="text-black">Wherever You Are</span>
+                    <span id="monument-inline-svg"
+                      class="text-[var(--secondary)] text-[1em] h-[1em] w-[1em] inline-flex items-center justify-center transition-all duration-300 transform align-middle"></span>
+                  </div>
                 </h2>
 
-                <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+                <p class="text-gray-500 text-sm sm:text-base leading-relaxed">
                   Connect seamlessly to over <strong class="text-emerald-400">15,000+ EV chargers</strong> across 6
-                  continents. Whether traveling locally in Bali or driving worldwide, Voltmap keeps your electric
-                  journey fully powered.
+                  continents. Whether you're commuting in the city or exploring new destinations, VoltMap keeps your
+                  journey fully charged.
                 </p>
 
-                <div class="grid grid-cols-2 gap-4 pt-2 border-t border-slate-800">
-                  <div class="p-3.5 rounded-2xl bg-slate-800/80 border border-slate-700/60">
+                <div class="grid grid-cols-2 gap-4 pt-2">
+                  <div class="p-3.5 rounded-2xl bg-white/60 border border-white/40">
                     <div class="flex items-center gap-2 text-emerald-400 text-xs font-bold mb-1">
                       <i class="fa-solid fa-charging-station"></i>
                       <span>15,000+</span>
@@ -684,7 +533,7 @@
                     <p class="text-[11px] text-slate-400 font-medium">Stasiun Global</p>
                   </div>
 
-                  <div class="p-3.5 rounded-2xl bg-slate-800/80 border border-slate-700/60">
+                  <div class="p-3.5 rounded-2xl bg-white/60 border border-white/40">
                     <div class="flex items-center gap-2 text-blue-400 text-xs font-bold mb-1">
                       <i class="fa-solid fa-globe"></i>
                       <span>6 Benua</span>
@@ -692,7 +541,7 @@
                     <p class="text-[11px] text-slate-400 font-medium">Jangkauan Luas</p>
                   </div>
 
-                  <div class="p-3.5 rounded-2xl bg-slate-800/80 border border-slate-700/60">
+                  <div class="p-3.5 rounded-2xl bg-white/60 border border-white/40">
                     <div class="flex items-center gap-2 text-amber-400 text-xs font-bold mb-1">
                       <i class="fa-solid fa-shield-halved"></i>
                       <span>99.8%</span>
@@ -700,7 +549,7 @@
                     <p class="text-[11px] text-slate-400 font-medium">Uptime Network</p>
                   </div>
 
-                  <div class="p-3.5 rounded-2xl bg-slate-800/80 border border-slate-700/60">
+                  <div class="p-3.5 rounded-2xl bg-white/60 border border-white/40">
                     <div class="flex items-center gap-2 text-purple-400 text-xs font-bold mb-1">
                       <i class="fa-solid fa-clock"></i>
                       <span>24/7 Live</span>
@@ -722,23 +571,24 @@
 
             <!-- Leaflet World Map Container -->
             <div
-              class="lg:col-span-7 relative h-[450px] sm:h-[520px] rounded-3xl overflow-hidden shadow-2xl border border-slate-200/80 bg-slate-950 group"
+              class="w-full lg:w-[64%] grow relative min-h-[500px] sm:min-h-[580px] lg:min-h-[640px] rounded-3xl overflow-hidden shadow-2xl border border-slate-200/80 bg-slate-950 group"
               data-aos="fade-left">
-              <div id="world-map-container" class="w-full h-full"></div>
+              <div id="world-map-container" class="w-full h-full min-h-[500px] sm:min-h-[580px] lg:min-h-[640px]"></div>
               <div
                 class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent pointer-events-none">
               </div>
 
               <div
-                class="absolute inset-x-4 bottom-4 z-[400] bg-slate-900/90 backdrop-blur-md border border-slate-700/80 text-white rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-2xl">
+                class="absolute inset-x-4 bottom-4 z-[400] bg-[#F0F5FB] backdrop-blur-md border border-[#F0F5FB]/80 text-black rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-2xl">
                 <div class="flex items-center gap-3">
                   <div
-                    class="w-9 h-9 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-sm shrink-0">
-                    ⚡</div>
+                    class="w-9 h-9 rounded-xl bg-emerald-500/15 border border-emerald-500/30 p-1.5 flex items-center justify-center shrink-0 shadow-md">
+                    <img src="../asset/img/logo.png" alt="VoltMap Logo" class="w-full h-full object-contain" />
+                  </div>
                   <div>
-                    <p class="text-xs font-black text-white flex items-center gap-2">Total 15.000+ Stasiun Terdaftar di
+                    <p class="text-xs font-black text-black flex items-center gap-2">Total 15.000+ Stasiun Terdaftar di
                       Dunia</p>
-                    <p class="text-[11px] text-slate-400 mt-0.5">Menampilkan distribusi charger per benua (Tanpa
+                    <p class="text-[11px] text-gray-500 mt-0.5">Menampilkan distribusi charger per benua (Tanpa
                       Antartika)</p>
                   </div>
                 </div>
@@ -759,115 +609,9 @@
   </main>
 
   <!-- ==========================================
-       FOOTER SECTION (#footer-section)
+       FOOTER SECTION (Rendered via footer.js component)
        ========================================== -->
-  <footer id="footer-section"
-    class="w-full bg-[var(--primary)] text-white pt-16 pb-12 px-4 sm:px-6 lg:px-12 border-t border-gray-800">
-    <div class="max-w-7xl mx-auto space-y-12">
-      <div
-        class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8 pb-12 border-b border-gray-800">
-        <div class="space-y-2">
-          <div class="flex items-center gap-3">
-            <div
-              class="w-9 h-9 rounded-full bg-[var(--secondary)] flex items-center justify-center text-white font-bold">
-              <i class="fa-solid fa-bolt"></i>
-            </div>
-            <span class="text-2xl font-black tracking-[4px]">VOLTMAP</span>
-          </div>
-          <p class="text-gray-400 text-sm max-w-md">
-            Accelerating the transition to sustainable mobility through high-speed, reliable EV charging infrastructure
-            across Europe and beyond.
-          </p>
-        </div>
-
-        <div class="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
-          <input type="email" placeholder="Enter your email for network updates"
-            class="w-full sm:w-80 h-12 px-5 rounded-full bg-gray-900 border border-gray-700 text-sm font-medium text-white placeholder-gray-500 focus:outline-none focus:border-[var(--secondary)]" />
-          <button
-            class="w-full sm:w-auto h-12 px-7 rounded-full bg-[var(--secondary)] font-extrabold text-white text-sm hover:bg-[var(--secondary-hover)] transition">
-            Subscribe
-          </button>
-        </div>
-      </div>
-
-      <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 text-sm text-gray-400">
-        <div class="space-y-3">
-          <h4 class="text-xs font-bold text-white uppercase tracking-wider">For Drivers</h4>
-          <ul class="space-y-2">
-            <li><a href="#" class="hover:text-white transition">Station Finder</a></li>
-            <li><a href="#" class="hover:text-white transition">Charging Rates</a></li>
-            <li><a href="#" class="hover:text-white transition">Voltmap Card</a></li>
-            <li><a href="#" class="hover:text-white transition">Mobile App</a></li>
-          </ul>
-        </div>
-
-        <div class="space-y-3">
-          <h4 class="text-xs font-bold text-white uppercase tracking-wider">For Business</h4>
-          <ul class="space-y-2">
-            <li><a href="#" class="hover:text-white transition">Host a Charger</a></li>
-            <li><a href="#" class="hover:text-white transition">Fleet Charging</a></li>
-            <li><a href="#" class="hover:text-white transition">Partner Portal</a></li>
-            <li><a href="#" class="hover:text-white transition">Retail Locations</a></li>
-          </ul>
-        </div>
-
-        <div class="space-y-3">
-          <h4 class="text-xs font-bold text-white uppercase tracking-wider">Company</h4>
-          <ul class="space-y-2">
-            <li><a href="#" class="hover:text-white transition">About Us</a></li>
-            <li><a href="#" class="hover:text-white transition">Stories &amp; News</a></li>
-            <li><a href="#" class="hover:text-white transition">Investor Relations</a></li>
-            <li><a href="#" class="hover:text-white transition">Careers</a></li>
-          </ul>
-        </div>
-
-        <div class="space-y-3">
-          <h4 class="text-xs font-bold text-white uppercase tracking-wider">Support</h4>
-          <ul class="space-y-2">
-            <li><a href="#" class="hover:text-white transition">Help Center</a></li>
-            <li><a href="#" class="hover:text-white transition">24/7 Hotline</a></li>
-            <li><a href="#" class="hover:text-white transition">Network Status</a></li>
-            <li><a href="#" class="hover:text-white transition">Contact Us</a></li>
-          </ul>
-        </div>
-
-        <div class="col-span-2 md:col-span-4 lg:col-span-1 space-y-4">
-          <h4 class="text-xs font-bold text-white uppercase tracking-wider">Follow Us</h4>
-          <div class="flex items-center gap-3">
-            <a href="#" aria-label="Twitter"
-              class="w-9 h-9 rounded-full bg-gray-900 border border-gray-800 flex items-center justify-center text-gray-400 hover:text-white hover:bg-gray-800 transition">
-              <i class="fa-brands fa-x-twitter text-sm"></i>
-            </a>
-            <a href="#" aria-label="Instagram"
-              class="w-9 h-9 rounded-full bg-gray-900 border border-gray-800 flex items-center justify-center text-gray-400 hover:text-white hover:bg-gray-800 transition">
-              <i class="fa-brands fa-instagram text-sm"></i>
-            </a>
-            <a href="#" aria-label="LinkedIn"
-              class="w-9 h-9 rounded-full bg-gray-900 border border-gray-800 flex items-center justify-center text-gray-400 hover:text-white hover:bg-gray-800 transition">
-              <i class="fa-brands fa-linkedin text-sm"></i>
-            </a>
-            <a href="#" aria-label="GitHub"
-              class="w-9 h-9 rounded-full bg-gray-900 border border-gray-800 flex items-center justify-center text-gray-400 hover:text-white hover:bg-gray-800 transition">
-              <i class="fa-brands fa-github text-sm"></i>
-            </a>
-          </div>
-          <div class="text-xs text-gray-500 pt-2">
-            Powered by 100% renewable wind &amp; solar energy.
-          </div>
-        </div>
-      </div>
-
-      <div
-        class="pt-8 border-t border-gray-800/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gray-500">
-        <div>© 2026 Voltmap B.V. All rights reserved.</div>
-        <div class="flex items-center gap-6">
-          <a href="#" class="hover:text-gray-400 transition">Privacy Policy</a>
-          <a href="#" class="hover:text-gray-400 transition">Terms of Service</a>
-          <a href="#" class="hover:text-gray-400 transition">Cookie Settings</a>
-        </div>
-      </div>
-    </div>
-  </footer>
+  <div id="footer-app"></div>
 
   <!-- ==========================================
        CURTAIN PAGE TRANSITION OVERLAY

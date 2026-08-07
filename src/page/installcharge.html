@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/png" href="../asset/img/favicon.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VOLTMAP - Install Charger & P2P Sharing Network</title>
+  <meta name="description"
+    content="Ubah charger EV rumah atau bisnis Anda menjadi sumber pendapatan pasif dengan jaringan P2P Charge Sharing VoltMap." />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300..800&display=swap" rel="stylesheet" />
+
+  <!-- FontAwesome Free 7 -->
+  <link rel="stylesheet" href="../../node_modules/@fortawesome/fontawesome-free/css/all.min.css" />
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="../../node_modules/leaflet/dist/leaflet.css" />
+
+  <!-- AOS (Animate On Scroll) CSS -->
+  <link rel="stylesheet" href="../../node_modules/aos/dist/aos.css" />
+
+  <!-- Swiper CSS -->
+  <link rel="stylesheet" href="../../node_modules/swiper/swiper-bundle.min.css" />
+
+  <!-- Tailwind & Application CSS -->
+  <link rel="stylesheet" href="../asset/css/output.css" />
+</head>
+
+<body
+  class="min-h-screen bg-slate-950 text-white flex flex-col font-sans overflow-x-hidden selection:bg-emerald-500 selection:text-slate-950">
+
+  <!-- ==========================================
+       CURTAIN PAGE TRANSITION OVERLAY
+       ========================================== -->
+  <div id="page-curtain-overlay" class="fixed inset-0 z-[9999] pointer-events-none w-screen h-screen hidden">
+    <script>
+      if (sessionStorage.getItem("voltmap_transition") === "true") {
+        document.getElementById("page-curtain-overlay").classList.remove("hidden");
+      }
+    </script>
+    <div id="curtain-layer-1" class="absolute inset-0 bg-[var(--secondary)]"></div>
+    <div id="curtain-layer-2" class="absolute inset-0 bg-[var(--background)] flex flex-col items-center justify-center">
+      <div class="flex flex-col items-center justify-center animate-pulse-glow">
+        <img src="../asset/img/logo.png" alt="Voltmap Logo"
+          class="h-20 w-auto object-contain drop-shadow-[0_0_25px_rgba(82,193,51,0.45)]" />
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       1. FIXED HEADER & NAVBAR COMPONENT (JS)
+       ========================================== -->
+  <div id="navbar-app"></div>
+
+  <!-- ==========================================
+       MAIN CONTENT CONTAINER
+       ========================================== -->
+  <main class="flex-1 w-full pt-28 pb-16">
+
+    <!-- ==========================================
+         VIEW: INSTALL CHARGE PAGE (#installcharge-view)
+         ========================================== -->
+    <div id="installcharge-view" class="w-full space-y-24">
+
+      <!-- SECTION 1: HERO & P2P CALCULATOR -->
+      <section id="p2p-hero-section" class="relative w-full px-4 sm:px-6 lg:px-12 overflow-hidden">
+        <div class="absolute top-10 -left-20 w-96 h-96 rounded-full bg-emerald-500/10 blur-3xl pointer-events-none">
+        </div>
+        <div
+          class="absolute bottom-10 -right-20 w-[30rem] h-[30rem] rounded-full bg-blue-500/10 blur-3xl pointer-events-none">
+        </div>
+
+        <div class="max-w-7xl mx-auto space-y-16 relative z-10">
+
+          <!-- Hero Title Header -->
+          <div class="text-center max-w-3xl mx-auto space-y-5" data-aos="fade-up">
+            <div
+              class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 font-extrabold text-xs uppercase tracking-widest shadow-xs">
+              <i class="fa-solid fa-house-signal"></i> Innovation: Peer-to-Peer Charging
+            </div>
+            <h1 class="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight leading-tight text-white">
+              Ubah Charger Rumah Anda <br class="hidden sm:inline" />
+              <span
+                class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-emerald-500">Menjadi
+                Pendapatan Pasif</span>
+            </h1>
+            <p class="text-slate-300 text-base sm:text-xl font-medium leading-relaxed">
+              Bergabunglah dalam jaringan <strong class="text-emerald-400">P2P Charge Sharing VoltMap</strong>. Sewakan
+              pengisi daya EV rumah atau bisnis Anda kepada sesama pengemudi EV secara aman, otomatis, dan bergaransi.
+            </p>
+          </div>
+
+          <!-- 2-Column Split: Showcase Banner + Income Calculator -->
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+
+            <!-- Left Card Showcase -->
+            <div
+              class="lg:col-span-7 relative rounded-[36px] bg-slate-900 text-white p-8 sm:p-12 overflow-hidden shadow-2xl border border-slate-800 flex flex-col justify-between group"
+              data-aos="fade-right">
+              <div
+                class="absolute inset-0 bg-cover bg-center opacity-30 group-hover:scale-105 transition-transform duration-700 pointer-events-none"
+                style="background-image: url('https://images.unsplash.com/photo-1593941707882-a5bba14938c7?auto=format&fit=crop&w=1200&q=80');">
+              </div>
+              <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/80 to-transparent z-0"></div>
+
+              <div class="relative z-10 flex items-center justify-between gap-4">
+                <div
+                  class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900/90 backdrop-blur-md text-xs font-bold text-emerald-400 border border-emerald-400/40 shadow-md">
+                  <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
+                  <span>P2P Sharing Verified Network</span>
+                </div>
+                <div
+                  class="w-11 h-11 rounded-2xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center justify-center font-bold text-base shadow-lg">
+                  <i class="fa-solid fa-users"></i>
+                </div>
+              </div>
+
+              <div class="relative z-10 my-12 space-y-4">
+                <h2 class="text-2xl sm:text-4xl font-black leading-snug text-white">
+                  Pasang Charger Resmi & Monetisasi Otomatis Lewat Aplikasi VoltMap
+                </h2>
+                <p class="text-slate-300 text-sm sm:text-base leading-relaxed max-w-xl">
+                  Dapatkan paket instalasi stasiun pengisian resmi dari tim teknisi profesional VoltMap. Sistem
+                  pembayaran otomatis ditransfer langsung ke rekening Anda setiap kali sesi charging pengemudi selesai.
+                </p>
+              </div>
+
+              <div
+                class="relative z-10 grid grid-cols-1 sm:grid-cols-3 gap-4 pt-6 border-t border-slate-800 text-xs font-semibold text-slate-300">
+                <div class="flex items-center gap-2.5 bg-slate-950/60 p-3 rounded-2xl border border-slate-800">
+                  <i class="fa-solid fa-shield-halved text-emerald-400 text-base"></i>
+                  <span>Asuransi Kerusakan 100%</span>
+                </div>
+                <div class="flex items-center gap-2.5 bg-slate-950/60 p-3 rounded-2xl border border-slate-800">
+                  <i class="fa-solid fa-bolt text-emerald-400 text-base"></i>
+                  <span>Kontrol Akses Pintar App</span>
+                </div>
+                <div class="flex items-center gap-2.5 bg-slate-950/60 p-3 rounded-2xl border border-slate-800">
+                  <i class="fa-solid fa-coins text-emerald-400 text-base"></i>
+                  <span>Bebas Biaya Admin Awal</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right Calculator Widget -->
+            <div
+              class="lg:col-span-5 rounded-[36px] bg-slate-900 p-8 sm:p-10 shadow-2xl border border-slate-800 flex flex-col justify-between space-y-6"
+              data-aos="fade-left">
+              <div>
+                <div class="flex items-center justify-between pb-5 border-b border-slate-800">
+                  <div>
+                    <h3 class="text-xl font-black text-white flex items-center gap-2">
+                      <i class="fa-solid fa-calculator text-emerald-400"></i> Kalkulator Pendapatan P2P
+                    </h3>
+                    <p class="text-xs text-slate-400 font-medium mt-1">Estimasi potensi penghasilan charger rumah Anda
+                    </p>
+                  </div>
+                  <div
+                    class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold">
+                    <i class="fa-solid fa-sliders"></i>
+                  </div>
+                </div>
+
+                <div class="space-y-6 mt-6">
+                  <!-- Hours Slider -->
+                  <div class="space-y-2.5">
+                    <div class="flex justify-between text-xs font-bold text-slate-200">
+                      <span>Jam Disewakan / Hari</span>
+                      <span id="p2p-hours-label" class="text-emerald-400 font-extrabold text-sm">5 Jam</span>
+                    </div>
+                    <input id="p2p-hours-slider" type="range" min="1" max="16" value="5"
+                      class="w-full h-2.5 rounded-lg bg-slate-800 accent-emerald-400 cursor-pointer" />
+                    <div class="flex justify-between text-[11px] text-slate-500 font-medium">
+                      <span>1 Jam</span>
+                      <span>8 Jam</span>
+                      <span>16 Jam</span>
+                    </div>
+                  </div>
+
+                  <!-- Wallbox Power Options -->
+                  <div class="space-y-2.5">
+                    <div class="flex justify-between text-xs font-bold text-slate-200">
+                      <span>Daya Stasiun (kW)</span>
+                    </div>
+                    <div class="grid grid-cols-3 gap-2.5">
+                      <button data-p2p-kw="7"
+                        class="py-2.5 rounded-xl text-xs font-bold transition border bg-slate-800 text-slate-300 border-slate-700 hover:bg-slate-700">
+                        7 kW Wallbox
+                      </button>
+                      <button data-p2p-kw="11"
+                        class="py-2.5 rounded-xl text-xs font-bold transition border bg-slate-800 text-slate-300 border-slate-700 hover:bg-slate-700">
+                        11 kW Wallbox
+                      </button>
+                      <button data-p2p-kw="22"
+                        class="py-2.5 rounded-xl text-xs font-bold transition border bg-[var(--secondary)] text-white border-[var(--secondary)] shadow-md">
+                        22 kW Wallbox
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Income Display Card -->
+              <div class="p-6 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 space-y-2">
+                <div class="text-xs font-extrabold uppercase tracking-wider text-emerald-400 flex items-center gap-2">
+                  <i class="fa-solid fa-chart-line"></i> Estimasi Pendapatan Bersih / Bulan
+                </div>
+                <div id="p2p-income-display" class="text-4xl sm:text-5xl font-black text-white tracking-tight">
+                  $1,155 <span class="text-xs font-bold text-slate-400 font-sans">/ bulan</span>
+                </div>
+                <p class="text-[11px] text-slate-400 font-medium leading-relaxed">
+                  *Dihitung berdasarkan rata-rata tarif sewa $0.35/kWh dengan asumsi efisiensi 90%.
+                </p>
+              </div>
+
+              <a href="#host-register-section"
+                class="w-full py-4 rounded-full bg-[var(--secondary)] text-white font-extrabold text-sm sm:text-base flex items-center justify-center gap-3 shadow-lg hover:bg-[var(--secondary-hover)] transition-all hover:scale-[1.01] active:scale-95">
+                <span>Daftarkan Charger Rumah Sekarang</span>
+                <i class="fa-solid fa-arrow-right text-xs"></i>
+              </a>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+      <!-- SECTION 2: HOW IT WORKS STEP BY STEP -->
+      <section id="p2p-steps-section"
+        class="w-full px-4 sm:px-6 lg:px-12 py-12 bg-slate-900/50 border-y border-slate-800">
+        <div class="max-w-7xl mx-auto space-y-12">
+          <div class="text-center max-w-2xl mx-auto space-y-3">
+            <h2 class="text-3xl sm:text-4xl font-black text-white">4 Langkah Mudah Menjadi Host VoltMap</h2>
+            <p class="text-slate-400 text-sm sm:text-base">Proses instalasi resmi dan aktivasi akun host hanya
+              membutuhkan waktu beberapa hari.</p>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Step 1 -->
+            <div
+              class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4 hover:border-emerald-500/40 transition-colors group">
+              <div
+                class="w-12 h-12 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-black text-xl group-hover:scale-110 transition-transform">
+                1
+              </div>
+              <h3 class="text-lg font-bold text-white">Daftar Formulir</h3>
+              <p class="text-xs text-slate-400 leading-relaxed">
+                Isi data diri dan alamat rumah/bisnis Anda melalui formulir pendaftaran di halaman ini.
+              </p>
+            </div>
+
+            <!-- Step 2 -->
+            <div
+              class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4 hover:border-emerald-500/40 transition-colors group">
+              <div
+                class="w-12 h-12 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-black text-xl group-hover:scale-110 transition-transform">
+                2
+              </div>
+              <h3 class="text-lg font-bold text-white">Survei & Instalasi</h3>
+              <p class="text-xs text-slate-400 leading-relaxed">
+                Tim sertifikasi VoltMap melakukan survei kelistrikan dan menginstal stasiun wallbox resmi.
+              </p>
+            </div>
+
+            <!-- Step 3 -->
+            <div
+              class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4 hover:border-emerald-500/40 transition-colors group">
+              <div
+                class="w-12 h-12 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-black text-xl group-hover:scale-110 transition-transform">
+                3
+              </div>
+              <h3 class="text-lg font-bold text-white">Atur Jadwal Sewa</h3>
+              <p class="text-xs text-slate-400 leading-relaxed">
+                Tentukan jam dan hari sewa pengisian daya di aplikasi sesuai preferensi pribadi Anda.
+              </p>
+            </div>
+
+            <!-- Step 4 -->
+            <div
+              class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4 hover:border-emerald-500/40 transition-colors group">
+              <div
+                class="w-12 h-12 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-black text-xl group-hover:scale-110 transition-transform">
+                4
+              </div>
+              <h3 class="text-lg font-bold text-white">Terima Pembayaran</h3>
+              <p class="text-xs text-slate-400 leading-relaxed">
+                Setiap kali pengemudi selesai mengisi daya, penghasilan akan ditransfer otomatis ke rekening Anda.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 3: HOST REGISTRATION FORM -->
+      <section id="host-register-section" class="w-full px-4 sm:px-6 lg:px-12 py-12">
+        <div
+          class="max-w-4xl mx-auto bg-slate-900 border border-slate-800 rounded-[36px] p-8 sm:p-12 shadow-2xl relative overflow-hidden">
+          <div class="absolute top-0 right-0 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none">
+          </div>
+
+          <div class="relative z-10 space-y-8">
+            <div class="text-center space-y-3">
+              <span
+                class="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-bold border border-emerald-500/30">
+                Pendaftaran Host VoltMap
+              </span>
+              <h2 class="text-3xl sm:text-4xl font-black text-white">Formulir Pengajuan Instalasi Charger</h2>
+              <p class="text-slate-400 text-sm">Isi data di bawah ini untuk konsultasi gratis dengan spesialis teknis
+                VoltMap.</p>
+            </div>
+
+            <form id="host-registration-form" class="space-y-6">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div class="space-y-2">
+                  <label for="host-name" class="text-xs font-bold text-slate-300">Nama Lengkap</label>
+                  <input type="text" id="host-name" required placeholder="Contoh: Budi Santoso"
+                    class="w-full px-4 py-3.5 rounded-2xl bg-slate-800 border border-slate-700 text-white text-sm focus:outline-none focus:border-emerald-400 transition" />
+                </div>
+
+                <div class="space-y-2">
+                  <label for="host-phone" class="text-xs font-bold text-slate-300">Nomor WhatsApp / Telepon</label>
+                  <input type="tel" id="host-phone" required placeholder="Contoh: 081234567890"
+                    class="w-full px-4 py-3.5 rounded-2xl bg-slate-800 border border-slate-700 text-white text-sm focus:outline-none focus:border-emerald-400 transition" />
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div class="space-y-2">
+                  <label for="host-city" class="text-xs font-bold text-slate-300">Kota / Wilayah Lokasi</label>
+                  <input type="text" id="host-city" required placeholder="Contoh: Denpasar, Bali"
+                    class="w-full px-4 py-3.5 rounded-2xl bg-slate-800 border border-slate-700 text-white text-sm focus:outline-none focus:border-emerald-400 transition" />
+                </div>
+
+                <div class="space-y-2">
+                  <label for="host-wallbox" class="text-xs font-bold text-slate-300">Rencana Kapasitas Wallbox</label>
+                  <select id="host-wallbox"
+                    class="w-full px-4 py-3.5 rounded-2xl bg-slate-800 border border-slate-700 text-white text-sm focus:outline-none focus:border-emerald-400 transition">
+                    <option value="7">7 kW AC Wallbox (Rumah Tinggal)</option>
+                    <option value="11">11 kW AC Wallbox (Komersial Ringan)</option>
+                    <option value="22" selected>22 kW AC Wallbox (Fast Charging)</option>
+                    <option value="50">50 kW DC Fast Charger (Bisnis & SPKLU)</option>
+                  </select>
+                </div>
+              </div>
+
+              <button type="submit"
+                class="w-full py-4 rounded-2xl bg-[var(--secondary)] text-white text-base font-extrabold hover:bg-[var(--secondary-hover)] shadow-lg transition-all flex items-center justify-center gap-3">
+                <i class="fa-solid fa-paper-plane text-sm"></i>
+                <span>Kirim Permohonan Instalasi</span>
+              </button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- REGISTRATION SUCCESS MODAL -->
+  <div id="registration-success-modal"
+    class="fixed inset-0 z-[10000] bg-slate-950/80 backdrop-blur-md hidden items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-800 rounded-3xl p-8 max-w-md w-full text-center space-y-6 shadow-2xl">
+      <div
+        class="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center font-bold text-3xl mx-auto">
+        ✓
+      </div>
+      <div class="space-y-2">
+        <h3 class="text-2xl font-black text-white">Permohonan Terkirim!</h3>
+        <p class="text-xs text-slate-400 leading-relaxed">
+          Tim spesialis teknis VoltMap akan menghubungi nomor WhatsApp Anda dalam waktu 1x24 jam untuk verifikasi lokasi
+          dan penjadwalan survei gratis.
+        </p>
+      </div>
+      <button id="close-modal-btn"
+        class="w-full py-3 rounded-xl bg-emerald-500 text-slate-950 font-extrabold text-sm hover:bg-emerald-400 transition">
+        Tutup & Kembali
+      </button>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       2. FOOTER COMPONENT (JS)
+       ========================================== -->
+  <div id="footer-app"></div>
+
+  <!-- ==========================================
+       3. SCRIPT LIBRARIES
+       ========================================== -->
+  <script src="../../node_modules/jquery/dist/jquery.min.js"></script>
+  <script src="../../node_modules/gsap/dist/gsap.min.js"></script>
+  <script src="../../node_modules/gsap/dist/ScrollTrigger.min.js"></script>
+  <script src="../../node_modules/leaflet/dist/leaflet.js"></script>
+  <script src="../../node_modules/aos/dist/aos.js"></script>
+
+  <!-- Application Module Script -->
+  <script type="module" src="../asset/js/installcharge.js"></script>
+</body>
+
+</html>

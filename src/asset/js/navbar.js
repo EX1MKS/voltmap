@@ -22,6 +22,7 @@ export function renderNavbar(targetElementOrSelector = "#navbar-app", options = 
 
   const isHome = activePage === "home";
   const isExplore = activePage === "explore";
+  const isInstall = activePage === "install";
 
   const navbarHtml = `
   <!-- FIXED HEADER & NAVBAR COMPONENT -->
@@ -41,27 +42,22 @@ export function renderNavbar(targetElementOrSelector = "#navbar-app", options = 
         <!-- Desktop Nav Center Items -->
         <div id="nav-menu" class="hidden lg:flex items-center gap-10 text-sm font-bold tracking-wide">
           <div data-menu="Home" data-nav-target="home" class="will-change-transform cursor-pointer">
-            <button class="nav-link-btn flex items-center gap-1.5 transition duration-300 ${isHome ? 'text-white font-extrabold' : 'text-white/90 hover:text-white'}">
+            <button class="nav-link-btn flex items-center gap-1.5 transition duration-300 ${isHome ? 'text-secondary font-extrabold' : 'text-black/90 hover:text-black'}">
               <span>Home</span>
             </button>
           </div>
-          <div data-menu="Charging" data-nav-target="explore" class="will-change-transform cursor-pointer">
-            <button class="nav-link-btn flex items-center gap-1.5 transition duration-300 ${isExplore ? 'text-[var(--secondary)] font-extrabold' : 'text-white/90 hover:text-white'}">
-              <span>Charging</span>
+          <div data-menu="Explore" data-nav-target="explore" class="will-change-transform cursor-pointer">
+            <button class="nav-link-btn flex items-center gap-1.5 transition duration-300 ${isExplore ? 'text-secondary font-extrabold' : 'text-black/90 hover:text-black'}">
+              <span>Explore</span>
             </button>
           </div>
-          <div data-menu="Technology" class="will-change-transform cursor-pointer">
-            <a href="${isHome ? '#installcharger-section' : 'index.html#installcharger-section'}" class="nav-link-btn flex items-center gap-1.5 transition duration-300 text-white/90 hover:text-white">
-              <span>Technology</span>
-            </a>
-          </div>
-          <div data-menu="Discover" class="will-change-transform cursor-pointer">
-            <a href="${isHome ? '#p2p-section' : 'index.html#p2p-section'}" class="nav-link-btn flex items-center gap-1.5 transition duration-300 text-white/90 hover:text-white">
-              <span>Discover</span>
-            </a>
+          <div data-menu="Install" data-nav-target="install" class="will-change-transform cursor-pointer">
+            <button class="nav-link-btn flex items-center gap-1.5 transition duration-300 ${isInstall ? 'text-secondary font-extrabold' : 'text-black/90 hover:text-black'}">
+              <span>Install Charger</span>
+            </button>
           </div>
           <div data-menu="About" class="will-change-transform cursor-pointer">
-            <a href="${isHome ? '#stats-section' : 'index.html#stats-section'}" class="nav-link-btn flex items-center gap-1.5 transition duration-300 text-white/90 hover:text-white">
+            <a href="${isHome ? '#stats-section' : 'index.html#stats-section'}" class="nav-link-btn flex items-center gap-1.5 transition duration-300 text-black/90 hover:text-black">
               <span>About</span>
             </a>
           </div>
@@ -69,15 +65,10 @@ export function renderNavbar(targetElementOrSelector = "#navbar-app", options = 
 
         <!-- Right Actions -->
         <div id="nav-actions" class="flex items-center gap-3">
-          <button data-nav-target="explore"
-            class="hidden md:flex h-11 items-center gap-2 rounded-full bg-[var(--secondary)] px-6 text-sm font-bold text-white shadow-sm transition hover:bg-[var(--secondary-hover)] hover:scale-[1.02] active:scale-95 will-change-transform">
-            <i class="fa-solid fa-bolt text-xs text-white"></i>
-            <span>Explore Map</span>
-          </button>
-
-          <button aria-label="User Account"
-            class="nav-icon-circle hidden sm:grid h-11 w-11 place-items-center rounded-full transition-all duration-300 will-change-transform bg-white/15 text-white border border-white/20 hover:bg-white/25">
-            <i class="fa-solid fa-user text-sm"></i>
+          <button data-nav-target="-"
+            class="hidden md:flex h-11 items-center gap-2 rounded-2xl bg-[var(--secondary)] px-6 text-sm font-bold text-white shadow-sm transition hover:bg-[var(--secondary-hover)] hover:scale-[1.02] active:scale-95 will-change-transform">
+            <span>Login</span>
+            <i class="fa-solid fa-user text-xs text-white"></i>
           </button>
 
           <button id="mobile-hamburger-btn" aria-label="Toggle Mobile Menu"
@@ -86,36 +77,29 @@ export function renderNavbar(targetElementOrSelector = "#navbar-app", options = 
           </button>
         </div>
       </nav>
-
-      <!-- MegaMenu Dropdown Container -->
-      <div id="megamenu-container" class="hidden px-8 py-8 bg-[var(--background)]"></div>
     </div>
   </header>
 
   <!-- Mobile Drawer -->
   <div id="mobile-drawer" data-open="false"
-    class="fixed top-[85px] left-4 right-4 z-40 overflow-hidden rounded-3xl bg-white shadow-2xl transition-all duration-300 lg:hidden border border-gray-100 pointer-events-none opacity-0 -translate-y-5">
+    class="fixed top-[85px] left-4 right-4 z-50 overflow-hidden rounded-3xl bg-white shadow-2xl transition-all duration-300 lg:hidden border border-gray-100 pointer-events-none opacity-0 -translate-y-5">
     <div class="flex flex-col gap-5 p-6">
-      <div data-mobile-nav="home" class="py-1 border-b border-gray-50 cursor-pointer text-gray-800 font-bold text-base">
+      <div data-mobile-nav="home" data-nav-target="home" class="py-1 border-b border-gray-50 cursor-pointer text-gray-800 font-bold text-base">
         Home
       </div>
-      <div data-mobile-nav="explore"
-        class="py-1 border-b border-gray-50 cursor-pointer text-gray-800 font-bold text-base">
-        Charging & Map
+      <div data-mobile-nav="explore" data-nav-target="explore" class="py-1 border-b border-gray-50 cursor-pointer text-gray-800 font-bold text-base">
+        Explore
       </div>
-      <div data-mobile-nav="home" class="py-1 border-b border-gray-50 cursor-pointer text-gray-800 font-bold text-base">
-        Technology
+      <div data-mobile-nav="install" data-nav-target="install" class="py-1 border-b border-gray-50 cursor-pointer text-gray-800 font-bold text-base">
+        Install Charger
       </div>
-      <div data-mobile-nav="home" class="py-1 border-b border-gray-50 cursor-pointer text-gray-800 font-bold text-base">
-        Discover
-      </div>
-      <div data-mobile-nav="home" class="py-1 border-b border-gray-50 cursor-pointer text-gray-800 font-bold text-base">
+      <div data-mobile-nav="about" class="py-1 border-b border-gray-50 cursor-pointer text-gray-800 font-bold text-base">
         About
       </div>
-      <button data-mobile-nav="explore"
-        class="mt-2 h-12 rounded-full bg-[var(--secondary)] font-bold text-white flex items-center justify-center gap-2 shadow-md hover:bg-[var(--secondary-hover)] transition">
-        <i class="fa-solid fa-bolt text-white"></i>
-        <span>Explore Map</span>
+      <button data-mobile-nav="-"
+        class="mt-2 h-12 rounded-2xl bg-[var(--secondary)] font-bold text-white flex items-center justify-center gap-2 shadow-md hover:bg-[var(--secondary-hover)] transition">
+        <span>Login</span>
+        <i class="fa-solid fa-user text-white"></i>
       </button>
     </div>
   </div>

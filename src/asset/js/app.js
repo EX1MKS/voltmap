@@ -1,6 +1,7 @@
 import { menuData, vehicleChargeTypes, continentMarkers, generateMockStations } from "./data.js";
 import { initNavbarEntrance, initHeroAnimations, initStatsAnimations, initChargeTypeAnimations } from "./animations.js";
 import { renderNavbar } from "./navbar.js";
+import { renderFooter } from "./footer.js";
 
 // Use global jQuery loaded from CDN
 const $ = window.jQuery || window.$;
@@ -35,8 +36,9 @@ $(document).ready(() => {
     activePage = "explore";
   }
 
-  // Render JS Navbar Component
+  // Render JS Components (Navbar & Footer)
   renderNavbar("#navbar-app", { activePage });
+  renderFooter("#footer-app", { activePage });
   updateNavbarStyle();
 
   // Play initial page entrance curtain transition
@@ -47,11 +49,11 @@ $(document).ready(() => {
 
   // Initial render
   renderVehicleCards();
-  renderMegaMenu("Charging");
   initNavbarEvents();
   initHeroSlideshow();
   initP2PCalculator();
   initNavigation();
+  initMonumentCarousel();
 
   // Initialize GSAP Animations
   initNavbarEntrance();
@@ -83,20 +85,40 @@ function playCurtainEntrance() {
 
   if (!$curtain.length) return;
 
-  if (isTransitioningFromPrev) {
+  if (isTransitioningFromPrev || !$curtain.hasClass("hidden")) {
     $curtain.removeClass("hidden pointer-events-none");
     $layer1.removeClass("animate-wipe-in animate-wipe-in-delayed").addClass("animate-wipe-out");
     $layer2.removeClass("animate-wipe-in animate-wipe-in-delayed").addClass("animate-wipe-out-delayed");
 
     setTimeout(() => {
       $curtain.addClass("hidden pointer-events-none");
-      $layer1.removeClass("animate-wipe-out");
-      $layer2.removeClass("animate-wipe-out-delayed");
+      $layer1.removeClass("animate-wipe-in animate-wipe-in-delayed animate-wipe-out animate-wipe-out-delayed");
+      $layer2.removeClass("animate-wipe-in animate-wipe-in-delayed animate-wipe-out animate-wipe-out-delayed");
     }, 600);
   } else {
     $curtain.addClass("hidden pointer-events-none");
   }
 }
+
+// BFCache (Back/Forward Navigation) Event Listener
+window.addEventListener("pageshow", (event) => {
+  isTransitioning = false;
+
+  // Handle page restore from Back/Forward cache or active curtain
+  const $curtain = $("#page-curtain-overlay");
+  if ($curtain.length) {
+    if (event.persisted || sessionStorage.getItem("voltmap_transition") === "true" || !$curtain.hasClass("hidden")) {
+      playCurtainEntrance();
+    }
+  }
+
+  if (worldMap) worldMap.invalidateSize();
+  if (baliMap) baliMap.invalidateSize();
+});
+
+window.addEventListener("pagehide", () => {
+  isTransitioning = false;
+});
 
 function performPageTransition(destinationUrl) {
   if (isTransitioning) return;
@@ -135,19 +157,26 @@ function initNavigation() {
         return;
       }
     }
+    if (target === "install") {
+      if (!$("#installcharge-view").length) {
+        e.preventDefault();
+        performPageTransition("installcharge.html");
+        return;
+      }
+    }
 
-    if (target === "home" || target === "explore") {
+    if (target === "home" || target === "explore" || target === "install") {
       e.preventDefault();
       navigateTo(target);
     }
   });
 
-  // Intercept links between index.html and exploremap.html
-  $(document).on("click", 'a[href="index.html"], a[href="exploremap.html"]', function (e) {
+  // Intercept links between index.html, exploremap.html, and installcharge.html
+  $(document).on("click", 'a[href="index.html"], a[href="exploremap.html"], a[href="installcharge.html"]', function (e) {
     const href = $(this).attr("href");
     const currentFile = window.location.pathname.split("/").pop();
 
-    if (href !== currentFile && (href === "index.html" || href === "exploremap.html")) {
+    if (href !== currentFile && (href === "index.html" || href === "exploremap.html" || href === "installcharge.html")) {
       e.preventDefault();
       performPageTransition(href);
     }
@@ -217,9 +246,7 @@ function navigateTo(targetPage) {
 function updateNavbarStyle() {
   const scrollY = window.scrollY;
   const inSlider = isInsideSliderSection();
-  const activeMenu = $("#header-navbar").attr("data-active-menu");
-
-  const isTransparent = activePage === "explore" ? false : (!scrollY || inSlider) && !activeMenu;
+  const isTransparent = activePage === "explore" ? false : (!scrollY || inSlider);
   const $container = $("#navbar-container");
   const $logo = $("#nav-logo");
 
@@ -236,37 +263,28 @@ function updateNavbarStyle() {
   }
 
   const $header = $("#header-navbar");
+  const $drawer = $("#mobile-drawer");
+
   if (inSlider && activePage !== "explore") {
     $header.addClass("opacity-0 pointer-events-none -translate-y-6").removeClass("opacity-100 pointer-events-auto translate-y-0");
+    if ($drawer.length) {
+      $drawer.attr("data-open", "false").addClass("pointer-events-none opacity-0 -translate-y-5").removeClass("opacity-100 translate-y-0");
+    }
   } else {
     $header.removeClass("opacity-0 pointer-events-none -translate-y-6").addClass("opacity-100 pointer-events-auto translate-y-0");
   }
 }
 
 function isInsideSliderSection() {
-  const sliderEl = document.querySelector("[data-slider-section]");
-  if (!sliderEl) return false;
-  const rect = sliderEl.getBoundingClientRect();
-  return rect.top <= window.innerHeight * 0.6 && rect.bottom >= window.innerHeight * 0.2;
+  const sectionEl = document.querySelector("#chargetype-section") || document.querySelector("[data-slider-section]");
+  if (!sectionEl) return false;
+  const rect = sectionEl.getBoundingClientRect();
+  return rect.top <= window.innerHeight * 0.5 && rect.bottom >= 60;
 }
 
 function initNavbarEvents() {
   $(window).on("scroll", () => {
     updateNavbarStyle();
-  });
-
-  // MegaMenu hover
-  $("#nav-menu > div").on("mouseenter", function () {
-    const menuTitle = $(this).attr("data-menu");
-    if (menuTitle === "Home" || menuTitle === "Charging") {
-      closeMegaMenu();
-      return;
-    }
-    openMegaMenu(menuTitle);
-  });
-
-  $("#header-navbar").on("mouseleave", function () {
-    closeMegaMenu();
   });
 
   // Mobile Drawer toggle
@@ -287,66 +305,6 @@ function initNavbarEvents() {
       navigateTo(page);
     }
   });
-}
-
-function openMegaMenu(menuId) {
-  const item = menuData.find((m) => m.id === menuId);
-  if (!item) return;
-
-  $("#header-navbar").attr("data-active-menu", menuId);
-  renderMegaMenu(menuId);
-  $("#megamenu-container").removeClass("hidden");
-
-  if (typeof gsap !== "undefined") {
-    gsap.to("#navbar-container", { height: 470, duration: 0.1, ease: "power2.out" });
-  } else {
-    $("#navbar-container").css("height", "470px");
-  }
-
-  updateNavbarStyle();
-}
-
-function closeMegaMenu() {
-  $("#header-navbar").removeAttr("data-active-menu");
-  $("#megamenu-container").addClass("hidden");
-
-  if (typeof gsap !== "undefined") {
-    gsap.to("#navbar-container", { height: 64, duration: 0.1, ease: "power2.out" });
-  } else {
-    $("#navbar-container").css("height", "64px");
-  }
-
-  updateNavbarStyle();
-}
-
-function renderMegaMenu(menuId) {
-  const item = menuData.find((m) => m.id === menuId);
-  if (!item) return;
-
-  const html = `
-    <div class="grid grid-cols-2 gap-10">
-      <div>
-        <img src="${item.image}" alt="${item.title}" class="h-[320px] w-full rounded-3xl object-cover transition duration-500 hover:scale-[1.03]" />
-      </div>
-      <div class="flex flex-col justify-center">
-        <h2 class="mb-3 text-4xl font-bold">${item.title}</h2>
-        <p class="mb-10 text-gray-500 leading-7">${item.subtitle}</p>
-        <div class="space-y-5">
-          ${item.links
-      .map(
-        (link) => `
-            <div class="cursor-pointer rounded-2xl p-4 transition hover:bg-gray-100">
-              <h3 class="font-semibold">${link.title}</h3>
-              <p class="text-sm text-gray-500">${link.desc}</p>
-            </div>
-          `
-      )
-      .join("")}
-        </div>
-      </div>
-    </div>
-  `;
-  $("#megamenu-container").html(html);
 }
 
 /* ==========================================
@@ -480,35 +438,61 @@ function initWorldMap() {
   const container = document.getElementById("world-map-container");
   if (!container || typeof L === "undefined") return;
 
+  if (worldMap) {
+    worldMap.invalidateSize();
+    return;
+  }
+
+  // Restrict world map bounds so it cannot be dragged into empty space
+  const worldBounds = L.latLngBounds(
+    L.latLng(-65.0, -180.0),
+    L.latLng(85.0, 180.0)
+  );
+
   worldMap = L.map(container, {
-    center: [20.0, 10.0],
+    center: [20.0, 30.0],
     zoom: 2,
+    minZoom: 2,
+    maxZoom: 6,
+    maxBounds: worldBounds,
+    maxBoundsViscosity: 1.0,
     scrollWheelZoom: false,
-    dragging: false,
-    doubleClickZoom: false,
+    dragging: true,
+    doubleClickZoom: true,
     zoomControl: false,
-    touchZoom: false,
+    touchZoom: true,
     boxZoom: false,
     keyboard: false,
     attributionControl: false,
   });
 
-  L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png").addTo(worldMap);
+  L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
+    maxZoom: 18,
+    minZoom: 2,
+    noWrap: true,
+  }).addTo(worldMap);
 
   continentMarkers.forEach((marker) => {
     const icon = L.divIcon({
-      className: "bg-transparent",
-      html: `<div class="px-3 py-1.5 rounded-xl bg-slate-900/90 backdrop-blur-md border border-emerald-400/50 text-white text-xs font-black shadow-2xl flex items-center gap-1.5 hover:scale-105 transition-transform whitespace-nowrap cursor-pointer">
-        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-        <span class="text-slate-300 font-medium">${marker.name}:</span>
-        <span class="text-emerald-400 font-black">${marker.count}</span>
+      className: "custom-continent-marker",
+      html: `<div class="continent-badge border border-emerald-400/60 bg-white/95 backdrop-blur-md px-3.5 py-2 rounded-full shadow-2xl flex items-center gap-2 text-xs text-white font-bold transition-all duration-300 hover:scale-110 hover:border-emerald-400 hover:shadow-emerald-500/30 hover:z-[9999] cursor-pointer whitespace-nowrap group">
+        <span class="relative flex h-2.5 w-2.5 shrink-0 items-center justify-center">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
+        </span>
+        <span class="text-black font-semibold tracking-wide">${marker.name}</span>
+        <span class="h-3.5 w-[1px] bg-slate-700/80 mx-0.5"></span>
+        <span class="text-emerald-400 font-extrabold bg-emerald-500/15 px-2 py-0.5 rounded-md border border-emerald-500/30 text-[11px] group-hover:bg-emerald-400 group-hover:text-slate-950 transition-colors">${marker.count}</span>
       </div>`,
-      iconSize: [110, 34],
-      iconAnchor: [55, 17],
+      iconSize: null,
     });
 
     L.marker(marker.coords, { icon }).addTo(worldMap);
   });
+
+  setTimeout(() => {
+    if (worldMap) worldMap.invalidateSize();
+  }, 300);
 }
 
 /* ==========================================
@@ -523,14 +507,27 @@ function initBaliMap() {
     return;
   }
 
+  // Restrict Bali map panning to Bali region
+  const baliBounds = L.latLngBounds(
+    L.latLng(-9.1, 114.2),
+    L.latLng(-7.9, 115.9)
+  );
+
   baliMap = L.map(container, {
     center: [-8.65, 115.2167],
     zoom: 11,
+    minZoom: 9,
+    maxZoom: 18,
+    maxBounds: baliBounds,
+    maxBoundsViscosity: 0.9,
     scrollWheelZoom: true,
   });
 
   L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    minZoom: 9,
+    maxZoom: 18,
+    noWrap: true,
   }).addTo(baliMap);
 
   if (typeof L.markerClusterGroup !== "undefined") {
@@ -745,4 +742,48 @@ function initPlugins() {
   if (typeof Fancybox !== "undefined") {
     Fancybox.bind("[data-fancybox]", {});
   }
+}
+
+/* ==========================================
+   MONUMENT SVG CAROUSEL (3-second Interval)
+   ========================================== */
+function initMonumentCarousel() {
+  const $inlineSvg = $("#monument-inline-svg");
+  if (!$inlineSvg.length) return;
+
+  const monumentsSvg = [
+    // 1. Indonesia - Monas
+    `<svg class="w-[1em] h-[1em] text-[var(--secondary)] inline-block align-middle drop-shadow-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c.8 1.5.8 2.5 0 3.5C11.5 6.5 12.5 8 12 9" stroke="#EAB308" stroke-width="2"/><path d="M10 9h4l-1 9h-2z"/><path d="M7 18h10v2H7z"/><path d="M5 20h14v2H5z"/></svg>`,
+    // 2. France - Eiffel Tower
+    `<svg class="w-[1em] h-[1em] text-[var(--secondary)] inline-block align-middle drop-shadow-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l-1.5 5h3L12 2z"/><path d="M10.5 7L7 20h2.5l1-4h3l1 4h2.5L13.5 7h-3z"/><path d="M9 13h6"/><path d="M4 22h16"/></svg>`,
+    // 3. Japan - Torii Gate & Mt. Fuji
+    `<svg class="w-[1em] h-[1em] text-[var(--secondary)] inline-block align-middle drop-shadow-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5c4-1 14-1 18 0"/><path d="M4 8h16"/><path d="M7 8v14"/><path d="M17 8v14"/><circle cx="12" cy="14" r="3" stroke="#EF4444" stroke-width="2"/></svg>`,
+    // 4. USA - Statue of Liberty
+    `<svg class="w-[1em] h-[1em] text-[var(--secondary)] inline-block align-middle drop-shadow-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3l1 2h2l-1.5 1.5.5 2-2-1-2 1 .5-2L13 5h2z" fill="currentColor"/><path d="M12 9v13"/><path d="M9 14h6"/><path d="M7 22h10"/></svg>`,
+    // 5. UK - Big Ben Tower
+    `<svg class="w-[1em] h-[1em] text-[var(--secondary)] inline-block align-middle drop-shadow-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2h4l1 3h-6z"/><path d="M9 5h6v12H9z"/><circle cx="12" cy="9" r="1.5"/><path d="M12 9v1.5h1"/><path d="M7 17h10v5H7z"/></svg>`,
+    // 6. Italy - Colosseum
+    `<svg class="w-[1em] h-[1em] text-[var(--secondary)] inline-block align-middle drop-shadow-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20V10c0-3 4-5 9-5s9 2 9 5v10"/><path d="M3 20h18"/><path d="M7 10v10"/><path d="M11 9v11"/><path d="M15 9v11"/><path d="M19 10v10"/><path d="M3 14h18"/></svg>`,
+    // 7. UAE - Burj Khalifa
+    `<svg class="w-[1em] h-[1em] text-[var(--secondary)] inline-block align-middle drop-shadow-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v3"/><path d="M11 4h2l.5 5h-3z"/><path d="M10 9h4l1 6H9z"/><path d="M8 15h8l1 7H7z"/><path d="M4 22h16"/></svg>`
+  ];
+
+  let currentIndex = 0;
+
+  // Initial render
+  $inlineSvg.html(monumentsSvg[0]);
+
+  // 3-second Interval Carousel
+  setInterval(() => {
+    // Fade out & scale down
+    $inlineSvg.addClass("opacity-0 scale-75");
+
+    setTimeout(() => {
+      currentIndex = (currentIndex + 1) % monumentsSvg.length;
+      $inlineSvg.html(monumentsSvg[currentIndex]);
+
+      // Fade in & scale back to normal
+      $inlineSvg.removeClass("opacity-0 scale-75");
+    }, 250);
+  }, 3000);
 }
