@@ -365,8 +365,10 @@ function detectUserLocation(autoFindNearest = true, callback = null) {
   }
 
   const handleFallback = (msg) => {
-    console.warn("Geolocation fallback to central Bali:", msg);
-    userLocation = [-8.6705, 115.2126];
+    console.warn("Geolocation fallback:", msg);
+    if (!userLocation) {
+      userLocation = [-8.6705, 115.2126];
+    }
     renderUserMarker(userLocation);
     updateStationDistances(userLocation[0], userLocation[1]);
 
@@ -392,15 +394,15 @@ function detectUserLocation(autoFindNearest = true, callback = null) {
       const lng = position.coords.longitude;
 
       if (lat && lng && !isNaN(lat) && !isNaN(lng)) {
-        if (isCoordinatesInBali(lat, lng)) {
-          userLocation = [lat, lng];
-        } else {
-          // User testing outside Bali (e.g. Java/Jakarta/abroad) -> simulate in Denpasar/Sanur Bali center
-          userLocation = [-8.6705, 115.2126];
-        }
+        // Always take real browser location
+        userLocation = [lat, lng];
 
         renderUserMarker(userLocation);
         updateStationDistances(userLocation[0], userLocation[1]);
+
+        if (baliMap) {
+          baliMap.flyTo(userLocation, 14, { duration: 0.8 });
+        }
 
         if ($btn.length) {
           $btn.html(`<i class="fa-solid fa-location-crosshairs text-sm text-emerald-600"></i><span>Lokasi Ditemukan • Charger Terdekat</span>`);
