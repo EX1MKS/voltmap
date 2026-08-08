@@ -456,11 +456,31 @@ body {
   animation: wipeOut 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.08s forwards;
 }
 
-/* Leaflet Continent Custom Markers */
+/* Leaflet Custom Markers */
 .leaflet-div-icon.custom-continent-marker {
   background: transparent !important;
   border: none !important;
   width: auto !important;
   height: auto !important;
   transform: translate(-50%, -50%);
+}
+
+.leaflet-div-icon.user-location-marker {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Vibrant CartoDB Voyager Map Tiles */
+.vibrant-map-tiles img,
+.vibrant-map-tiles .leaflet-tile,
+#bali-map-container .leaflet-tile-pane img,
+#world-map-container .leaflet-tile-pane img {
+  filter: saturate(2.5) contrast(1) brightness(0.98) !important;
+}
+
+/* Scoped Leaflet Controls Z-Index */
+#bali-map-container .leaflet-top,
+#bali-map-container .leaflet-bottom {
+  z-index: 15 !important;
 }

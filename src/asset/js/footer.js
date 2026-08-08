@@ -50,27 +50,27 @@ export function renderFooter(targetElementOrSelector = "#footer-app", options = 
           <ul class="space-y-2">
             <li><a href="${isHome ? 'exploremap.html' : '#'}" class="hover:text-white transition">Station Finder</a></li>
             <li><a href="#" class="hover:text-white transition">Charging Rates</a></li>
-            <li><a href="#" class="hover:text-white transition">Voltmap Card</a></li>
-            <li><a href="#" class="hover:text-white transition">Mobile App</a></li>
+            <li><a href="#" class="hover:text-white transition">Nearby Chargers</a></li>
+            <li><a href="#" class="hover:text-white transition">EV Compatibility</a></li>
           </ul>
         </div>
 
         <div class="space-y-3">
           <h4 class="text-xs font-bold text-white uppercase tracking-wider">For Business</h4>
           <ul class="space-y-2">
-            <li><a href="#" class="hover:text-white transition">Host a Charger</a></li>
+            <li><a href="#" class="hover:text-white transition">Install a Charger</a></li>
+            <li><a href="#" class="hover:text-white transition">Share Your Charger</a></li>
             <li><a href="#" class="hover:text-white transition">Fleet Charging</a></li>
-            <li><a href="#" class="hover:text-white transition">Partner Portal</a></li>
-            <li><a href="#" class="hover:text-white transition">Retail Locations</a></li>
+            <li><a href="#" class="hover:text-white transition">Partner With Us</a></li>
           </ul>
         </div>
 
         <div class="space-y-3">
           <h4 class="text-xs font-bold text-white uppercase tracking-wider">Company</h4>
           <ul class="space-y-2">
-            <li><a href="${isHome ? '#stats-section' : 'index.html#stats-section'}" class="hover:text-white transition">About Us</a></li>
-            <li><a href="#" class="hover:text-white transition">Stories &amp; News</a></li>
-            <li><a href="#" class="hover:text-white transition">Investor Relations</a></li>
+            <li><a href="${isHome ? '#stats-section' : 'index.html#stats-section'}" class="hover:text-white transition">About VoltMap</a></li>
+            <li><a href="#" class="hover:text-white transition">Stories</a></li>
+            <li><a href="#" class="hover:text-white transition">Our Mission</a></li>
             <li><a href="#" class="hover:text-white transition">Careers</a></li>
           </ul>
         </div>
@@ -106,14 +106,14 @@ export function renderFooter(targetElementOrSelector = "#footer-app", options = 
             </a>
           </div>
           <div class="text-xs text-gray-500 pt-2">
-            Powered by 100% renewable wind &amp; solar energy.
+            Find power. Go further.
           </div>
         </div>
       </div>
 
       <div
         class="pt-8 border-t border-gray-800/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gray-500">
-        <div>© 2026 Voltmap B.V. All rights reserved.</div>
+        <div>© 2026 VoltMap. All rights reserved.</div>
         <div class="flex items-center gap-6">
           <a href="#" class="hover:text-gray-400 transition">Privacy Policy</a>
           <a href="#" class="hover:text-gray-400 transition">Terms of Service</a>

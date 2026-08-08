@@ -27,7 +27,7 @@ export function renderNavbar(targetElementOrSelector = "#navbar-app", options = 
   const navbarHtml = `
   <!-- FIXED HEADER & NAVBAR COMPONENT -->
   <header id="header-navbar"
-    class="fixed top-4 left-0 z-50 w-full px-4 sm:px-8 transition-all duration-500 ease-in-out opacity-100 pointer-events-auto translate-y-0"
+    class="fixed top-4 left-0 z-[9999] w-full px-4 sm:px-8 transition-all duration-500 ease-in-out opacity-100 pointer-events-auto translate-y-0"
     data-active-page="${activePage}">
     <div id="navbar-container"
       class="mx-auto max-w-full h-[64px] overflow-hidden rounded-[24px] transition-all duration-500 bg-transparent border border-transparent shadow-none">

@@ -35,7 +35,7 @@
     <link rel="stylesheet" href="../asset/css/output.css" />
 </head>
 
-<body class="min-h-screen bg-white text-white flex flex-col font-sans overflow-x-hidden">
+<body class="min-h-screen bg-slate-50 text-slate-800 flex flex-col font-sans overflow-x-hidden">
 
     <!-- ==========================================
        1. FIXED HEADER & NAVBAR COMPONENT (JS)
@@ -50,66 +50,29 @@
         <!-- ==========================================
          VIEW: EXPLORE MAP PAGE (#explore-view)
          ========================================== -->
-        <div id="explore-view" class="min-h-screen bg-slate-900 text-white flex flex-col">
-            <div class="max-w-7xl mx-auto w-full mb-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
-                <div>
-                    <div class="flex items-center gap-3">
-                        <a href="index.html"
-                            class="w-10 h-10 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-gray-300 hover:text-white hover:bg-slate-700 transition"
-                            title="Kembali ke Beranda">
-                            <i class="fa-solid fa-arrow-left"></i>
-                        </a>
-                        <div>
-                            <div class="flex items-center gap-2">
-                                <span
-                                    class="px-3 py-0.5 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
-                                    LIVE BALI NETWORK
-                                </span>
-                                <span class="text-xs text-slate-400">1,500+ Active Stations</span>
-                            </div>
-                            <h1 class="text-2xl sm:text-3xl font-black text-white mt-1">
-                                Peta Jelajah Stasiun EV Bali
-                            </h1>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="flex items-center gap-3 flex-wrap">
-                    <div
-                        class="bg-slate-800/90 border border-slate-700/80 rounded-2xl px-4 py-2 flex items-center gap-3">
-                        <div
-                            class="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-xs">
-                            ⚡</div>
-                        <div>
-                            <p class="text-[10px] text-slate-400 font-medium">Stasiun Tersedia</p>
-                            <p class="text-sm font-black text-emerald-400">1,240 Stasiun</p>
-                        </div>
-                    </div>
-
-                    <div
-                        class="bg-slate-800/90 border border-slate-700/80 rounded-2xl px-4 py-2 flex items-center gap-3">
-                        <div
-                            class="w-8 h-8 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center font-bold text-xs">
-                            📍</div>
-                        <div>
-                            <p class="text-[10px] text-slate-400 font-medium">SPKLU Publik</p>
-                            <p class="text-sm font-black text-blue-400">500 Lokasi</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div id="explore-view" class="min-h-screen bg-white text-slate-800 flex flex-col">
 
             <!-- Main Map Grid -->
-            <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-6 flex-1">
+            <div class="max-w-[1700px] mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-6 flex-1">
                 <!-- Sidebar -->
                 <div
-                    class="lg:col-span-5 flex flex-col gap-4 h-[650px] lg:h-[750px] bg-slate-800/80 backdrop-blur-md rounded-3xl p-5 border border-slate-700/80 shadow-2xl">
-                    <div class="relative">
-                        <i
-                            class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
-                        <input id="bali-search-input" type="text"
-                            placeholder="Cari lokasi, nama SPKLU, atau tipe konektor..."
-                            class="w-full bg-slate-900 border border-slate-700 rounded-2xl py-3 pl-11 pr-11 text-sm font-medium text-white placeholder-slate-500 focus:outline-none focus:border-[var(--secondary)] transition shadow-inner" />
+                    class="lg:col-span-4 xl:col-span-4 flex flex-col gap-4 h-[700px] lg:h-[800px] xl:h-[850px] bg-white/90 backdrop-blur-md rounded-3xl p-5 border border-slate-200/80 shadow-xl shadow-slate-200/50">
+                    <div class="space-y-3">
+                        <div class="relative">
+                            <i
+                                class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+                            <input id="bali-search-input" type="text"
+                                placeholder="Cari lokasi, nama SPKLU, atau tipe konektor..."
+                                class="w-full bg-slate-100/80 border border-slate-200/90 rounded-2xl py-3 pl-11 pr-11 text-sm font-semibold text-slate-800 placeholder-slate-400 focus:outline-none focus:border-[var(--secondary)] focus:bg-white focus:ring-2 focus:ring-emerald-500/20 transition shadow-inner" />
+                        </div>
+
+                        <!-- Location & Nearby Button -->
+                        <button id="btn-detect-location"
+                            class="w-full py-2.5 px-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-800 hover:bg-[var(--secondary)] hover:text-white text-xs font-extrabold transition-all flex items-center justify-center gap-2 shadow-sm group cursor-pointer">
+                            <i
+                                class="fa-solid fa-location-crosshairs text-sm text-[var(--secondary)] group-hover:text-white transition-colors"></i>
+                            <span>Gunakan Lokasi Saya • Cari Charger Terdekat</span>
+                        </button>
                     </div>
 
                     <div class="flex items-center justify-between gap-2 overflow-x-auto pb-1 no-scrollbar">
@@ -117,13 +80,13 @@
                             <button data-bali-filter="Semua"
                                 class="px-3.5 py-1.5 rounded-full text-xs font-bold transition whitespace-nowrap bg-[var(--secondary)] text-white shadow-md shadow-emerald-500/20">Semua</button>
                             <button data-bali-filter="Public Station"
-                                class="px-3.5 py-1.5 rounded-full text-xs font-bold transition whitespace-nowrap bg-slate-900 text-slate-400 hover:text-white">Public
+                                class="px-3.5 py-1.5 rounded-full text-xs font-bold transition whitespace-nowrap bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-900 border border-slate-200/60">Public
                                 Station</button>
                             <button data-bali-filter="Shared Home Charger"
-                                class="px-3.5 py-1.5 rounded-full text-xs font-bold transition whitespace-nowrap bg-slate-900 text-slate-400 hover:text-white">Shared
+                                class="px-3.5 py-1.5 rounded-full text-xs font-bold transition whitespace-nowrap bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-900 border border-slate-200/60">Shared
                                 Home Charger</button>
                         </div>
-                        <span id="bali-filtered-count" class="text-xs text-slate-400 font-medium shrink-0">1500
+                        <span id="bali-filtered-count" class="text-xs text-slate-500 font-semibold shrink-0">1500
                             hasil</span>
                     </div>
 
@@ -132,16 +95,58 @@
 
                 <!-- Leaflet Map Container -->
                 <div
-                    class="lg:col-span-7 relative h-[650px] lg:h-[750px] rounded-3xl overflow-hidden shadow-2xl border border-slate-700/80 bg-slate-950">
+                    class="lg:col-span-8 xl:col-span-8 relative z-10 isolate h-[700px] lg:h-[800px] xl:h-[850px] rounded-3xl overflow-hidden shadow-xl shadow-slate-200/50 border border-slate-200/80 bg-slate-100">
                     <div id="bali-map-container" class="w-full h-full"></div>
+
+                    <!-- Floating Route Info Overlay Card -->
+                    <div id="route-info-card"
+                        class="hidden absolute top-4 left-4 right-4 sm:left-auto sm:right-4 z-30 max-w-sm w-full bg-white/95 backdrop-blur-md border border-slate-200/90 rounded-2xl p-4 shadow-2xl transition-all duration-300">
+                        <div class="flex items-start justify-between gap-3 mb-2.5">
+                            <div class="flex items-center gap-2.5">
+                                <div
+                                    class="w-9 h-9 rounded-xl bg-sky-500/10 text-sky-600 flex items-center justify-center font-extrabold text-sm border border-sky-500/20 shrink-0">
+                                    <i class="fa-solid fa-route"></i>
+                                </div>
+                                <div>
+                                    <p class="text-[10px] uppercase tracking-wider font-extrabold text-sky-600">Rute Terdekat Navigasi</p>
+                                    <h4 id="route-target-name" class="text-xs font-extrabold text-slate-900 leading-tight">Nama Stasiun</h4>
+                                </div>
+                            </div>
+                            <button id="btn-close-route" title="Tutup Rute"
+                                class="w-7 h-7 rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200 flex items-center justify-center text-xs transition cursor-pointer">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                        </div>
+                        <div
+                            class="flex items-center justify-between text-xs py-2 px-3 bg-slate-50 rounded-xl mb-3 border border-slate-100 font-semibold text-slate-700">
+                            <div class="flex items-center gap-1.5">
+                                <i class="fa-solid fa-location-arrow text-emerald-600"></i>
+                                <span id="route-distance">0.0 km</span>
+                            </div>
+                            <div class="flex items-center gap-1.5">
+                                <i class="fa-solid fa-clock text-amber-600"></i>
+                                <span id="route-duration">0 mnt</span>
+                            </div>
+                            <div class="flex items-center gap-1.5">
+                                <i class="fa-solid fa-car text-blue-600"></i>
+                                <span>Mobil / EV</span>
+                            </div>
+                        </div>
+                        <a id="route-google-maps-btn" href="#" target="_blank" rel="noopener"
+                            class="w-full py-2.5 px-3 rounded-xl bg-[var(--secondary)] hover:bg-[var(--secondary-hover)] text-white text-xs font-extrabold flex items-center justify-center gap-2 shadow-md transition">
+                            <i class="fa-solid fa-diamond-turn-right"></i>
+                            <span>Buka Navigasi Google Maps</span>
+                        </a>
+                    </div>
+
                     <div
-                        class="absolute bottom-4 left-4 right-4 z-[400] bg-slate-900/90 backdrop-blur-md border border-slate-700/80 rounded-2xl p-3 px-5 flex items-center justify-between shadow-xl">
+                        class="absolute bottom-4 left-4 right-4 z-20 bg-white/90 backdrop-blur-md border border-slate-200/80 rounded-2xl p-3 px-5 flex items-center justify-between shadow-lg shadow-slate-200/50">
                         <div class="flex items-center gap-2">
-                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
-                            <span id="bali-visible-count" class="text-xs font-bold text-slate-200">Menampilkan stasiun
+                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></span>
+                            <span id="bali-visible-count" class="text-xs font-bold text-slate-800">Menampilkan stasiun
                                 di Bali</span>
                         </div>
-                        <span class="hidden sm:inline text-xs text-slate-400">Navigasi Peta Aktif</span>
+                        <span class="hidden sm:inline text-xs font-medium text-slate-500">Navigasi Peta Aktif</span>
                     </div>
                 </div>
             </div>

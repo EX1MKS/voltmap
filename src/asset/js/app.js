@@ -23,8 +23,14 @@ const heroImages = [
 let worldMap = null;
 let baliMap = null;
 let baliClusterGroup = null;
+let baliMarkersMap = {};
 let allStations = [];
 let selectedStationId = null;
+
+// User Location & Route State
+let userLocation = null;
+let userMarker = null;
+let currentRouteLine = null;
 
 // P2P Calculator State
 let p2pHours = 5;
@@ -467,9 +473,11 @@ function initWorldMap() {
   });
 
   L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
     maxZoom: 18,
     minZoom: 2,
     noWrap: true,
+    className: "vibrant-map-tiles",
   }).addTo(worldMap);
 
   continentMarkers.forEach((marker) => {
@@ -507,27 +515,20 @@ function initBaliMap() {
     return;
   }
 
-  // Restrict Bali map panning to Bali region
-  const baliBounds = L.latLngBounds(
-    L.latLng(-9.1, 114.2),
-    L.latLng(-7.9, 115.9)
-  );
-
   baliMap = L.map(container, {
     center: [-8.65, 115.2167],
     zoom: 11,
-    minZoom: 9,
+    minZoom: 8,
     maxZoom: 18,
-    maxBounds: baliBounds,
-    maxBoundsViscosity: 0.9,
-    scrollWheelZoom: true,
+    scrollWheelZoom: false,
   });
 
   L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
     minZoom: 9,
     maxZoom: 18,
     noWrap: true,
+    className: "vibrant-map-tiles",
   }).addTo(baliMap);
 
   if (typeof L.markerClusterGroup !== "undefined") {
@@ -535,8 +536,259 @@ function initBaliMap() {
     baliMap.addLayer(baliClusterGroup);
   }
 
+  initBaliCtrlScrollZoom(container, baliMap);
   renderBaliStations();
   initBaliSearchAndFilter();
+}
+
+function initBaliCtrlScrollZoom(container, map) {
+  let $ctrlTip = $("#bali-map-ctrl-tip");
+  if (!$ctrlTip.length) {
+    $(container).append(`
+      <div id="bali-map-ctrl-tip" class="absolute inset-0 z-[30] bg-slate-950/40 backdrop-blur-[2px] flex items-center justify-center pointer-events-none opacity-0 transition-opacity duration-300">
+        <div class="bg-slate-900/90 text-white px-5 py-3 rounded-2xl shadow-2xl border border-white/20 font-bold text-xs sm:text-sm flex items-center gap-2.5">
+          <i class="fa-solid fa-keyboard text-[var(--secondary)] text-base"></i>
+          <span>Gunakan <kbd class="px-2 py-0.5 bg-white/20 rounded border border-white/30 text-white font-mono text-xs">Ctrl</kbd> + scroll untuk memperbesar peta</span>
+        </div>
+      </div>
+    `);
+    $ctrlTip = $("#bali-map-ctrl-tip");
+  }
+
+  let ctrlTipTimeout = null;
+
+  container.addEventListener("wheel", (e) => {
+    if (e.ctrlKey || e.metaKey) {
+      e.preventDefault();
+      $ctrlTip.addClass("opacity-0");
+
+      const delta = e.deltaY < 0 ? 1 : -1;
+      const currentZoom = map.getZoom();
+      const newZoom = Math.min(Math.max(currentZoom + delta, map.getMinZoom()), map.getMaxZoom());
+
+      const mousePos = map.mouseEventToLatLng(e);
+      map.setZoomAround(mousePos, newZoom, { animate: true });
+    } else {
+      $ctrlTip.removeClass("opacity-0");
+      clearTimeout(ctrlTipTimeout);
+      ctrlTipTimeout = setTimeout(() => {
+        $ctrlTip.addClass("opacity-0");
+      }, 1400);
+    }
+  }, { passive: false });
+}
+
+/* ==========================================
+   GEOLOCATION & ROUTE NAVIGATION SYSTEM
+   ========================================== */
+function calculateDistanceKm(lat1, lon1, lat2, lon2) {
+  const R = 6371; // Earth radius in km
+  const dLat = (lat2 - lat1) * (Math.PI / 180);
+  const dLon = (lon2 - lon1) * (Math.PI / 180);
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(lat1 * (Math.PI / 180)) *
+      Math.cos(lat2 * (Math.PI / 180)) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
+}
+
+function isCoordinatesInBali(lat, lng) {
+  return lat >= -9.1 && lat <= -7.9 && lng >= 114.2 && lng <= 115.9;
+}
+
+function detectUserLocation(autoFindNearest = true) {
+  const $btn = $("#btn-detect-location");
+  if ($btn.length) {
+    $btn.html(`<i class="fa-solid fa-spinner fa-spin text-sm text-[var(--secondary)]"></i><span>Mendeteksi Lokasi Presisi...</span>`);
+  }
+
+  const handleFallback = (msg) => {
+    console.warn("Geolocation fallback to central Bali:", msg);
+    userLocation = [-8.6705, 115.2126];
+    renderUserMarker(userLocation);
+    updateStationDistances(userLocation[0], userLocation[1]);
+
+    if ($btn.length) {
+      $btn.html(`<i class="fa-solid fa-location-crosshairs text-sm text-emerald-600"></i><span>Lokasi Bali • Charger Terdekat</span>`);
+    }
+
+    if (autoFindNearest) {
+      findAndRouteToNearestStation();
+    }
+  };
+
+  if (!navigator.geolocation) {
+    handleFallback("Geolocation tidak didukung oleh browser.");
+    return;
+  }
+
+  navigator.geolocation.getCurrentPosition(
+    (position) => {
+      const lat = position.coords.latitude;
+      const lng = position.coords.longitude;
+
+      if (lat && lng && !isNaN(lat) && !isNaN(lng)) {
+        if (isCoordinatesInBali(lat, lng)) {
+          userLocation = [lat, lng];
+        } else {
+          // User testing outside Bali (e.g. Java/Jakarta/abroad) -> simulate in Denpasar/Sanur Bali center
+          userLocation = [-8.6705, 115.2126];
+        }
+
+        renderUserMarker(userLocation);
+        updateStationDistances(userLocation[0], userLocation[1]);
+
+        if ($btn.length) {
+          $btn.html(`<i class="fa-solid fa-location-crosshairs text-sm text-emerald-600"></i><span>Lokasi Ditemukan • Charger Terdekat</span>`);
+        }
+
+        if (autoFindNearest) {
+          findAndRouteToNearestStation();
+        }
+      } else {
+        handleFallback("Koordinat GPS tidak valid.");
+      }
+    },
+    (error) => {
+      handleFallback(error ? error.message : "Izin lokasi ditolak.");
+    },
+    { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+  );
+}
+
+function renderUserMarker(coords) {
+  if (!baliMap || !coords || !coords[0] || !coords[1]) return;
+
+  const userIcon = L.divIcon({
+    className: "user-location-marker",
+    html: `
+      <div style="position: relative; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; pointer-events: none;">
+        <span class="animate-ping" style="position: absolute; width: 36px; height: 36px; border-radius: 9999px; background-color: #38bdf8; opacity: 0.75;"></span>
+        <div style="position: relative; width: 28px; height: 28px; border-radius: 9999px; background-color: #0284c7; border: 2.5px solid #ffffff; box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.4); display: flex; align-items: center; justify-content: center; color: white; font-size: 13px; z-index: 9999;">
+          <i class="fa-solid fa-user"></i>
+        </div>
+      </div>
+    `,
+    iconSize: [36, 36],
+    iconAnchor: [18, 18],
+    popupAnchor: [0, -18],
+  });
+
+  if (userMarker) {
+    userMarker.setLatLng(coords);
+    userMarker.setIcon(userIcon);
+  } else {
+    userMarker = L.marker(coords, { icon: userIcon, zIndexOffset: 3000 })
+      .bindPopup(`<div class="p-1 text-xs font-extrabold text-slate-800"><i class="fa-solid fa-location-dot text-sky-500 mr-1"></i> Lokasi Anda Saat Ini</div>`)
+      .addTo(baliMap);
+  }
+
+  if (baliMap) {
+    setTimeout(() => {
+      baliMap.invalidateSize();
+    }, 150);
+  }
+}
+
+function updateStationDistances(userLat, userLng) {
+  allStations.forEach((st) => {
+    const dist = calculateDistanceKm(userLat, userLng, st.coordinates[0], st.coordinates[1]);
+    st.numericDistance = dist;
+    st.distance = dist < 1 ? `${Math.round(dist * 1000)} m` : `${dist.toFixed(1)} km`;
+  });
+
+  // Sort stations by distance ascending (closest first)
+  allStations.sort((a, b) => (a.numericDistance || 0) - (b.numericDistance || 0));
+
+  const currentFilter = $("[data-bali-filter].bg-\\[var\\(--secondary\\)\\]").attr("data-bali-filter") || "Semua";
+  const currentQuery = $("#bali-search-input").val() || "";
+  renderBaliStations(currentFilter, currentQuery);
+}
+
+function findAndRouteToNearestStation() {
+  if (!allStations.length) return;
+  const nearest = allStations[0];
+  drawRouteToStation(nearest);
+}
+
+function drawRouteToStation(station) {
+  if (!baliMap || !station) return;
+  const origin = userLocation || [-8.6705, 115.2126];
+  const dest = station.coordinates;
+
+  if (currentRouteLine) {
+    baliMap.removeLayer(currentRouteLine);
+    currentRouteLine = null;
+  }
+
+  const dist = calculateDistanceKm(origin[0], origin[1], dest[0], dest[1]);
+  const estMinutes = Math.max(2, Math.round((dist / 30) * 60));
+
+  const osrmUrl = `https://router.project-osrm.org/route/v1/driving/${origin[1]},${origin[0]};${dest[1]},${dest[0]}?overview=full&geometries=geojson`;
+
+  fetch(osrmUrl)
+    .then((res) => res.json())
+    .then((data) => {
+      if (data && data.routes && data.routes[0]) {
+        const routeGeo = data.routes[0].geometry;
+        const realDistKm = (data.routes[0].distance / 1000).toFixed(1);
+        const realDurationMins = Math.round(data.routes[0].duration / 60);
+
+        currentRouteLine = L.geoJSON(routeGeo, {
+          style: {
+            color: "#0EA5E9",
+            weight: 6,
+            opacity: 0.85,
+            lineCap: "round",
+            lineJoin: "round",
+          },
+        }).addTo(baliMap);
+
+        showRouteCard(station, `${realDistKm} km`, `${realDurationMins} mnt`, origin, dest);
+      } else {
+        fallbackPolyline(origin, dest, station, dist, estMinutes);
+      }
+    })
+    .catch(() => {
+      fallbackPolyline(origin, dest, station, dist, estMinutes);
+    });
+
+  const bounds = L.latLngBounds([origin, dest]);
+  baliMap.fitBounds(bounds, { padding: [60, 60], maxZoom: 15 });
+
+  const marker = baliMarkersMap[station.id];
+  if (marker && baliClusterGroup && typeof baliClusterGroup.zoomToShowLayer === "function") {
+    baliClusterGroup.zoomToShowLayer(marker, () => {
+      marker.openPopup();
+      if (baliMap) baliMap.invalidateSize();
+    });
+  }
+}
+
+function fallbackPolyline(origin, dest, station, dist, estMinutes) {
+  currentRouteLine = L.polyline([origin, dest], {
+    color: "#0EA5E9",
+    weight: 5,
+    opacity: 0.85,
+    dashArray: "10, 10",
+  }).addTo(baliMap);
+
+  const distFormatted = dist < 1 ? `${Math.round(dist * 1000)} m` : `${dist.toFixed(1)} km`;
+  showRouteCard(station, distFormatted, `${estMinutes} mnt`, origin, dest);
+}
+
+function showRouteCard(station, distStr, durationStr, origin, dest) {
+  $("#route-target-name").text(station.name);
+  $("#route-distance").text(distStr);
+  $("#route-duration").text(durationStr);
+
+  const gmapsUrl = `https://www.google.com/maps/dir/?api=1&origin=${origin[0]},${origin[1]}&destination=${dest[0]},${dest[1]}&travelmode=driving`;
+  $("#route-google-maps-btn").attr("href", gmapsUrl);
+
+  $("#route-info-card").removeClass("hidden");
 }
 
 function renderBaliStations(filterType = "Semua", searchQuery = "") {
@@ -559,49 +811,56 @@ function renderBaliStations(filterType = "Semua", searchQuery = "") {
   const listHtml = filtered.length
     ? filtered
       .map(
-        (st) => `
+        (st, idx) => `
       <div
         data-station-id="${st.id}"
-        class="p-4 rounded-2xl bg-slate-900/90 border transition-all cursor-pointer station-card-item ${selectedStationId === st.id
-            ? "border-[var(--secondary)] shadow-lg shadow-emerald-500/10 ring-1 ring-[var(--secondary)]"
-            : "border-slate-700/60 hover:border-slate-500"
+        class="p-4 rounded-2xl bg-white border transition-all cursor-pointer station-card-item shadow-sm hover:shadow-md ${selectedStationId === st.id
+            ? "border-[var(--secondary)] shadow-md shadow-emerald-500/10 ring-2 ring-[var(--secondary)] bg-emerald-50/30"
+            : "border-slate-200/80 hover:border-slate-300 hover:bg-slate-50/60"
           }"
       >
         <div class="flex items-start justify-between gap-2">
           <div>
-            <h3 class="font-extrabold text-sm text-white flex items-center gap-2">
-              ${st.name}
-              <span
-                class="w-2 h-2 rounded-full ${st.status === "Available"
-            ? "bg-emerald-400 shadow-sm shadow-emerald-400"
-            : st.status === "Busy"
-              ? "bg-amber-400"
-              : st.status === "Maintenance"
-                ? "bg-blue-400"
-                : "bg-gray-500"
-          }"
-                title="${st.status}"
-              ></span>
-            </h3>
-            <p class="text-xs text-slate-400 mt-1">
-              ${st.location} • <span class="text-emerald-400">${st.distance}</span>
+            <div class="flex items-center gap-2 flex-wrap">
+              <h3 class="font-extrabold text-sm text-slate-900 flex items-center gap-2">
+                ${st.name}
+                <span
+                  class="w-2 h-2 rounded-full ${st.status === "Available"
+              ? "bg-emerald-500 shadow-sm shadow-emerald-500"
+              : st.status === "Busy"
+                ? "bg-amber-500"
+                : st.status === "Maintenance"
+                  ? "bg-blue-500"
+                  : "bg-slate-400"
+            }"
+                  title="${st.status}"
+                ></span>
+              </h3>
+              ${
+                userLocation && idx === 0
+                  ? `<span class="px-2 py-0.5 rounded-full text-[10px] font-black bg-emerald-500 text-white shadow-xs">🏆 TERDEKAT</span>`
+                  : ""
+              }
+            </div>
+            <p class="text-xs text-slate-500 mt-1">
+              ${st.location} • <span class="text-emerald-600 font-bold">${st.distance}</span>
             </p>
           </div>
           <div class="flex flex-col items-end gap-1 shrink-0">
-            <div class="flex items-center gap-1 text-xs font-bold text-amber-400 bg-amber-400/10 px-2 py-0.5 rounded-md">
+            <div class="flex items-center gap-1 text-xs font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200/60">
               <i class="fa-solid fa-star text-[10px]"></i>
               <span>${st.rating}</span>
             </div>
-            <span class="text-[10px] font-bold text-slate-400">${st.price}</span>
+            <span class="text-[10px] font-bold text-slate-500">${st.price}</span>
           </div>
         </div>
-        <div class="mt-3 flex items-center justify-between pt-2.5 border-t border-slate-800 text-xs font-medium">
-          <span class="inline-flex items-center gap-1 text-emerald-400 font-bold bg-emerald-500/10 px-2.5 py-0.5 rounded-full text-[11px]">
-            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+        <div class="mt-3 flex items-center justify-between pt-2.5 border-t border-slate-100 text-xs font-medium">
+          <span class="inline-flex items-center gap-1 text-emerald-700 font-bold bg-emerald-50 px-2.5 py-0.5 rounded-full text-[11px] border border-emerald-200/60">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
             ${st.available}
           </span>
           <div class="flex items-center gap-2">
-            <span class="text-slate-300 font-bold bg-slate-800 px-2 py-0.5 rounded text-[10px]">
+            <span class="text-slate-600 font-bold bg-slate-100 border border-slate-200 px-2 py-0.5 rounded text-[10px]">
               ${st.connector}
             </span>
             <span class="text-[var(--secondary)] font-extrabold bg-[var(--secondary)]/10 border border-[var(--secondary)]/30 px-2 py-0.5 rounded text-[10px]">
@@ -614,9 +873,9 @@ function renderBaliStations(filterType = "Semua", searchQuery = "") {
       )
       .join("")
     : `
-      <div class="text-center py-12 text-slate-400">
-        <i class="fa-solid fa-location-dot text-3xl mb-2 opacity-50"></i>
-        <p class="text-sm">Stasiun tidak ditemukan.</p>
+      <div class="text-center py-12 text-slate-500">
+        <i class="fa-solid fa-location-dot text-3xl mb-2 opacity-40 text-slate-400"></i>
+        <p class="text-sm font-semibold">Stasiun tidak ditemukan.</p>
       </div>
     `;
 
@@ -625,25 +884,35 @@ function renderBaliStations(filterType = "Semua", searchQuery = "") {
   $("#bali-visible-count").text(`Menampilkan ${filtered.length} stasiun di Bali`);
 
   // Render Map Markers
+  baliMarkersMap = {};
   if (baliClusterGroup) {
     baliClusterGroup.clearLayers();
 
     filtered.forEach((st) => {
       const icon = L.divIcon({
         className: "bg-transparent",
-        html: `<div class="w-8 h-8 rounded-full text-white flex items-center justify-center shadow-lg border-2 border-white ${st.type === "Public Station" ? "bg-[var(--secondary)]" : "bg-amber-500"
-          }">${boltSvg}</div>`,
-        iconSize: [32, 32],
-        iconAnchor: [16, 16],
-        popupAnchor: [0, -16],
+        html: `
+          <div class="relative group cursor-pointer">
+            <div class="w-9 h-9 rounded-full bg-white border-2 ${
+              st.type === "Public Station" ? "border-[var(--secondary)]" : "border-amber-500"
+            } shadow-xl flex items-center justify-center p-1.5 transition-transform duration-300 group-hover:scale-110">
+              <img src="../asset/img/logo.png" alt="Voltmap Station" class="w-full h-full object-contain" />
+            </div>
+            <div class="w-2.5 h-2.5 bg-slate-900 rotate-45 mx-auto -mt-1 rounded-xs border-r border-b border-white/50"></div>
+          </div>
+        `,
+        iconSize: [36, 42],
+        iconAnchor: [18, 40],
+        popupAnchor: [0, -40],
       });
 
       const popupHtml = `
-        <div class="p-1 min-w-[170px]">
+        <div class="p-1 min-w-[180px]">
           <div class="flex items-center justify-between gap-2 mb-1">
-            <h4 class="font-extrabold text-sm">${st.name}</h4>
-            <span class="w-2 h-2 rounded-full shrink-0 ${st.status === "Available" ? "bg-emerald-500" : st.status === "Busy" ? "bg-amber-500" : "bg-gray-400"
-        }" title="${st.status}"></span>
+            <h4 class="font-extrabold text-sm text-slate-900">${st.name}</h4>
+            <span class="w-2 h-2 rounded-full shrink-0 ${
+              st.status === "Available" ? "bg-emerald-500" : st.status === "Busy" ? "bg-amber-500" : "bg-gray-400"
+            }" title="${st.status}"></span>
           </div>
           <p class="text-xs text-gray-600 mb-2">${st.location} • ${st.distance}</p>
           <div class="flex items-center gap-1.5 mb-2 flex-wrap">
@@ -651,15 +920,20 @@ function renderBaliStations(filterType = "Semua", searchQuery = "") {
             <span class="text-xs font-bold text-[var(--secondary)] bg-emerald-50 px-2 py-0.5 rounded">${st.power}</span>
             <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded">${st.available}</span>
           </div>
-          <button class="w-full py-1.5 rounded-lg bg-[var(--secondary)] text-white text-xs font-bold shadow hover:bg-[var(--secondary-hover)] transition">Petunjuk Arah</button>
+          <button data-route-id="${st.id}" class="btn-route-action w-full py-1.5 rounded-lg bg-[var(--secondary)] text-white text-xs font-bold shadow hover:bg-[var(--secondary-hover)] transition flex items-center justify-center gap-1.5 cursor-pointer">
+            <i class="fa-solid fa-diamond-turn-right text-[10px]"></i>
+            <span>Petunjuk Arah</span>
+          </button>
         </div>
       `;
 
       const marker = L.marker(st.coordinates, { icon }).bindPopup(popupHtml);
+      baliMarkersMap[st.id] = marker;
+
       marker.on("click", () => {
         selectedStationId = st.id;
-        $(".station-card-item").removeClass("border-[var(--secondary)] ring-1 ring-[var(--secondary)]");
-        $(`[data-station-id="${st.id}"]`).addClass("border-[var(--secondary)] ring-1 ring-[var(--secondary)]");
+        $(".station-card-item").removeClass("border-[var(--secondary)] ring-2 ring-[var(--secondary)] bg-emerald-50/30");
+        $(`[data-station-id="${st.id}"]`).addClass("border-[var(--secondary)] ring-2 ring-[var(--secondary)] bg-emerald-50/30");
       });
 
       baliClusterGroup.addLayer(marker);
@@ -671,13 +945,37 @@ function initBaliSearchAndFilter() {
   let currentFilter = "Semua";
   let currentQuery = "";
 
+  $(document).on("click", "#btn-detect-location", function () {
+    detectUserLocation(true);
+  });
+
+  $(document).on("click", "#btn-close-route", function () {
+    if (currentRouteLine && baliMap) {
+      baliMap.removeLayer(currentRouteLine);
+      currentRouteLine = null;
+    }
+    $("#route-info-card").addClass("hidden");
+  });
+
+  $(document).on("click", ".btn-route-action, [data-route-id]", function (e) {
+    e.stopPropagation();
+    const id = parseInt($(this).attr("data-route-id"), 10);
+    const station = allStations.find((s) => s.id === id);
+    if (station) {
+      if (!userLocation) {
+        detectUserLocation(false);
+      }
+      drawRouteToStation(station);
+    }
+  });
+
   $(document).on("click", "[data-bali-filter]", function () {
     currentFilter = $(this).attr("data-bali-filter");
     $("[data-bali-filter]").each(function () {
       if ($(this).attr("data-bali-filter") === currentFilter) {
-        $(this).addClass("bg-[var(--secondary)] text-white shadow-md shadow-emerald-500/20").removeClass("bg-slate-900 text-slate-400 hover:text-white");
+        $(this).addClass("bg-[var(--secondary)] text-white shadow-md shadow-emerald-500/20").removeClass("bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-900 border border-slate-200/60 bg-slate-900 text-slate-400 hover:text-white");
       } else {
-        $(this).removeClass("bg-[var(--secondary)] text-white shadow-md shadow-emerald-500/20").addClass("bg-slate-900 text-slate-400 hover:text-white");
+        $(this).removeClass("bg-[var(--secondary)] text-white shadow-md shadow-emerald-500/20").addClass("bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-900 border border-slate-200/60");
       }
     });
     renderBaliStations(currentFilter, currentQuery);
@@ -688,16 +986,32 @@ function initBaliSearchAndFilter() {
     renderBaliStations(currentFilter, currentQuery);
   });
 
-  $(document).on("click", "[data-station-id]", function () {
+  $(document).on("click", "[data-station-id]", function (e) {
+    if ($(e.target).closest(".btn-route-action, [data-route-id]").length) return;
+
     const id = parseInt($(this).attr("data-station-id"), 10);
     selectedStationId = id;
     const station = allStations.find((s) => s.id === id);
+    const marker = baliMarkersMap[id];
 
-    $(".station-card-item").removeClass("border-[var(--secondary)] ring-1 ring-[var(--secondary)]");
-    $(this).addClass("border-[var(--secondary)] ring-1 ring-[var(--secondary)]");
+    $(".station-card-item").removeClass("border-[var(--secondary)] ring-2 ring-[var(--secondary)] bg-emerald-50/30");
+    $(this).addClass("border-[var(--secondary)] ring-2 ring-[var(--secondary)] bg-emerald-50/30");
 
     if (station && baliMap) {
-      baliMap.flyTo(station.coordinates, 14, { duration: 1.2 });
+      if (marker && baliClusterGroup && typeof baliClusterGroup.zoomToShowLayer === "function") {
+        baliClusterGroup.zoomToShowLayer(marker, () => {
+          marker.openPopup();
+          if (baliMap) baliMap.invalidateSize();
+        });
+      } else {
+        baliMap.flyTo(station.coordinates, 14, { duration: 0.8 });
+        if (marker) {
+          setTimeout(() => {
+            marker.openPopup();
+            if (baliMap) baliMap.invalidateSize();
+          }, 350);
+        }
+      }
     }
   });
 }
