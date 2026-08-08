@@ -263,17 +263,22 @@ function selectStation(stId, flyTo = false) {
     }
 
     if (flyTo) {
-      if (baliClusterGroup && typeof baliClusterGroup.zoomToShowLayer === "function") {
-        baliClusterGroup.zoomToShowLayer(marker, () => {
-          marker.openPopup();
-          if (baliMap) baliMap.invalidateSize();
-        });
-      } else {
-        baliMap.flyTo(station.coordinates, 14, { duration: 0.8 });
-        setTimeout(() => {
-          marker.openPopup();
-          if (baliMap) baliMap.invalidateSize();
-        }, 350);
+      const targetZoom = 16;
+
+      // Fly directly to station coordinates immediately regardless of distance
+      baliMap.flyTo(station.coordinates, targetZoom, { duration: 0.8, animate: true });
+
+      setTimeout(() => {
+        if (baliMap) baliMap.invalidateSize();
+        if (marker) marker.openPopup();
+      }, 450);
+
+      // Auto smooth-scroll to map on mobile screens
+      if (window.innerWidth < 1024) {
+        const mapElem = document.getElementById("bali-map-container");
+        if (mapElem) {
+          mapElem.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
       }
     } else {
       marker.openPopup();

@@ -29,7 +29,6 @@
     --color-teal-950: oklch(27.7% 0.046 192.524);
     --color-sky-500: oklch(68.5% 0.169 237.323);
     --color-sky-600: oklch(58.8% 0.158 241.966);
-    --color-sky-700: oklch(50% 0.134 242.749);
     --color-blue-100: oklch(93.2% 0.032 255.585);
     --color-blue-300: oklch(80.9% 0.105 251.813);
     --color-blue-400: oklch(70.7% 0.165 254.624);
@@ -431,14 +430,14 @@
   .z-50 {
     z-index: 50;
   }
-  .z-\[30\] {
-    z-index: 30;
-  }
   .z-\[400\] {
     z-index: 400;
   }
   .z-\[1000\] {
     z-index: 1000;
+  }
+  .z-\[2000\] {
+    z-index: 2000;
   }
   .z-\[9999\] {
     z-index: 9999;
@@ -565,6 +564,9 @@
   }
   .h-4 {
     height: calc(var(--spacing) * 4);
+  }
+  .h-6 {
+    height: calc(var(--spacing) * 6);
   }
   .h-7 {
     height: calc(var(--spacing) * 7);
@@ -1146,6 +1148,9 @@
   .border-slate-100 {
     border-color: var(--color-slate-100);
   }
+  .border-slate-200 {
+    border-color: var(--color-slate-200);
+  }
   .border-slate-200\/60 {
     border-color: color-mix(in srgb, oklch(92.9% 0.013 255.508) 60%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
@@ -1163,6 +1168,9 @@
     @supports (color: color-mix(in lab, red, red)) {
       border-color: color-mix(in oklab, var(--color-slate-200) 90%, transparent);
     }
+  }
+  .border-slate-300 {
+    border-color: var(--color-slate-300);
   }
   .border-slate-700 {
     border-color: var(--color-slate-700);
@@ -1368,10 +1376,10 @@
   .bg-slate-950 {
     background-color: var(--color-slate-950);
   }
-  .bg-slate-950\/40 {
-    background-color: color-mix(in srgb, oklch(12.9% 0.042 264.695) 40%, transparent);
+  .bg-slate-950\/50 {
+    background-color: color-mix(in srgb, oklch(12.9% 0.042 264.695) 50%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
-      background-color: color-mix(in oklab, var(--color-slate-950) 40%, transparent);
+      background-color: color-mix(in oklab, var(--color-slate-950) 50%, transparent);
     }
   }
   .bg-slate-950\/60 {
@@ -1614,6 +1622,9 @@
   }
   .px-1 {
     padding-inline: var(--spacing);
+  }
+  .px-1\.5 {
+    padding-inline: calc(var(--spacing) * 1.5);
   }
   .px-2 {
     padding-inline: calc(var(--spacing) * 2);
@@ -2512,6 +2523,9 @@
     .sm\:inline {
       display: inline;
     }
+    .sm\:inline-flex {
+      display: inline-flex;
+    }
     .sm\:h-8 {
       height: calc(var(--spacing) * 8);
     }
@@ -2678,6 +2692,9 @@
     }
     .md\:flex {
       display: flex;
+    }
+    .md\:inline {
+      display: inline;
     }
     .md\:w-fit {
       width: fit-content;
