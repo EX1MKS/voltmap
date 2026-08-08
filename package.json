@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "build:css": "tailwindcss -i ./src/asset/css/input.css -o ./src/asset/css/output.css --watch"
+    "build:css": "npx @tailwindcss/cli -i ./src/asset/css/input.css -o ./src/asset/css/output.css --watch"
   },
   "dependencies": {
     "@fancyapps/ui": "^6.1.14",

@@ -482,5 +482,5 @@ body {
 /* Scoped Leaflet Controls Z-Index */
 #bali-map-container .leaflet-top,
 #bali-map-container .leaflet-bottom {
-  z-index: 15 !important;
+  z-index: 500 !important;
 }

@@ -97,16 +97,19 @@ export function initStatsAnimations() {
   // 1. Counter Animation
   statItemsConfig.forEach((config, idx) => {
     const el = statRefs[idx];
-    if (!el || !section) return;
+    if (!el) return;
+
+    // Set initial text before scroll animation triggers
+    el.textContent = config.initialText;
 
     const obj = { val: 0 };
     gsap.to(obj, {
       val: config.targetValue,
-      duration: 3.5,
+      duration: 2.5,
       ease: "power2.out",
       scrollTrigger: {
-        trigger: section,
-        start: "top 80%",
+        trigger: el,
+        start: "top 85%",
         toggleActions: "play none none none",
         once: true,
       },
