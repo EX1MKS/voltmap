@@ -2,12 +2,12 @@
 
 export const statItemsConfig = [
   {
-    targetValue: 15000,
+    targetValue: 100000,
     format: (val) => `${Math.floor(val).toLocaleString("en-US")}+`,
     initialText: "0+",
   },
   {
-    targetValue: 82,
+    targetValue: 120,
     format: (val) => `${Math.floor(val)}`,
     initialText: "0",
   },

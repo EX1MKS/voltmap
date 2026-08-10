@@ -26,6 +26,9 @@ $(document).ready(() => {
   initNavigation();
   initNavbarEvents();
 
+  // Initialize Hero Section Interactive Hover Switcher
+  initHeroHoverSwitcher();
+
   // Initialize P2P Income Calculator
   initP2PCalculator();
 
@@ -40,6 +43,101 @@ $(document).ready(() => {
   // Initialize Navbar Entrance Animations
   initNavbarEntrance();
 });
+
+/* ==========================================
+   HERO HOVER SWITCHER LOGIC
+   ========================================== */
+function initHeroHoverSwitcher() {
+  const $btnInstall = $("#btn-hero-install");
+  const $btnShare = $("#btn-hero-share");
+  const $bgLayer1 = $("#hero-bg-layer-1");
+  const $bgLayer2 = $("#hero-bg-layer-2");
+  const $badge = $("#hero-badge");
+  const $badgeText = $("#hero-badge-text");
+  const $title = $("#hero-title");
+  const $subtitle = $("#hero-subtitle");
+  const $cardImg = $("#hero-card-img");
+  const $cardTitle = $("#hero-card-title");
+  const $cardDesc = $("#hero-card-desc");
+
+  if (!$btnInstall.length || !$btnShare.length) return;
+
+  const modeData = {
+    install: {
+      badgeIcon: '<i class="fa-solid fa-house-chimney text-[#52C133]"></i>',
+      badgeText: "Residential Charging Solutions",
+      wordText: "HOME",
+      subtitle: "Create a charging point of your own with certified fast wallbox installation for your residence.",
+      bgImg: "../asset/img/images/wall.jpg",
+      cardTitle: "VoltMap Home Wallbox 22kW",
+      cardDesc: "Smart App Controlled • Residential Fast Charge"
+    },
+    share: {
+      badgeIcon: '<i class="fa-solid fa-building text-[#52C133]"></i>',
+      badgeText: "Business & P2P Network",
+      wordText: "BUSINESS",
+      subtitle: "Connect your charger to drivers worldwide and earn passive income with VoltMap P2P network.",
+      bgImg: "../asset/img/images/station.jpg",
+      cardTitle: "VoltMap Commercial Station",
+      cardDesc: "P2P Sharing Verified • Automated Earnings"
+    }
+  };
+
+  let currentMode = "install";
+
+  function setHeroMode(mode) {
+    if (mode === currentMode) return;
+    currentMode = mode;
+    const data = modeData[mode];
+
+    if (mode === "install") {
+      $btnInstall
+        .addClass("bg-[#52C133] text-white ")
+        .removeClass("bg-white text-black ");
+      $btnShare
+        .removeClass("bg-[#52C133] text-white ")
+        .addClass("bg-white text-black ");
+
+      $bgLayer1.removeClass("opacity-0").addClass("opacity-100");
+      $bgLayer2.removeClass("opacity-100").addClass("opacity-0");
+    } else {
+      $btnShare
+        .addClass("bg-[#52C133] text-white ")
+        .removeClass("bg-white text-black ");
+      $btnInstall
+        .removeClass("bg-[#52C133] text-white ")
+        .addClass("bg-white text-black  ");
+
+      $bgLayer2.removeClass("opacity-0").addClass("opacity-100");
+      $bgLayer1.removeClass("opacity-100").addClass("opacity-0");
+    }
+
+    // Smooth transition for text and card
+    $title.add($subtitle).css("opacity", "0");
+    $cardImg.css("opacity", "0.3");
+
+    setTimeout(() => {
+      if ($badge.length) {
+        $badge.find("i").replaceWith(data.badgeIcon);
+        $badgeText.text(data.badgeText);
+      }
+      $("#hero-title-word").text(data.wordText);
+      $subtitle.text(data.subtitle);
+
+      if ($cardImg.length) {
+        $cardImg.attr("src", data.bgImg);
+        $cardTitle.text(data.cardTitle);
+        $cardDesc.text(data.cardDesc);
+      }
+
+      $title.add($subtitle).css("opacity", "1");
+      $cardImg.css("opacity", "1");
+    }, 200);
+  }
+
+  $btnInstall.on("mouseenter focus", () => setHeroMode("install"));
+  $btnShare.on("mouseenter focus", () => setHeroMode("share"));
+}
 
 /* ==========================================
    P2P CALCULATOR WIDGET LOGIC
