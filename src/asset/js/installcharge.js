@@ -500,11 +500,10 @@ function initBrandParallax() {
   if (typeof gsap === "undefined" || typeof ScrollTrigger === "undefined") return;
 
   // Parallax Scroll Effect:
-  // When scrolling down, Row 1 is pushed Right (+x) and Row 2 is pushed Left (-x)
-  // at a speed that physically reverses their marquee movement while scrolling.
-  // When scrolling stops (idle), the scrub smoothly relaxes back, returning to normal motion.
+  // Row tracks have overflow bleed margins (-300px) so 200px parallax shift produces
+  // a rich, distinct reverse scroll effect while keeping edges far off-screen.
   gsap.to($row1[0], {
-    x: "280px", // Offsets rightward during scroll down (reversing normal leftward marquee)
+    x: "200px",
     ease: "none",
     scrollTrigger: {
       trigger: $sec[0],
@@ -515,7 +514,7 @@ function initBrandParallax() {
   });
 
   gsap.to($row2[0], {
-    x: "-280px", // Offsets leftward during scroll down (reversing normal rightward marquee)
+    x: "-200px",
     ease: "none",
     scrollTrigger: {
       trigger: $sec[0],

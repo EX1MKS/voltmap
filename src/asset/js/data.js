@@ -195,17 +195,17 @@ export function generateMockStations() {
     stations.push({
       id: i,
       name: `SPKLU ${locationName} #${i}`,
-      location: `${locationName}, Bali`,
+      location: `${locationName}`,
       type: "Public Station",
       power: power,
-      available: `${availableSlots}/${totalSlots} Tersedia`,
+      available: `${availableSlots}/${totalSlots} Available`,
       availableCount: availableSlots,
       totalSlots: totalSlots,
       rating: (4.3 + Math.random() * 0.6).toFixed(1),
-      amenities: getSubArray(["Toilet", "Kafe", "WiFi", "ATM", "Mini Market"], 4),
+      amenities: getSubArray(["Restroom", "Cafe", "WiFi", "ATM", "Mini Market"], 4),
       status: getRandomItem(["Available", "Busy", "Maintenance", "Offline"]),
       connector: getRandomItem(["CCS2", "Type 2", "CHAdeMO"]),
-      price: getRandomItem(["Rp2.500/kWh", "Rp3.000/kWh", "Rp2.750/kWh"]),
+      price: getRandomItem(["$0.25/kWh", "$0.30/kWh", "$0.28/kWh"]),
       distance: (Math.random() * 5 + 0.1).toFixed(1) + " km",
       coordinates: coords
     });
@@ -221,17 +221,17 @@ export function generateMockStations() {
     stations.push({
       id: i,
       name: `Home Charger ${locationName} #${i - 500}`,
-      location: `${locationName}, Bali`,
+      location: `${locationName}`,
       type: "Shared Home Charger",
       power: power,
-      available: `${availableSlots}/${totalSlots} Tersedia`,
+      available: `${availableSlots}/${totalSlots} Available`,
       availableCount: availableSlots,
       totalSlots: totalSlots,
       rating: (4.3 + Math.random() * 0.6).toFixed(1),
-      amenities: getSubArray(["WiFi", "Parkir", "Air Minum", "Kopi"], 3),
+      amenities: getSubArray(["WiFi", "Parking", "Water", "Coffee"], 3),
       status: getRandomItem(["Available", "Busy", "Offline"]),
       connector: "Type 2",
-      price: getRandomItem(["Rp1.500/kWh", "Rp2.000/kWh", "Rp2.500/kWh"]),
+      price: getRandomItem(["$0.15/kWh", "$0.20/kWh", "$0.25/kWh"]),
       distance: (Math.random() * 5 + 0.1).toFixed(1) + " km",
       coordinates: coords
     });

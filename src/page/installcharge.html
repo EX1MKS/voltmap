@@ -89,7 +89,7 @@
 
         <!-- Grid Content Container (Centered Content) -->
         <div
-          class="relative z-20 max-w-[80%] mx-auto w-full px-6 sm:px-10 lg:px-16 pt-24 pb-12 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          class="relative z-20 max-w-full xl:max-w-[90%]   mx-auto w-full px-6 sm:px-10 lg:px-16 pt-90 md:pt-24 pb-12 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
 
           <!-- Left Hero Content Column -->
           <div class="lg:col-span-7 space-y-8" data-aos="fade-right">
@@ -156,7 +156,7 @@
            SECTION 2: INSTALL CHARGER LOCATION (#install-charger-section)
            ========================================== -->
       <section id="install-charger-section" class="w-full bg-white text-black py-16 sm:py-24 px-6 sm:px-12 lg:px-20">
-        <div class="max-w-[90%] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
+        <div class="max-w-[90%] mx-auto grid grid-cols-1 xl:grid-cols-12 gap-10 lg:gap-16 items-center">
 
           <!-- Left Visual Graphic: Interactive Stacked Diagonal Dual-Image Card -->
           <div class="lg:col-span-7" data-aos="fade-right">
@@ -240,10 +240,10 @@
            SECTION 3: share charger 
            ========================================== -->
       <section id="share-charger-section" class="w-full bg-white text-black py-16 sm:py-24 px-6 sm:px-12 lg:px-20">
-        <div class="max-w-[90%] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
+        <div class="max-w-[90%] mx-auto grid grid-cols-1 xl:grid-cols-12 gap-10 lg:gap-16 items-center">
 
-          <!-- left Column: Heading & Body Text -->
-          <div class="lg:col-span-5 space-y-6" data-aos="fade-right">
+          <!-- left Column: Heading & Body Text (Below image on Mobile, Left on Desktop) -->
+          <div class="order-2 xl:order-1 lg:col-span-5 space-y-6" data-aos="fade-right">
             <h2 class="text-4xl sm:text-5xl lg:text-6xl tracking-tight leading-[1.12] text-black">
               <span class="font-extrabold text-black">Share your charger
               </span><span class="font-normal text-secondary">
@@ -263,8 +263,9 @@
               </a>
             </div>
           </div>
-          <!-- right Visual Graphic: Interactive Stacked Diagonal Dual-Image Card -->
-          <div class="lg:col-span-7" data-aos="fade-left">
+
+          <!-- right Visual Graphic: Interactive Stacked Diagonal Dual-Image Card (Top on Mobile, Right on Desktop) -->
+          <div class="order-1 xl:order-2 lg:col-span-7" data-aos="fade-left">
             <div id="stacked-image-container"
               class="relative w-full aspect-[4/3] rounded-[28px] sm:rounded-[36px] overflow-hidden shadow-2xl border-4 border-white bg-slate-900 group select-none cursor-pointer">
 
@@ -277,8 +278,6 @@
 
             </div>
           </div>
-
-
 
         </div>
       </section>
@@ -300,7 +299,7 @@
           </div>
 
           <!-- 2x2 Grid of Full-Card Image Charger Models -->
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
 
             <!-- Card 1: VoltMap Smart Series -->
             <div

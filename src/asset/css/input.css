@@ -42,10 +42,6 @@
   /* Secondary text */
 }
 
-html {
-  scroll-behavior: smooth !important;
-}
-
 html,
 body {
   font-family: "Funnel Display", sans-serif !important;
@@ -491,13 +487,23 @@ body {
 
 /* EV Compatibility Brand Marquee Styles */
 @keyframes marqueeLeft {
-  0% { transform: translate3d(0, 0, 0); }
-  100% { transform: translate3d(-50%, 0, 0); }
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
 }
 
 @keyframes marqueeRight {
-  0% { transform: translate3d(-50%, 0, 0); }
-  100% { transform: translate3d(0, 0, 0); }
+  0% {
+    transform: translate3d(-50%, 0, 0);
+  }
+
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
 }
 
 .animate-marquee-left {
@@ -510,6 +516,11 @@ body {
   display: flex;
   width: max-content;
   animation: marqueeRight 35s linear infinite;
+}
+
+.marquee-track {
+  width: calc(100% + 600px) !important;
+  margin-left: -300px !important;
 }
 
 .marquee-track:hover .animate-marquee-left,

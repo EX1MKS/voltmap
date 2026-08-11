@@ -361,7 +361,7 @@ function getGoogleMapsUrl(destCoords, originCoords = null) {
 function detectUserLocation(autoFindNearest = true, callback = null) {
   const $btn = $("#btn-detect-location");
   if ($btn.length) {
-    $btn.html(`<i class="fa-solid fa-spinner fa-spin text-sm text-[var(--secondary)]"></i><span>Mendeteksi Lokasi Presisi...</span>`);
+    $btn.html(`<i class="fa-solid fa-spinner fa-spin text-sm text-[var(--secondary)]"></i><span>Detecting Precise Location...</span>`);
   }
 
   const handleFallback = (msg) => {
@@ -373,7 +373,7 @@ function detectUserLocation(autoFindNearest = true, callback = null) {
     updateStationDistances(userLocation[0], userLocation[1]);
 
     if ($btn.length) {
-      $btn.html(`<i class="fa-solid fa-location-crosshairs text-sm text-emerald-600"></i><span>Lokasi Bali • Charger Terdekat</span>`);
+      $btn.html(`<i class="fa-solid fa-location-crosshairs text-sm text-emerald-600"></i><span>Location Detected • Nearest Charger</span>`);
     }
 
     if (typeof callback === "function") {
@@ -384,7 +384,7 @@ function detectUserLocation(autoFindNearest = true, callback = null) {
   };
 
   if (!navigator.geolocation) {
-    handleFallback("Geolocation tidak didukung oleh browser.");
+    handleFallback("browser not support geolocation");
     return;
   }
 
@@ -405,7 +405,7 @@ function detectUserLocation(autoFindNearest = true, callback = null) {
         }
 
         if ($btn.length) {
-          $btn.html(`<i class="fa-solid fa-location-crosshairs text-sm text-emerald-600"></i><span>Lokasi Ditemukan • Charger Terdekat</span>`);
+          $btn.html(`<i class="fa-solid fa-location-crosshairs text-sm text-emerald-600"></i><span>Location Detected • Nearest Charger</span>`);
         }
 
         if (typeof callback === "function") {
@@ -414,11 +414,11 @@ function detectUserLocation(autoFindNearest = true, callback = null) {
           findAndRouteToNearestStation();
         }
       } else {
-        handleFallback("Koordinat GPS tidak valid.");
+        handleFallback("Location Invalid.");
       }
     },
     (error) => {
-      handleFallback(error ? error.message : "Izin lokasi ditolak.");
+      handleFallback(error ? error.message : "Location Denied.");
     },
     { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
   );
@@ -474,12 +474,12 @@ function updateStationDistances(userLat, userLng) {
 }
 
 function getFilteredStations() {
-  const filterType = $("[data-bali-filter].bg-\\[var\\(--secondary\\)\\]").attr("data-bali-filter") || "Semua";
-  const speedFilter = $("#filter-charging-speed").val() || "Semua";
-  const connectorFilter = $("#filter-connector-type").val() || "Semua";
+  const filterType = $("[data-bali-filter].bg-\\[var\\(--secondary\\)\\]").attr("data-bali-filter") || "All";
+  const speedFilter = $("#filter-charging-speed").val() || "All";
+  const connectorFilter = $("#filter-connector-type").val() || "All";
 
   return allStations.filter((st) => {
-    const matchesFilter = filterType === "Semua" || st.type === filterType;
+    const matchesFilter = filterType === "All" || st.type === filterType;
 
     let matchesSpeed = true;
     if (speedFilter === "Standard") {
@@ -490,7 +490,7 @@ function getFilteredStations() {
       matchesSpeed = st.power.includes("150 kW") || st.power.includes("350 kW");
     }
 
-    const matchesConnector = connectorFilter === "Semua" || st.connector === connectorFilter;
+    const matchesConnector = connectorFilter === "All" || st.connector === connectorFilter;
 
     return matchesFilter && matchesSpeed && matchesConnector;
   });
@@ -623,7 +623,7 @@ function renderBaliStations() {
                 ></span>
               </h3>
               ${userLocation && idx === 0
-            ? `<span class="px-2 py-0.5 rounded-full text-[10px] font-black bg-emerald-500 text-white shadow-xs">🏆 TERDEKAT</span>`
+            ? `<span class="px-2 py-0.5 rounded-full text-[10px] font-black bg-emerald-500 text-white shadow-xs">Nearest</span>`
             : ""
           }
             </div>
@@ -647,7 +647,7 @@ function renderBaliStations() {
           <div class="flex items-center gap-1.5">
             <button data-route-id="${st.id}" class="btn-route-action px-2 py-1 rounded-lg bg-[var(--secondary)] hover:bg-[var(--secondary-hover)] text-white text-[11px] font-bold shadow transition flex items-center gap-1 cursor-pointer">
               <i class="fa-solid fa-diamond-turn-right text-[10px]"></i>
-              <span>Rute</span>
+              <span>Route</span>
             </button>
           </div>
         </div>
@@ -663,8 +663,8 @@ function renderBaliStations() {
     `;
 
   $("#bali-stations-list").html(listHtml);
-  $("#bali-filtered-count").text(`${filtered.length} hasil`);
-  $("#bali-visible-count").text(`Menampilkan ${filtered.length} stasiun di Bali`);
+  $("#bali-filtered-count").text(`${filtered.length} result`);
+  $("#bali-visible-count").text(`Displaying ${filtered.length} stations`);
 
   // Render Map Markers
   baliMarkersMap = {};
@@ -705,7 +705,7 @@ function renderBaliStations() {
           <div class="w-full flex items-center justify-center">
             <button data-route-id="${st.id}" class="btn-route-action py-1.5 px-2 w-full rounded-xl bg-[var(--secondary)] hover:bg-[var(--secondary-hover)] text-white text-xs font-extrabold shadow-md shadow-emerald-500/20 transition flex items-center justify-center gap-1.5 cursor-pointer">
               <i class="fa-solid fa-route text-[10px]"></i>
-              <span>Rute Peta</span>
+              <span>Route Map</span>
             </button>
           </div>
         </div>
@@ -738,9 +738,9 @@ function renderBaliStations() {
 }
 
 function initBaliSearchAndFilter() {
-  let currentFilter = "Semua";
-  let currentSpeed = "Semua";
-  let currentConnector = "Semua";
+  let currentFilter = "All";
+  let currentSpeed = "All";
+  let currentConnector = "All";
 
   $(document).on("click", "#btn-detect-location", function () {
     detectUserLocation(true);

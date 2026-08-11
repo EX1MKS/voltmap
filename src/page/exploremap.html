@@ -54,9 +54,9 @@
 
             <!-- Main Map Grid -->
             <div class="max-w-[1700px] mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-6 flex-1">
-                <!-- Sidebar -->
+                <!-- Sidebar (Below map on Mobile, Left column on Desktop) -->
                 <div
-                    class="lg:col-span-4 xl:col-span-4 flex flex-col gap-4 h-[700px] lg:h-[800px] xl:h-[850px] bg-white/90 backdrop-blur-md rounded-3xl p-5 border border-slate-200/80 shadow-xl shadow-slate-200/50">
+                    class="order-2 lg:order-1 lg:col-span-4 xl:col-span-4 flex flex-col gap-4 h-[550px] sm:h-[650px] lg:h-[800px] xl:h-[850px] bg-white/90 backdrop-blur-md rounded-3xl p-5 border border-slate-200/80 shadow-xl shadow-slate-200/50">
                     <div class="space-y-3">
                         <div class="grid grid-cols-2 gap-2.5">
                             <div class="relative">
@@ -67,7 +67,7 @@
                                 </label>
                                 <select id="filter-charging-speed"
                                     class="w-full bg-slate-100/90 border border-slate-200/90 rounded-xl py-2 px-3 pr-7 text-xs font-bold text-slate-800 focus:outline-none focus:border-[var(--secondary)] focus:bg-white focus:ring-2 focus:ring-emerald-500/20 transition cursor-pointer appearance-none">
-                                    <option value="Semua">Semua Speed</option>
+                                    <option value="All">All Speed</option>
                                     <option value="Standard">AC Standard (7-22 kW)</option>
                                     <option value="Fast">DC Fast (50 kW)</option>
                                     <option value="Ultra-Fast">Ultra-Fast (150-350 kW)</option>
@@ -84,7 +84,7 @@
                                 </label>
                                 <select id="filter-connector-type"
                                     class="w-full bg-slate-100/90 border border-slate-200/90 rounded-xl py-2 px-3 pr-7 text-xs font-bold text-slate-800 focus:outline-none focus:border-[var(--secondary)] focus:bg-white focus:ring-2 focus:ring-emerald-500/20 transition cursor-pointer appearance-none">
-                                    <option value="Semua">Semua Connector</option>
+                                    <option value="All">All Connector</option>
                                     <option value="CCS2">CCS2</option>
                                     <option value="Type 2">Type 2</option>
                                     <option value="CHAdeMO">CHAdeMO</option>
@@ -99,14 +99,14 @@
                             class="w-full py-2.5 px-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-800 hover:bg-[var(--secondary)] hover:text-white text-xs font-extrabold transition-all flex items-center justify-center gap-2 shadow-sm group cursor-pointer">
                             <i
                                 class="fa-solid fa-location-crosshairs text-sm text-[var(--secondary)] group-hover:text-white transition-colors"></i>
-                            <span>Gunakan Lokasi Saya • Cari Charger Terdekat</span>
+                            <span>Use My Location • Find Nearby Chargers</span>
                         </button>
                     </div>
 
                     <div class="flex items-center justify-between gap-2 overflow-x-auto pb-1 no-scrollbar">
                         <div class="flex items-center gap-2">
-                            <button data-bali-filter="Semua"
-                                class="px-3.5 py-1.5 rounded-full text-xs font-bold transition whitespace-nowrap bg-[var(--secondary)] text-white shadow-md shadow-emerald-500/20">Semua</button>
+                            <button data-bali-filter="All"
+                                class="px-3.5 py-1.5 rounded-full text-xs font-bold transition whitespace-nowrap bg-[var(--secondary)] text-white shadow-md shadow-emerald-500/20">All</button>
                             <button data-bali-filter="Public Station"
                                 class="px-3.5 py-1.5 rounded-full text-xs font-bold transition whitespace-nowrap bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-900 border border-slate-200/60">Public
                                 Station</button>
@@ -115,15 +115,15 @@
                                 Home Charger</button>
                         </div>
                         <span id="bali-filtered-count" class="text-xs text-slate-500 font-semibold shrink-0">1500
-                            hasil</span>
+                            results</span>
                     </div>
 
                     <div id="bali-stations-list" class="flex-1 overflow-y-auto p-1.5 space-y-3 custom-scrollbar"></div>
                 </div>
 
-                <!-- Leaflet Map Container -->
+                <!-- Leaflet Map Container (Top on Mobile, Right column on Desktop) -->
                 <div
-                    class="lg:col-span-8 xl:col-span-8 relative z-10 isolate h-[700px] lg:h-[800px] xl:h-[850px] rounded-3xl overflow-hidden shadow-xl shadow-slate-200/50 border border-slate-200/80 bg-slate-100">
+                    class="order-1 lg:order-2 lg:col-span-8 xl:col-span-8 relative z-10 isolate h-[450px] sm:h-[550px] lg:h-[800px] xl:h-[850px] rounded-3xl overflow-hidden shadow-xl shadow-slate-200/50 border border-slate-200/80 bg-slate-100">
                     <div id="bali-map-container" class="w-full h-full"></div>
                     <!-- Floating Route Info Overlay Card -->
                     <div id="route-info-card"
@@ -135,13 +135,12 @@
                                     <i class="fa-solid fa-route"></i>
                                 </div>
                                 <div>
-                                    <p class="text-[10px] uppercase tracking-wider font-extrabold text-sky-600">Rute
-                                        Terdekat Navigasi</p>
+                                    <p class="text-[10px] uppercase tracking-wider font-extrabold text-sky-600">Nearest Route Navigation</p>
                                     <h4 id="route-target-name"
-                                        class="text-xs font-extrabold text-slate-900 leading-tight">Nama Stasiun</h4>
+                                        class="text-xs font-extrabold text-slate-900 leading-tight">Station Name</h4>
                                 </div>
                             </div>
-                            <button id="btn-close-route" title="Tutup Rute"
+                            <button id="btn-close-route" title="Close Route"
                                 class="w-7 h-7 rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200 flex items-center justify-center text-xs transition cursor-pointer">
                                 <i class="fa-solid fa-xmark"></i>
                             </button>
@@ -154,13 +153,13 @@
                             </div>
                             <div class="flex items-center gap-1.5">
                                 <i class="fa-solid fa-clock text-amber-600"></i>
-                                <span id="route-duration">0 mnt</span>
+                                <span id="route-duration">0 min</span>
                             </div>
                         </div>
                         <a id="route-google-maps-btn" href="#" target="_blank" rel="noopener"
                             class="w-full py-2.5 px-3 rounded-xl bg-[var(--secondary)] hover:bg-[var(--secondary-hover)] text-white text-xs font-extrabold flex items-center justify-center gap-2 shadow-md transition">
                             <i class="fa-solid fa-diamond-turn-right"></i>
-                            <span>Buka Navigasi Google Maps</span>
+                            <span>Open Google Maps Navigation</span>
                         </a>
                     </div>
                 </div>
