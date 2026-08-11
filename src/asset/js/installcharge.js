@@ -29,11 +29,20 @@ $(document).ready(() => {
   // Initialize Hero Section Interactive Hover Switcher
   initHeroHoverSwitcher();
 
+  // Initialize Stacked Diagonal Dual-Image Hover
+  initStackedImageHover();
+
+  // Initialize Brand Marquee Parallax
+  initBrandParallax();
+
   // Initialize P2P Income Calculator
   initP2PCalculator();
 
   // Initialize Registration Form / Modal Events
   initHostRegistrationForm();
+
+  // Initialize Smooth Anchor Link Scroll
+  initSmoothScrollLinks();
 
   // Initialize AOS if available
   if (typeof AOS !== "undefined") {
@@ -58,7 +67,7 @@ function initHeroHoverSwitcher() {
   const $subtitle = $("#hero-subtitle");
   const $cardImg = $("#hero-card-img");
   const $cardTitle = $("#hero-card-title");
-  const $cardDesc = $("#hero-card-desc");
+
 
   if (!$btnInstall.length || !$btnShare.length) return;
 
@@ -70,7 +79,7 @@ function initHeroHoverSwitcher() {
       subtitle: "Create a charging point of your own with certified fast wallbox installation for your residence.",
       bgImg: "../asset/img/images/wall.jpg",
       cardTitle: "VoltMap Home Wallbox 22kW",
-      cardDesc: "Smart App Controlled • Residential Fast Charge"
+      cardIcon: "fa-solid fa-house-chimney"
     },
     share: {
       badgeIcon: '<i class="fa-solid fa-building text-[#52C133]"></i>',
@@ -79,7 +88,7 @@ function initHeroHoverSwitcher() {
       subtitle: "Connect your charger to drivers worldwide and earn passive income with VoltMap P2P network.",
       bgImg: "../asset/img/images/station.jpg",
       cardTitle: "VoltMap Commercial Station",
-      cardDesc: "P2P Sharing Verified • Automated Earnings"
+      cardIcon: "fa-solid fa-charging-station"
     }
   };
 
@@ -127,7 +136,7 @@ function initHeroHoverSwitcher() {
       if ($cardImg.length) {
         $cardImg.attr("src", data.bgImg);
         $cardTitle.text(data.cardTitle);
-        $cardDesc.text(data.cardDesc);
+        $("#hero-card-icon").attr("class", `${data.cardIcon} text-sm transition-transform duration-300 group-hover:scale-110`);
       }
 
       $title.add($subtitle).css("opacity", "1");
@@ -390,3 +399,152 @@ function initNavbarEvents() {
     }
   });
 }
+
+/* ==========================================
+   STACKED DIAGONAL DUAL IMAGE HOVER LOGIC
+   ========================================== */
+function initStackedImageHover() {
+  const $triggerHome = $("#stacked-trigger-home");
+  const $triggerCommercial = $("#stacked-trigger-commercial");
+  const $container = $("#stacked-image-container");
+  const $layerCommercial = $("#stacked-layer-commercial");
+  const $dividerLine = $("#stacked-divider line");
+  const $badgeHome = $("#badge-stacked-home");
+  const $badgeCommercial = $("#badge-stacked-commercial");
+
+  if (!$triggerHome.length || !$triggerCommercial.length) return;
+
+  // Initial center diagonal line split: (0, 75%) to (100%, 20%)
+  const initialClip = "polygon(0 75%, 100% 20%, 100% 100%, 0 100%)";
+
+  // Fill towards bottom-right (reveals Top-Left Home Charger)
+  const fillHomeClip = "polygon(0 140%, 100% 100%, 100% 100%, 0 100%)";
+
+  // Fill towards top-left (fills Commercial Station across whole card)
+  const fillCommercialClip = "polygon(0 -40%, 100% -95%, 100% 100%, 0 100%)";
+
+  // Apply smooth cubic-bezier easing for high-end luxury feel
+  $layerCommercial.css("transition", "clip-path 600ms cubic-bezier(0.16, 1, 0.3, 1)");
+  $dividerLine.css("transition", "transform 600ms cubic-bezier(0.16, 1, 0.3, 1), opacity 400ms ease");
+
+  function setActiveBadge($active, $inactive) {
+    $active
+      .removeClass("bg-white text-black border-white/20 opacity-40 scale-100 shadow-xl shadow-sm")
+      .addClass("bg-[#52C133] text-white border-[#52C133] scale-105 opacity-100 shadow-2xl");
+
+    $inactive
+      .removeClass("bg-[#52C133] text-white border-[#52C133] scale-105 opacity-100 shadow-2xl shadow-xl")
+      .addClass("bg-white text-black border-white/20 scale-100 opacity-40 shadow-sm");
+  }
+
+  function resetBadges() {
+    $badgeHome.add($badgeCommercial)
+      .removeClass("bg-[#52C133] text-white border-[#52C133] scale-105 opacity-40 shadow-2xl shadow-sm")
+      .addClass("bg-white text-black border-white/20 scale-100 opacity-100 shadow-xl");
+  }
+
+  // Hover Top-Left -> Slide diagonal line down-right (filling Home Charger)
+  $triggerHome.on("mouseenter touchstart", function () {
+    $layerCommercial.css("clip-path", fillHomeClip);
+    $dividerLine.css({
+      transform: "translateY(65%)",
+      opacity: "0"
+    });
+    setActiveBadge($badgeHome, $badgeCommercial);
+  });
+
+  // Hover Bottom-Right -> Slide diagonal line up-left (filling Commercial Station)
+  $triggerCommercial.on("mouseenter touchstart", function () {
+    $layerCommercial.css("clip-path", fillCommercialClip);
+    $dividerLine.css({
+      transform: "translateY(-95%)",
+      opacity: "0"
+    });
+    setActiveBadge($badgeCommercial, $badgeHome);
+  });
+
+  // Mouse leave -> Restore center diagonal split
+  $container.on("mouseleave", function () {
+    $layerCommercial.css("clip-path", initialClip);
+    $dividerLine.css({
+      transform: "translateY(0%)",
+      opacity: "1"
+    });
+    resetBadges();
+  });
+}
+
+/* ==========================================
+   BRAND CAROUSEL SUBTLE PARALLAX & REVERSE ON SCROLL
+   ========================================== */
+function initBrandParallax() {
+  const $sec = $("#ev-compatibility-section");
+  const $row1 = $("#brand-marquee-row-1");
+  const $row2 = $("#brand-marquee-row-2");
+
+  if (!$sec.length) return;
+
+  // Dynamically duplicate items in JS to keep HTML clean & lightweight across full screen width
+  const $marqueeLeft = $row1.find(".animate-marquee-left");
+  const $marqueeRight = $row2.find(".animate-marquee-right");
+
+  if ($marqueeLeft.length && $marqueeLeft.children().length < 27) {
+    const $items = $marqueeLeft.children().clone();
+    $marqueeLeft.append($items.clone()).append($items.clone());
+  }
+  if ($marqueeRight.length && $marqueeRight.children().length < 27) {
+    const $items = $marqueeRight.children().clone();
+    $marqueeRight.append($items.clone()).append($items.clone());
+  }
+
+  if (typeof gsap === "undefined" || typeof ScrollTrigger === "undefined") return;
+
+  // Parallax Scroll Effect:
+  // When scrolling down, Row 1 is pushed Right (+x) and Row 2 is pushed Left (-x)
+  // at a speed that physically reverses their marquee movement while scrolling.
+  // When scrolling stops (idle), the scrub smoothly relaxes back, returning to normal motion.
+  gsap.to($row1[0], {
+    x: "280px", // Offsets rightward during scroll down (reversing normal leftward marquee)
+    ease: "none",
+    scrollTrigger: {
+      trigger: $sec[0],
+      start: "top bottom",
+      end: "bottom top",
+      scrub: 0.6
+    }
+  });
+
+  gsap.to($row2[0], {
+    x: "-280px", // Offsets leftward during scroll down (reversing normal rightward marquee)
+    ease: "none",
+    scrollTrigger: {
+      trigger: $sec[0],
+      start: "top bottom",
+      end: "bottom top",
+      scrub: 0.6
+    }
+  });
+}
+
+/* ==========================================
+   SMOOTH SCROLL ANCHOR LINKS LOGIC
+   ========================================== */
+function initSmoothScrollLinks() {
+  $(document).on("click", 'a[href^="#"]', function (e) {
+    const targetId = $(this).attr("href");
+    if (targetId === "#" || !targetId) return;
+
+    const $target = $(targetId);
+    if ($target.length) {
+      e.preventDefault();
+      const navbarHeight = 80;
+      const targetOffset = $target.offset().top - navbarHeight;
+
+      window.scrollTo({
+        top: Math.max(0, targetOffset),
+        behavior: "smooth"
+      });
+    }
+  });
+}
+

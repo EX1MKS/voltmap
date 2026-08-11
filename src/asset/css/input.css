@@ -42,6 +42,10 @@
   /* Secondary text */
 }
 
+html {
+  scroll-behavior: smooth !important;
+}
+
 html,
 body {
   font-family: "Funnel Display", sans-serif !important;
@@ -483,4 +487,38 @@ body {
 #bali-map-container .leaflet-top,
 #bali-map-container .leaflet-bottom {
   z-index: 500 !important;
+}
+
+/* EV Compatibility Brand Marquee Styles */
+@keyframes marqueeLeft {
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-50%, 0, 0); }
+}
+
+@keyframes marqueeRight {
+  0% { transform: translate3d(-50%, 0, 0); }
+  100% { transform: translate3d(0, 0, 0); }
+}
+
+.animate-marquee-left {
+  display: flex;
+  width: max-content;
+  animation: marqueeLeft 35s linear infinite;
+}
+
+.animate-marquee-right {
+  display: flex;
+  width: max-content;
+  animation: marqueeRight 35s linear infinite;
+}
+
+.marquee-track:hover .animate-marquee-left,
+.marquee-track:hover .animate-marquee-right {
+  animation-play-state: paused;
+}
+
+/* EV Compatibility Brand Marquee Smooth Edge Mask */
+.marquee-fade-mask {
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 1) 12%, rgba(0, 0, 0, 1) 88%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 1) 12%, rgba(0, 0, 0, 1) 88%, transparent 100%);
 }

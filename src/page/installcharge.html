@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 
 <head>
   <meta charset="UTF-8" />
   <link rel="icon" type="image/png" href="../asset/img/favicon.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>VOLTMAP - Install Charger & P2P Sharing Network</title>
+  <title>VOLTMAP - Install Charger</title>
   <meta name="description"
     content="Ubah charger EV rumah atau bisnis Anda menjadi sumber pendapatan pasif dengan jaringan P2P Charge Sharing VoltMap." />
 
@@ -75,11 +75,11 @@
         <!-- Background Image Layers for Smooth Hover Transition (Light Theme) -->
         <div id="hero-bg-layer-1"
           class="absolute inset-0 w-full h-full bg-cover bg-center transition-opacity duration-700 ease-in-out opacity-100 scale-105 pointer-events-none"
-          style="background-image: url('../asset/img/images/hero_ev_station7.jpg');">
+          style="background-image: url('../asset/img/images/wall1.jpg');">
         </div>
         <div id="hero-bg-layer-2"
           class="absolute inset-0 w-full h-full bg-cover bg-center transition-opacity duration-700 ease-in-out opacity-0 scale-105 pointer-events-none"
-          style="background-image: url('../asset/img/images/hero_ev_station4.jpg');">
+          style="background-image: url('../asset/img/images/station1.jpg');">
         </div>
 
         <!-- Gradient Overlays for Light Theme Text Readability -->
@@ -105,7 +105,7 @@
               </h1>
               <p id="hero-subtitle"
                 class="text-gray-200/90 text-base sm:text-xl font-medium leading-relaxed max-w-xl transition-opacity duration-300">
-                Create a charging point of your own with certified fast wallbox installation for your residence.
+                Create a charging point of your own with certified fast wallbox installation for your residence
               </p>
             </div>
 
@@ -113,7 +113,7 @@
             <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-2">
 
               <!-- Button 1: Install Charger (Home) -->
-              <a id="btn-hero-install" href="#host-register-section"
+              <a id="btn-hero-install" href="#choose-charger-section"
                 class="px-8 py-4 rounded-full bg-[#52C133]  text-white font-black text-base transition-all duration-300 transform hover:scale-105 active:scale-95 flex items-center justify-center gap-3 group ">
                 <i class="fa-solid fa-wrench transition-transform group-hover:rotate-12"></i>
                 <span>Install Charger</span>
@@ -137,15 +137,14 @@
                 class="w-full h-full object-cover object-center transition-all duration-500 group-hover:scale-105" />
               <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent"></div>
 
-              <div
-                class="absolute bottom-6 left-6 right-6 p-4 rounded-2xl bg-white/95 border border-slate-200 shadow-xl backdrop-blur-md space-y-1">
+              <div id="hero-card-badge"
+                class="absolute bottom-6 left-6 right-6 p-4 rounded-2xl bg-white text-[#52C133] border border-slate-200 shadow-xl backdrop-blur-md transition-all duration-300 group-hover:bg-[#52C133] group-hover:text-white group-hover:border-[#52C133] hover:bg-[#52C133] hover:text-white">
                 <div class="flex items-center justify-between">
-                  <span id="hero-card-title" class="text-xs font-black text-[#52C133] uppercase tracking-wider">VoltMap
+                  <span id="hero-card-title" class="text-xs font-black uppercase tracking-wider">VoltMap
                     Wallbox 22kW</span>
-                  <span class="w-2.5 h-2.5 rounded-full bg-[#52C133] animate-pulse"></span>
+                  <i id="hero-card-icon"
+                    class="fa-solid fa-house-chimney text-sm transition-transform duration-300 group-hover:scale-110"></i>
                 </div>
-                <p id="hero-card-desc" class="text-[11px] text-slate-600 font-bold">Smart App Controlled • Ultra Fast
-                  Charge</p>
               </div>
             </div>
           </div>
@@ -154,7 +153,444 @@
       </section>
 
       <!-- ==========================================
-           SECTION 2: P2P SHOWCASE & CALCULATOR (#p2p-calculator-section)
+           SECTION 2: INSTALL CHARGER LOCATION (#install-charger-section)
+           ========================================== -->
+      <section id="install-charger-section" class="w-full bg-white text-black py-16 sm:py-24 px-6 sm:px-12 lg:px-20">
+        <div class="max-w-[90%] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
+
+          <!-- Left Visual Graphic: Interactive Stacked Diagonal Dual-Image Card -->
+          <div class="lg:col-span-7" data-aos="fade-right">
+            <div id="stacked-image-container"
+              class="relative w-full aspect-[4/3] rounded-[28px] sm:rounded-[36px] overflow-hidden shadow-2xl border-4 border-white bg-slate-900 group select-none cursor-pointer">
+
+              <!-- Image Layer 1 (Base / Top-Left): Residential Home Wallbox Charger -->
+              <div id="stacked-layer-home"
+                class="absolute inset-0 w-full h-full z-10 transition-all duration-700 ease-out">
+                <img src="../asset/img/images/wall1.jpg" alt="Home EV Wallbox Charger"
+                  class="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105" />
+                <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/20"></div>
+
+                <!-- Badge Top-Left -->
+                <div id="badge-stacked-home"
+                  class="absolute top-5 left-5 z-30 px-4 py-2 rounded-full bg-white backdrop-blur-md text-black text-xs sm:text-sm font-extrabold flex items-center gap-2.5 border border-white/20 shadow-xl transition-all duration-300 pointer-events-none">
+                  <i class="fa-solid fa-house-chimney"></i>
+                  <span>Home Wallbox</span>
+                </div>
+              </div>
+
+              <!-- Image Layer 2 (Top Overlay / Bottom-Right): Commercial Charging Station -->
+              <div id="stacked-layer-commercial"
+                class="absolute inset-0 w-full h-full z-20 transition-all duration-700 ease-out"
+                style="clip-path: polygon(0 75%, 100% 20%, 100% 100%, 0 100%);">
+                <img src="../asset/img/images/station1.jpg" alt="Commercial EV Station Hub"
+                  class="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105" />
+                <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/20"></div>
+
+                <!-- Badge Bottom-Right -->
+                <div id="badge-stacked-commercial"
+                  class="absolute bottom-5 right-5 z-30 px-4 py-2 rounded-full bg-white backdrop-blur-md text-black text-xs sm:text-sm font-extrabold flex items-center gap-2.5 border border-white/20 shadow-xl transition-all duration-300 pointer-events-none">
+                  <i class="fa-solid fa-charging-station"></i>
+                  <span>Commercial Station</span>
+                </div>
+              </div>
+
+              <!-- White Diagonal Line Separator Overlay -->
+              <div id="stacked-divider" class="absolute inset-0 pointer-events-none z-30">
+                <svg class="w-full h-full overflow-visible" preserveAspectRatio="none" viewBox="0 0 100 100">
+                  <line x1="0" y1="75" x2="100" y2="20" stroke="white" stroke-width="3.5"
+                    vector-effect="non-scaling-stroke" />
+                </svg>
+              </div>
+
+              <!-- Interactive Hover Trigger Polygon Overlay Zones -->
+              <div id="stacked-trigger-home" class="absolute inset-0 z-40 cursor-pointer"
+                style="clip-path: polygon(0 0, 100% 0, 100% 20%, 0 75%);"></div>
+
+              <div id="stacked-trigger-commercial" class="absolute inset-0 z-40 cursor-pointer"
+                style="clip-path: polygon(0 75%, 100% 20%, 100% 100%, 0 100%);"></div>
+
+            </div>
+          </div>
+
+          <!-- Right Column: Heading & Body Text -->
+          <div class="lg:col-span-5 space-y-6" data-aos="fade-left">
+            <h2 class="text-4xl sm:text-5xl lg:text-6xl tracking-tight leading-[1.12] text-black">
+              <span class="font-extrabold text-black">Your charger</span> <br><span class="font-normal text-secondary">
+                Your opportunity!</span>
+            </h2>
+            <p class="text-slate-600 text-base sm:text-lg font-medium leading-relaxed max-w-lg">
+              From convenient home charging to commercial fast charging, VoltMap helps you find the right setup for
+              every journey
+            </p>
+
+            <!-- CTA Button -->
+            <div class="pt-2">
+              <a href="#choose-charger-section"
+                class="inline-flex items-center gap-3 px-7 py-3.5 rounded-full bg-[#52C133] text-white font-extrabold text-sm sm:text-base shadow-md hover:shadow-lg transition-all transform hover:bg-secondary-hover hover:scale-105 active:translate-y-0">
+                <span>Get Started</span>
+                <i class="fa-solid fa-arrow-right text-xs"></i>
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ==========================================
+           SECTION 3: share charger 
+           ========================================== -->
+      <section id="share-charger-section" class="w-full bg-white text-black py-16 sm:py-24 px-6 sm:px-12 lg:px-20">
+        <div class="max-w-[90%] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
+
+          <!-- left Column: Heading & Body Text -->
+          <div class="lg:col-span-5 space-y-6" data-aos="fade-right">
+            <h2 class="text-4xl sm:text-5xl lg:text-6xl tracking-tight leading-[1.12] text-black">
+              <span class="font-extrabold text-black">Share your charger
+              </span><span class="font-normal text-secondary">
+                Power more journeys</span>
+            </h2>
+            <p class="text-slate-600 text-base sm:text-lg font-medium leading-relaxed max-w-lg">
+              Have a home charger or commercial station? Share it with the VoltMap network, create new opportunities,
+              and grow the EV community
+            </p>
+
+            <!-- CTA Button -->
+            <div class="pt-2">
+              <a href="#host-register-section"
+                class="inline-flex items-center gap-3 px-7 py-3.5 rounded-full bg-[#52C133] text-white font-extrabold text-sm sm:text-base shadow-md hover:shadow-lg transition-all transform hover:bg-secondary-hover hover:scale-105 active:translate-y-0">
+                <span>Share Your Charger</span>
+                <i class="fa-solid fa-arrow-right text-xs"></i>
+              </a>
+            </div>
+          </div>
+          <!-- right Visual Graphic: Interactive Stacked Diagonal Dual-Image Card -->
+          <div class="lg:col-span-7" data-aos="fade-left">
+            <div id="stacked-image-container"
+              class="relative w-full aspect-[4/3] rounded-[28px] sm:rounded-[36px] overflow-hidden shadow-2xl border-4 border-white bg-slate-900 group select-none cursor-pointer">
+
+              <!-- Image  -->
+              <div class="absolute inset-0 w-full h-full z-10 transition-all duration-700 ease-out">
+                <img src="../asset/img/images/people4.jpg" alt="Home EV Wallbox Charger"
+                  class="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105" />
+                <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/20"></div>
+              </div>
+
+            </div>
+          </div>
+
+
+
+        </div>
+      </section>
+
+      <!-- ==========================================
+           SECTION 4: CHOOSE CHARGER (#choose-charger-section)
+           ========================================== -->
+      <section id="choose-charger-section" class="w-full bg-white text-black py-16 sm:py-24 px-6 sm:px-12 lg:px-20">
+        <div class="max-w-7xl mx-auto space-y-12">
+
+          <!-- Section Header -->
+          <div class="text-center max-w-4xl mx-auto space-y-3" data-aos="fade-up">
+            <h2 class="text-4xl sm:text-6xl lg:text-7xl font-black text-black tracking-tight leading-tight">
+              <span class="text-secondary">Charge</span> Your Way
+            </h2>
+            <p class="text-slate-600 text-base sm:text-lg font-medium">
+              Charging solutions designed for every journey.
+            </p>
+          </div>
+
+          <!-- 2x2 Grid of Full-Card Image Charger Models -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+            <!-- Card 1: VoltMap Smart Series -->
+            <div
+              class="relative w-full aspect-[4/3] rounded-[32px] sm:rounded-[36px] overflow-hidden shadow-xl border border-slate-100 group flex flex-col justify-between p-6 sm:p-8"
+              data-aos="fade-up" data-aos-delay="100">
+              <!-- Full Size Background Image -->
+              <img src="../asset/img/images/wall1.jpg" alt="VoltMap Smart Series"
+                class="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105 pointer-events-none" />
+              <!-- Gradient Overlay -->
+              <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-black/30 pointer-events-none">
+              </div>
+
+              <!-- Top Content -->
+              <div class="relative z-10 space-y-2">
+                <span
+                  class="inline-block px-3.5 py-1 rounded-full bg-white/20 backdrop-blur-md text-white text-xs font-bold border border-white/30">
+                  Home & Residential
+                </span>
+                <h3 class="text-2xl sm:text-3xl font-black text-white">VoltMap Smart Series</h3>
+                <p class="text-slate-200 text-xs sm:text-sm font-semibold">From 7kW, 11kW & 22kW</p>
+              </div>
+
+              <!-- Bottom Action Buttons -->
+              <div class="relative z-10 flex flex-wrap items-center gap-3 pt-4">
+                <a href="#"
+                  class="px-5 py-2.5 rounded-full bg-[#52C133] text-white font-extrabold text-xs sm:text-sm hover:bg-[#43a628] transition-all shadow-lg hover:scale-105 active:scale-95 flex items-center gap-2">
+                  <span>View Details</span>
+                  <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                </a>
+              </div>
+            </div>
+
+            <!-- Card 2: VoltMap Smart 30kW DC -->
+            <div
+              class="relative w-full aspect-[4/3] rounded-[32px] sm:rounded-[36px] overflow-hidden shadow-xl border border-slate-100 group flex flex-col justify-between p-6 sm:p-8"
+              data-aos="fade-up" data-aos-delay="400">
+              <!-- Full Size Background Image -->
+              <img src="../asset/img/images/hero_ev_station2.jpg" alt="VoltMap Smart 30kW DC"
+                class="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105 pointer-events-none" />
+              <!-- Gradient Overlay -->
+              <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-black/30 pointer-events-none">
+              </div>
+
+              <!-- Top Content -->
+              <div class="relative z-10 space-y-2">
+                <span
+                  class="inline-block px-3.5 py-1 rounded-full bg-white/20 backdrop-blur-md text-white text-xs font-bold border border-white/30">
+                  Fleet & Business Parking
+                </span>
+                <h3 class="text-2xl sm:text-3xl font-black text-white">VoltMap Smart 30kW DC</h3>
+                <p class="text-slate-200 text-xs sm:text-sm font-semibold">Compact DC Charger – 30kW & 50kW</p>
+              </div>
+
+              <!-- Bottom Action Buttons -->
+              <div class="relative z-10 flex flex-wrap items-center gap-3 pt-4">
+                <a href="#"
+                  class="px-5 py-2.5 rounded-full bg-[#52C133] text-white font-extrabold text-xs sm:text-sm hover:bg-[#43a628] transition-all shadow-lg hover:scale-105 active:scale-95 flex items-center gap-2">
+                  <span>View Details</span>
+                  <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                </a>
+
+                </button>
+              </div>
+            </div>
+
+            <!-- Card 3: VoltMap Smart 44kW Gen 3 -->
+            <div
+              class="relative w-full aspect-[4/3] rounded-[32px] sm:rounded-[36px] overflow-hidden shadow-xl border border-slate-100 group flex flex-col justify-between p-6 sm:p-8"
+              data-aos="fade-up" data-aos-delay="200">
+              <!-- Full Size Background Image -->
+              <img src="../asset/img/images/station1.jpg" alt="VoltMap Smart 44kW Gen 3"
+                class="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105 pointer-events-none" />
+              <!-- Gradient Overlay -->
+              <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-black/30 pointer-events-none">
+              </div>
+
+              <!-- Top Content -->
+              <div class="relative z-10 space-y-2">
+                <span
+                  class="inline-block px-3.5 py-1 rounded-full bg-white/20 backdrop-blur-md text-white text-xs font-bold border border-white/30">
+                  Commercial & Office
+                </span>
+                <h3 class="text-2xl sm:text-3xl font-black text-white">VoltMap Smart 44kW Gen 3</h3>
+                <p class="text-slate-200 text-xs sm:text-sm font-semibold">From 2X22kW (Charge 2 EV's At Once)</p>
+              </div>
+
+              <!-- Bottom Action Buttons -->
+              <div class="relative z-10 flex flex-wrap items-center gap-3 pt-4">
+                <a href="#"
+                  class="px-5 py-2.5 rounded-full bg-[#52C133] text-white font-extrabold text-xs sm:text-sm hover:bg-[#43a628] transition-all shadow-lg hover:scale-105 active:scale-95 flex items-center gap-2">
+                  <span>View Details</span>
+                  <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                </a>
+              </div>
+            </div>
+
+            <!-- Card 4: VoltMap Smart Dual ECO Pillar -->
+            <div
+              class="relative w-full aspect-[4/3] rounded-[32px] sm:rounded-[36px] overflow-hidden shadow-xl border border-slate-100 group flex flex-col justify-between p-6 sm:p-8"
+              data-aos="fade-up" data-aos-delay="300">
+              <!-- Full Size Background Image -->
+              <img src="../asset/img/images/hero_ev_station4.jpg" alt="VoltMap Smart Dual ECO Pillar"
+                class="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105 pointer-events-none" />
+              <!-- Gradient Overlay -->
+              <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-black/30 pointer-events-none">
+              </div>
+
+              <!-- Top Content -->
+              <div class="relative z-10 space-y-2">
+                <span
+                  class="inline-block px-3.5 py-1 rounded-full bg-white/20 backdrop-blur-md text-white text-xs font-bold border border-white/30">
+                  Superfast DC Station
+                </span>
+                <h3 class="text-2xl sm:text-3xl font-black text-white">VoltMap Dual ECO Pillar</h3>
+                <p class="text-slate-200 text-xs sm:text-sm font-semibold">Superfast DC Charger – 60kW to 360kW</p>
+              </div>
+
+              <!-- Bottom Action Buttons -->
+              <div class="relative z-10 flex flex-wrap items-center gap-3 pt-4">
+                <a href="#"
+                  class="px-5 py-2.5 rounded-full bg-[#52C133] text-white font-extrabold text-xs sm:text-sm hover:bg-[#43a628] transition-all shadow-lg hover:scale-105 active:scale-95 flex items-center gap-2">
+                  <span>View Details</span>
+                  <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                </a>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ==========================================
+           SECTION 4.5: EV COMPATIBILITY BRAND LOGOS (#ev-compatibility-section)
+           ========================================== -->
+      <section id="ev-compatibility-section"
+        class="w-full py-16 sm:py-24 px-0 bg-white text-black overflow-hidden relative select-none">
+        <div class="w-full space-y-12 text-center">
+
+          <!-- Heading & Subtitle -->
+          <div class="max-w-4xl mx-auto space-y-4 px-6 sm:px-12" data-aos="fade-up">
+            <h2 class="text-3xl sm:text-5xl lg:text-6xl font-black text-black tracking-tight leading-tight">
+              Made for Every EV Journey
+            </h2>
+            <p class="text-slate-600 text-base sm:text-lg font-medium leading-relaxed max-w-3xl mx-auto">
+              From everyday EVs to premium electric models, VoltMap makes charging simple.
+            </p>
+          </div>
+
+          <!-- 2-Row Infinite Marquee Carousel Container with Ultra-Soft Fade Edge Masks -->
+          <div class="relative w-full overflow-hidden py-4 space-y-6 marquee-fade-mask" data-aos="fade-up"
+            data-aos-delay="100">
+
+            <!-- Left & Right Gradient Fade Overlay Masks (Ultra-Soft Viewport Edges) -->
+            <div
+              class="absolute top-0 bottom-0 left-0 w-16 sm:w-36 lg:w-48 bg-gradient-to-r from-white via-white/80 to-transparent z-20 pointer-events-none">
+            </div>
+            <div
+              class="absolute top-0 bottom-0 right-0 w-16 sm:w-36 lg:w-48 bg-gradient-to-l from-white via-white/80 to-transparent z-20 pointer-events-none">
+            </div>
+
+            <!-- ROW 1: Moves Left -->
+            <div id="brand-marquee-row-1" class="marquee-track relative w-full overflow-hidden">
+              <div class="animate-marquee-left gap-6 sm:gap-10 items-center">
+                <!-- Original 9 items (Duplicated automatically via JS) -->
+                <div
+                  class="px-6 py-4 rounded-2xl bg-slate-50/80 border border-slate-100 hover:border-emerald-400 hover:shadow-md transition-all cursor-pointer shrink-0 flex items-center justify-center h-20 w-36 sm:w-44 group"
+                  title="Tesla">
+                  <img src="../asset/img/images/brand/tesla.png" alt="Tesla"
+                    class="h-10 sm:h-12 w-auto max-w-[100px] object-contain group-hover:scale-110 transition-transform duration-300" />
+                </div>
+                <div
+                  class="px-6 py-4 rounded-2xl bg-slate-50/80 border border-slate-100 hover:border-emerald-400 hover:shadow-md transition-all cursor-pointer shrink-0 flex items-center justify-center h-20 w-36 sm:w-44 group"
+                  title="BYD">
+                  <img src="../asset/img/images/brand/BYD.png" alt="BYD"
+                    class="h-9 sm:h-11 w-auto max-w-[100px] object-contain group-hover:scale-110 transition-transform duration-300" />
+                </div>
+                <div
+                  class="px-6 py-4 rounded-2xl bg-slate-50/80 border border-slate-100 hover:border-emerald-400 hover:shadow-md transition-all cursor-pointer shrink-0 flex items-center justify-center h-20 w-36 sm:w-44 group"
+                  title="Audi">
+                  <img src="../asset/img/images/brand/audi.png" alt="Audi"
+                    class="h-8 sm:h-10 w-auto max-w-[100px] object-contain group-hover:scale-110 transition-transform duration-300" />
+                </div>
+                <div
+                  class="px-6 py-4 rounded-2xl bg-slate-50/80 border border-slate-100 hover:border-emerald-400 hover:shadow-md transition-all cursor-pointer shrink-0 flex items-center justify-center h-20 w-36 sm:w-44 group"
+                  title="MG">
+                  <img src="../asset/img/images/brand/mg.png" alt="MG"
+                    class="h-10 sm:h-12 w-auto max-w-[100px] object-contain group-hover:scale-110 transition-transform duration-300" />
+                </div>
+                <div
+                  class="px-6 py-4 rounded-2xl bg-slate-50/80 border border-slate-100 hover:border-emerald-400 hover:shadow-md transition-all cursor-pointer shrink-0 flex items-center justify-center h-20 w-36 sm:w-44 group"
+                  title="BMW">
+                  <img src="../asset/img/images/brand/BMW.png" alt="BMW"
+                    class="h-11 sm:h-13 w-auto max-w-[100px] object-contain group-hover:scale-110 transition-transform duration-300" />
+                </div>
+                <div
+                  class="px-6 py-4 rounded-2xl bg-slate-50/80 border border-slate-100 hover:border-emerald-400 hover:shadow-md transition-all cursor-pointer shrink-0 flex items-center justify-center h-20 w-36 sm:w-44 group"
+                  title="Honda">
+                  <img src="../asset/img/images/brand/honda.png" alt="Honda"
+                    class="h-10 sm:h-12 w-auto max-w-[100px] object-contain group-hover:scale-110 transition-transform duration-300" />
+                </div>
+                <div
+                  class="px-6 py-4 rounded-2xl bg-slate-50/80 border border-slate-100 hover:border-emerald-400 hover:shadow-md transition-all cursor-pointer shrink-0 flex items-center justify-center h-20 w-36 sm:w-44 group"
+                  title="KIA">
+                  <img src="../asset/img/images/brand/2.png" alt="KIA"
+                    class="h-7 sm:h-9 w-auto max-w-[100px] object-contain group-hover:scale-110 transition-transform duration-300" />
+                </div>
+                <div
+                  class="px-6 py-4 rounded-2xl bg-slate-50/80 border border-slate-100 hover:border-emerald-400 hover:shadow-md transition-all cursor-pointer shrink-0 flex items-center justify-center h-20 w-36 sm:w-44 group"
+                  title="Lexus">
+                  <img src="../asset/img/images/brand/l.png" alt="Lexus"
+                    class="h-10 sm:h-12 w-auto max-w-[100px] object-contain group-hover:scale-110 transition-transform duration-300" />
+                </div>
+                <div
+                  class="px-6 py-4 rounded-2xl bg-slate-50/80 border border-slate-100 hover:border-emerald-400 hover:shadow-md transition-all cursor-pointer shrink-0 flex items-center justify-center h-20 w-36 sm:w-44 group"
+                  title="MINI">
+                  <img src="../asset/img/images/brand/mini.png" alt="MINI"
+                    class="h-8 sm:h-10 w-auto max-w-[100px] object-contain group-hover:scale-110 transition-transform duration-300" />
+                </div>
+              </div>
+            </div>
+
+            <!-- ROW 2: Moves Right -->
+            <div id="brand-marquee-row-2" class="marquee-track relative w-full overflow-hidden">
+              <div class="animate-marquee-right gap-6 sm:gap-10 items-center">
+                <!-- Original 9 items (Duplicated automatically via JS) -->
+                <div
+                  class="px-6 py-4 rounded-2xl bg-slate-50/80 border border-slate-100 hover:border-emerald-400 hover:shadow-md transition-all cursor-pointer shrink-0 flex items-center justify-center h-20 w-36 sm:w-44 group"
+                  title="Mercedes-Benz">
+                  <img src="../asset/img/images/brand/mercedes.png" alt="Mercedes-Benz"
+                    class="h-11 sm:h-13 w-auto max-w-[100px] object-contain group-hover:scale-110 transition-transform duration-300" />
+                </div>
+                <div
+                  class="px-6 py-4 rounded-2xl bg-slate-50/80 border border-slate-100 hover:border-emerald-400 hover:shadow-md transition-all cursor-pointer shrink-0 flex items-center justify-center h-20 w-36 sm:w-44 group"
+                  title="Nissan">
+                  <img src="../asset/img/images/brand/nissan.png" alt="Nissan"
+                    class="h-10 sm:h-12 w-auto max-w-[100px] object-contain group-hover:scale-110 transition-transform duration-300" />
+                </div>
+                <div
+                  class="px-6 py-4 rounded-2xl bg-slate-50/80 border border-slate-100 hover:border-emerald-400 hover:shadow-md transition-all cursor-pointer shrink-0 flex items-center justify-center h-20 w-36 sm:w-44 group"
+                  title="Volkswagen">
+                  <img src="../asset/img/images/brand/volks.png" alt="Volkswagen"
+                    class="h-11 sm:h-13 w-auto max-w-[100px] object-contain group-hover:scale-110 transition-transform duration-300" />
+                </div>
+                <div
+                  class="px-6 py-4 rounded-2xl bg-slate-50/80 border border-slate-100 hover:border-emerald-400 hover:shadow-md transition-all cursor-pointer shrink-0 flex items-center justify-center h-20 w-36 sm:w-44 group"
+                  title="Volvo">
+                  <img src="../asset/img/images/brand/volvo.png" alt="Volvo"
+                    class="h-11 sm:h-13 w-auto max-w-[100px] object-contain group-hover:scale-110 transition-transform duration-300" />
+                </div>
+                <div
+                  class="px-6 py-4 rounded-2xl bg-slate-50/80 border border-slate-100 hover:border-emerald-400 hover:shadow-md transition-all cursor-pointer shrink-0 flex items-center justify-center h-20 w-36 sm:w-44 group"
+                  title="Hyundai">
+                  <img src="../asset/img/images/brand/1.png" alt="Hyundai"
+                    class="h-10 sm:h-12 w-auto max-w-[100px] object-contain group-hover:scale-110 transition-transform duration-300" />
+                </div>
+                <div
+                  class="px-6 py-4 rounded-2xl bg-slate-50/80 border border-slate-100 hover:border-emerald-400 hover:shadow-md transition-all cursor-pointer shrink-0 flex items-center justify-center h-20 w-36 sm:w-44 group"
+                  title="Renault">
+                  <img src="../asset/img/images/brand/renault-min.png" alt="Renault"
+                    class="h-11 sm:h-13 w-auto max-w-[100px] object-contain group-hover:scale-110 transition-transform duration-300" />
+                </div>
+                <div
+                  class="px-6 py-4 rounded-2xl bg-slate-50/80 border border-slate-100 hover:border-emerald-400 hover:shadow-md transition-all cursor-pointer shrink-0 flex items-center justify-center h-20 w-36 sm:w-44 group"
+                  title="Smart">
+                  <img src="../asset/img/images/brand/smart.png" alt="Smart"
+                    class="h-10 sm:h-12 w-auto max-w-[100px] object-contain group-hover:scale-110 transition-transform duration-300" />
+                </div>
+                <div
+                  class="px-6 py-4 rounded-2xl bg-slate-50/80 border border-slate-100 hover:border-emerald-400 hover:shadow-md transition-all cursor-pointer shrink-0 flex items-center justify-center h-20 w-36 sm:w-44 group"
+                  title="Toyota">
+                  <img src="../asset/img/images/brand/toyota.png" alt="Toyota"
+                    class="h-10 sm:h-12 w-auto max-w-[100px] object-contain group-hover:scale-110 transition-transform duration-300" />
+                </div>
+                <div
+                  class="px-6 py-4 rounded-2xl bg-slate-50/80 border border-slate-100 hover:border-emerald-400 hover:shadow-md transition-all cursor-pointer shrink-0 flex items-center justify-center h-20 w-36 sm:w-44 group"
+                  title="Porsche">
+                  <img src="../asset/img/images/brand/porsche.png" alt="Porsche"
+                    class="h-11 sm:h-13 w-auto max-w-[100px] object-contain group-hover:scale-110 transition-transform duration-300" />
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ==========================================
+           SECTION 5: P2P SHOWCASE & CALCULATOR (#p2p-calculator-section)
            ========================================== -->
       <section id="p2p-calculator-section" class="relative w-full px-4 sm:px-6 lg:px-12 overflow-hidden">
         <div class="max-w-7xl mx-auto space-y-12">
@@ -309,7 +745,7 @@
         </div>
       </section>
 
-      <!-- SECTION 2: HOW IT WORKS STEP BY STEP -->
+      <!-- SECTION 4: HOW IT WORKS STEP BY STEP -->
       <section id="p2p-steps-section"
         class="w-full px-4 sm:px-6 lg:px-12 py-12 bg-slate-900/50 border-y border-slate-800">
         <div class="max-w-7xl mx-auto space-y-12">
