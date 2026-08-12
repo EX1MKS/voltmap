@@ -16,12 +16,79 @@ $(document).ready(() => {
   playCurtainEntrance();
   initNavigation();
   initNavbarEvents();
+  initCardParallax();
 
   // Initialize AOS if available
   if (typeof AOS !== "undefined") {
     AOS.init({ duration: 800, once: true });
   }
 });
+
+/* ==========================================
+   CARD SCROLL PARALLAX ANIMATION
+   ========================================== */
+function initCardParallax() {
+  const wrappers = document.querySelectorAll(".card-parallax-wrapper");
+  if (!wrappers.length) return;
+
+  // 1. Primary approach: GSAP ScrollTrigger for horizontal right-to-left scrub
+  if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
+    gsap.registerPlugin(ScrollTrigger);
+
+    wrappers.forEach((wrapper) => {
+      const card = wrapper.closest(".group") || wrapper.parentElement;
+      gsap.fromTo(
+        wrapper,
+        { x: "12%" },
+        {
+          x: "-12%",
+          ease: "none",
+          scrollTrigger: {
+            trigger: card,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 0.8,
+          },
+        }
+      );
+    });
+    return;
+  }
+
+  // 2. High-performance requestAnimationFrame fallback for right-to-left horizontal scroll parallax
+  let ticking = false;
+
+  function updateParallax() {
+    const windowHeight = window.innerHeight;
+
+    wrappers.forEach((wrapper) => {
+      const card = wrapper.closest(".group") || wrapper.parentElement;
+      const rect = card.getBoundingClientRect();
+
+      if (rect.bottom > 0 && rect.top < windowHeight) {
+        const totalDist = windowHeight + rect.height;
+        const currentPos = windowHeight - rect.top;
+        const progress = Math.min(Math.max(currentPos / totalDist, 0), 1);
+        const translateX = (0.5 - progress) * 60; // moves from right (+30px) to left (-30px)
+
+        wrapper.style.transform = `translate3d(${translateX}px, 0, 0)`;
+      }
+    });
+
+    ticking = false;
+  }
+
+  function onScroll() {
+    if (!ticking) {
+      requestAnimationFrame(updateParallax);
+      ticking = true;
+    }
+  }
+
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", onScroll, { passive: true });
+  updateParallax();
+}
 
 /* ==========================================
    NAVIGATION & CURTAIN PAGE TRANSITIONS
