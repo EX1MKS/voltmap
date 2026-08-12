@@ -1,9 +1,11 @@
-/**
- * VOLTMAP Footer Component
- * Reusable JavaScript Component for VOLTMAP Footer
- */
+import { renderSignup } from "./signup.js";
 
 export function renderFooter(targetElementOrSelector = "#footer-app", options = {}) {
+  // Render Sign Up Component if container exists on page
+  if (document.querySelector("#signup-app")) {
+    renderSignup("#signup-app", options);
+  }
+
   const {
     activePage = "home",
     brandName = "VOLTMAP"

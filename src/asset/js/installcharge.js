@@ -160,7 +160,7 @@ function initP2PCalculator() {
     $hoursSlider.on("input", function () {
       p2pHours = parseInt($(this).val(), 10);
       if ($hoursLabel.length) {
-        $hoursLabel.text(`${p2pHours} Jam`);
+        $hoursLabel.text(`${p2pHours} Hours`);
       }
       updateP2PIncome();
     });
@@ -191,7 +191,7 @@ function updateP2PIncome() {
   const monthly = Math.round(p2pHours * p2pKw * 0.35 * 30);
   const $display = $("#p2p-income-display");
   if ($display.length) {
-    $display.html(`$${monthly.toLocaleString()} <span class="text-xs font-bold text-gray-500 font-sans">/ bulan</span>`);
+    $display.html(`$${monthly.toLocaleString()} <span class="text-xs font-bold text-slate-500 font-sans">/ month</span>`);
   }
 }
 
