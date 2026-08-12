@@ -52,6 +52,9 @@ $(document).ready(() => {
   // Initialize Leaflet World Map
   initWorldMap();
 
+  // Sign up form interaction
+  initSignUpForm();
+
   // Initialize Third Party Libraries if available
   initPlugins();
 });
@@ -478,3 +481,26 @@ function initMonumentCarousel() {
     }, 250);
   }, 3000);
 }
+
+/* ==========================================
+   VOLTMAP SIGN UP FORM INTERACTION
+   ========================================== */
+function initSignUpForm() {
+  const $form = $("#signup-voltmap-form");
+  const $msg = $("#signup-success-msg");
+
+  if (!$form.length) return;
+
+  $form.on("submit", function (e) {
+    e.preventDefault();
+    const email = $("#signup-email-input").val().trim();
+    if (email) {
+      $msg.removeClass("hidden").addClass("flex");
+      $("#signup-email-input").val("");
+      setTimeout(() => {
+        $msg.addClass("hidden").removeClass("flex");
+      }, 5000);
+    }
+  });
+}
+

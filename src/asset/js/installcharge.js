@@ -5,7 +5,7 @@
 
 import { renderNavbar } from "./navbar.js";
 import { renderFooter } from "./footer.js";
-import { initNavbarEntrance } from "./animations.js";
+import { initNavbarEntrance, initInstallBannerAnimations } from "./animations.js";
 
 const $ = window.jQuery || window.$;
 
@@ -49,8 +49,9 @@ $(document).ready(() => {
     AOS.init({ duration: 800, once: true });
   }
 
-  // Initialize Navbar Entrance Animations
+  // Initialize Navbar Entrance & Banner Animations
   initNavbarEntrance();
+  initInstallBannerAnimations();
 });
 
 /* ==========================================

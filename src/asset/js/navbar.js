@@ -67,7 +67,7 @@ export function renderNavbar(targetElementOrSelector = "#navbar-app", options = 
         <div id="nav-actions" class="flex items-center gap-3">
           <button data-nav-target="-"
             class="hidden md:flex h-11 items-center gap-2 rounded-2xl bg-[var(--secondary)] px-6 text-sm font-bold text-white shadow-sm transition hover:bg-[var(--secondary-hover)] hover:scale-[1.02] active:scale-95 will-change-transform">
-            <span>Login</span>
+            <span>Sign In</span>
             <i class="fa-solid fa-user text-xs text-white"></i>
           </button>
 
@@ -98,7 +98,7 @@ export function renderNavbar(targetElementOrSelector = "#navbar-app", options = 
       </div>
       <button data-mobile-nav="-"
         class="mt-2 h-12 rounded-2xl bg-[var(--secondary)] font-bold text-white flex items-center justify-center gap-2 shadow-md hover:bg-[var(--secondary-hover)] transition">
-        <span>Login</span>
+        <span>Sign In</span>
         <i class="fa-solid fa-user text-white"></i>
       </button>
     </div>

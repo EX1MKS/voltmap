@@ -20,12 +20,12 @@ export const statItemsConfig = [
 
 export const WAVE_PATHS = {
   main: {
-    stateA: "M 0,32 C 15.6,55 34.4,10 50,32 C 65.6,58 84.4,14 100,32 L 100,88 C 84.4,74 65.6,98 50,88 C 34.4,74 15.6,96 0,88 Z",
-    stateB: "M 0,18 C 15.6,8 34.4,48 50,18 C 65.6,6 84.4,52 100,18 L 100,94 C 84.4,62 65.6,104 50,94 C 34.4,60 15.6,100 0,94 Z",
+    stateA: "M -20,16 C 15.6,40 34.4,-5 50,16 C 65.6,42 84.4,0 120,16 L 120,115 C 84.4,80 65.6,104 50,94 C 34.4,80 15.6,102 -20,115 Z",
+    stateB: "M -20,4 C 15.6,-6 34.4,32 50,4 C 65.6,-8 84.4,36 120,4 L 120,115 C 84.4,70 65.6,110 50,100 C 34.4,68 15.6,106 -20,115 Z",
   },
   back: {
-    stateA: "M -5,26 C 11,48 29,4 45,26 C 61,50 79,8 105,26 L 105,94 C 79,80 61,104 45,94 C 29,78 11,102 -5,94 Z",
-    stateB: "M -5,12 C 11,2 29,42 45,12 C 61,0 79,46 105,12 L 105,98 C 79,66 61,108 45,98 C 29,64 11,104 -5,98 Z",
+    stateA: "M -20,10 C 11,35 29,-10 45,10 C 61,35 79,-5 120,10 L 120,115 C 79,90 61,114 45,104 C 29,88 11,112 -20,115 Z",
+    stateB: "M -20,-2 C 11,-10 29,30 45,-2 C 61,-12 79,34 120,-2 L 120,115 C 79,76 61,118 45,108 C 29,74 11,114 -20,115 Z",
   },
 };
 
@@ -125,8 +125,8 @@ export function initStatsAnimations() {
   // 2. Parallax horizontal scrub
   if (mainGreenPath && backGreenPath && section) {
     const isMobile = window.innerWidth <= 500;
-    const startX = isMobile ? -50 : -60;
-    const endX = 5;
+    const startX = 0;
+    const endX = isMobile ? -15 : -30;
 
     const parallaxTargets = [mainGreenPath, backGreenPath];
     if (auraPath) parallaxTargets.push(auraPath);
@@ -165,7 +165,7 @@ export function initStatsAnimations() {
   }
 
   // 3. Wave morphing
-  if (mainGreenPath) {
+  if (mainGreenPath) {  
     gsap.to(mainGreenPath, {
       d: WAVE_PATHS.main.stateB,
       duration: 4.2,
@@ -231,6 +231,135 @@ export function initStatsAnimations() {
       opacity: 0.8,
       duration: 4.5,
       stagger: 0.7,
+      repeat: -1,
+      yoyo: true,
+      ease: "sine.inOut",
+    });
+  }
+}
+
+export function initInstallBannerAnimations() {
+  if (typeof gsap === "undefined" || typeof ScrollTrigger === "undefined") return;
+  gsap.registerPlugin(ScrollTrigger);
+
+  const section = document.querySelector("#banner-install-charger");
+  const mainGreenPath = document.querySelector("#install-main-path");
+  const backGreenPath = document.querySelector("#install-back-path");
+  const auraPath = document.querySelector("#install-aura-path");
+  const particles = document.querySelector("#install-particles");
+
+  if (!section) return;
+
+  // 1. Parallax scrub on scroll
+  if (mainGreenPath && backGreenPath) {
+    const isMobile = window.innerWidth <= 500;
+    const startX = isMobile ? -20 : 5;
+    const endX = isMobile ? 15 : -20;
+
+    const parallaxTargets = [mainGreenPath, backGreenPath];
+    if (auraPath) parallaxTargets.push(auraPath);
+
+    gsap.fromTo(
+      parallaxTargets,
+      { x: startX },
+      {
+        x: endX,
+        ease: "none",
+        scrollTrigger: {
+          trigger: section,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: 1.2,
+        },
+      }
+    );
+  }
+
+  if (particles) {
+    gsap.fromTo(
+      particles,
+      { x: -100 },
+      {
+        x: 75,
+        ease: "none",
+        scrollTrigger: {
+          trigger: section,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: 1.6,
+        },
+      }
+    );
+  }
+
+  // 2. Continuous Wave Morphing Loop
+  if (mainGreenPath) {
+    gsap.to(mainGreenPath, {
+      d: WAVE_PATHS.main.stateB,
+      duration: 4.2,
+      repeat: -1,
+      yoyo: true,
+      ease: "sine.inOut",
+    });
+    gsap.to(mainGreenPath, {
+      scale: 1.03,
+      y: -7,
+      transformOrigin: "50% 50%",
+      duration: 5.0,
+      repeat: -1,
+      yoyo: true,
+      ease: "sine.inOut",
+    });
+  }
+
+  if (auraPath) {
+    gsap.to(auraPath, {
+      d: WAVE_PATHS.main.stateB,
+      duration: 4.2,
+      repeat: -1,
+      yoyo: true,
+      ease: "sine.inOut",
+    });
+    gsap.to(auraPath, {
+      scale: 1.03,
+      y: -7,
+      transformOrigin: "50% 50%",
+      duration: 5.0,
+      repeat: -1,
+      yoyo: true,
+      ease: "sine.inOut",
+    });
+  }
+
+  if (backGreenPath) {
+    gsap.to(backGreenPath, {
+      d: WAVE_PATHS.back.stateB,
+      duration: 5.5,
+      delay: 0.6,
+      repeat: -1,
+      yoyo: true,
+      ease: "sine.inOut",
+    });
+    gsap.to(backGreenPath, {
+      scale: 1.045,
+      y: 8,
+      transformOrigin: "50% 50%",
+      duration: 6.2,
+      repeat: -1,
+      yoyo: true,
+      ease: "sine.inOut",
+    });
+  }
+
+  // 3. Floating leaves & wind motion animation
+  if (particles && particles.children.length) {
+    gsap.to(Array.from(particles.children), {
+      y: "-=30",
+      x: "+=22",
+      rotation: "+=35",
+      opacity: 0.85,
+      duration: 4.2,
+      stagger: 0.4,
       repeat: -1,
       yoyo: true,
       ease: "sine.inOut",

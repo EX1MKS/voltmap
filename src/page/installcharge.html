@@ -153,6 +153,73 @@
       </section>
 
       <!-- ==========================================
+          BANNER INSTALL CHARGER
+           ========================================== -->
+      <section id="banner-install-charger"
+        class="w-full py-8 sm:py-12 px-4 sm:px-6 xl:px-12 bg-white   relative overflow-hidden" data-aos="fade-up">
+        <div class="max-w-[90%] mx-auto">
+          <div
+            class="relative rounded-[28px] sm:rounded-[36px] py-14 sm:py-20 md:py-24 px-6 text-center overflow-hidden group transition-transform duration-500 shadow-xl border border-blue-100/40">
+            <!-- Animated Wave Ribbon Background SVG -->
+            <svg class="absolute inset-0 -top-[20%] md:-top-[10%] w-full h-[120%] pointer-events-none"
+              viewBox="0 0 100 100" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="installGreenGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#52C133"></stop>
+                  <stop offset="50%" stop-color="#46B428"></stop>
+                  <stop offset="100%" stop-color="#5CD73B"></stop>
+                </linearGradient>
+                <radialGradient id="installGreenAura" cx="40%" cy="40%" r="60%">
+                  <stop offset="0%" stop-color="#96F07A" stop-opacity="0.45"></stop>
+                  <stop offset="100%" stop-color="#52C133" stop-opacity="0"></stop>
+                </radialGradient>
+              </defs>
+              <rect width="100" height="100" fill="#F0F5FB"></rect>
+              <path id="install-back-path"
+                d="M -20,10 C 11,35 29,-10 45,10 C 61,35 79,-5 120,10 L 120,115 C 79,90 61,114 45,104 C 29,88 11,112 -20,115 Z"
+                fill="#2E8B17" fill-opacity="0.5"></path>
+              <path id="install-main-path"
+                d="M -20,16 C 15.6,40 34.4,-5 50,16 C 65.6,42 84.4,0 120,16 L 120,115 C 84.4,80 65.6,104 50,94 C 34.4,80 15.6,102 -20,115 Z"
+                fill="url(#installGreenGrad)"></path>
+              <path id="install-aura-path"
+                d="M -20,16 C 15.6,40 34.4,-5 50,16 C 65.6,42 84.4,0 120,16 L 120,115 C 84.4,80 65.6,104 50,94 C 34.4,80 15.6,102 -20,115 Z"
+                fill="url(#installGreenAura)"></path>
+            </svg>
+
+            <!-- Floating Leaves & Wind Motion -->
+            <div id="install-particles" class="absolute inset-0 pointer-events-none z-10 overflow-hidden">
+              <div class="absolute top-[12%] left-[5%] text-white/50 text-xl sm:text-3xl transform -rotate-12"><i
+                  class="fa-solid fa-leaf"></i></div>
+              <div class="absolute top-[35%] left-[20%] text-white/40 text-lg sm:text-2xl transform rotate-45"><i
+                  class="fa-solid fa-leaf"></i></div>
+              <div class="absolute top-[75%] left-[12%] text-white/55 text-2xl sm:text-4xl transform -rotate-30"><i
+                  class="fa-solid fa-leaf"></i></div>
+              <div class="absolute top-[15%] left-[48%] text-white/35 text-base sm:text-xl transform rotate-90"><i
+                  class="fa-solid fa-leaf"></i></div>
+              <div class="absolute top-[80%] left-[42%] text-white/45 text-xl sm:text-3xl transform rotate-12"><i
+                  class="fa-solid fa-leaf"></i></div>
+              <div class="absolute top-[18%] left-[85%] text-white/50 text-xl sm:text-3xl transform -rotate-45"><i
+                  class="fa-solid fa-leaf"></i></div>
+              <div class="absolute top-[48%] left-[78%] text-white/40 text-3xl sm:text-5xl transform rotate-30"><i
+                  class="fa-solid fa-leaf"></i></div>
+              <div class="absolute top-[76%] left-[88%] text-white/55 text-2xl sm:text-4xl transform -rotate-20"><i
+                  class="fa-solid fa-leaf"></i></div>
+            </div>
+
+            <!-- Banner Text Heading -->
+            <h2
+              class="relative z-20 text-4xl sm:text-6xl lg:text-8xl font-sans tracking-tight text-white select-none leading-none drop-shadow-md">
+              <strong class="font-extrabold text-white">Powering journeys
+                <br />
+              </strong>
+              <span class="font-normal">for a greener world </span>
+            </h2>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ==========================================
            SECTION 2: INSTALL CHARGER LOCATION (#install-charger-section)
            ========================================== -->
       <section id="install-charger-section" class="w-full bg-white text-black py-16 sm:py-24 px-6 sm:px-12 lg:px-20">
@@ -256,7 +323,7 @@
 
             <!-- CTA Button -->
             <div class="pt-2">
-              <a href="#host-register-section"
+              <a href="#share-option-section"
                 class="inline-flex items-center gap-3 px-7 py-3.5 rounded-full bg-[#52C133] text-white font-extrabold text-sm sm:text-base shadow-md hover:shadow-lg transition-all transform hover:bg-secondary-hover hover:scale-105 active:translate-y-0">
                 <span>Share Your Charger</span>
                 <i class="fa-solid fa-arrow-right text-xs"></i>
@@ -589,7 +656,178 @@
       </section>
 
       <!-- ==========================================
-           SECTION 5: P2P SHOWCASE & CALCULATOR (#p2p-calculator-section)
+           SECTION 5: SHARE CHARGER OPTION (#share-option-section)
+           ========================================== -->
+      <section id="share-option-section"
+        class="w-full py-16 sm:py-24 px-4 sm:px-6 lg:px-12 bg-white relative overflow-hidden">
+        <div class="max-w-7xl mx-auto space-y-16 lg:space-y-20">
+
+          <!-- Section Header -->
+          <div class="text-center max-w-3xl mx-auto space-y-4" data-aos="fade-up">
+            <div
+              class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/10 text-[var(--secondary)] border border-emerald-500/20 font-extrabold text-xs uppercase tracking-widest">
+              <i class="fa-solid fa-sliders"></i> Share Charger Options
+            </div>
+            <h2 class="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight">
+              Choose Your Charger Sharing Model
+            </h2>
+            <p class="text-slate-600 text-sm sm:text-base font-medium leading-relaxed">
+              Two flexible options designed to align with your personal usage needs and passive income goals.
+            </p>
+          </div>
+
+          <!-- OPTION 1: FLEX SHARE -->
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch" data-aos="fade-up">
+            <!-- Left Image Card -->
+            <div
+              class="lg:col-span-5 relative rounded-[32px] sm:rounded-[40px] overflow-hidden h-full min-h-[380px] lg:h-[65vh] shadow-xl group border border-slate-200/80">
+              <img src="../asset/img/images/wall.jpg" alt="Flex Share Charger"
+                class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out" />
+              <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent"></div>
+
+              <div class="absolute top-6 right-6 sm:top-8 sm:right-8 text-right max-w-[220px] z-10">
+                <h3 class="text-2xl sm:text-3xl font-black text-white leading-tight drop-shadow-md">
+                  Flexible<br />
+                  <span class="text-[var(--secondary)]">Schedule</span>
+                </h3>
+              </div>
+
+              <div class="absolute bottom-6 left-6 right-6 z-10">
+                <span
+                  class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/90 backdrop-blur-md text-slate-900 font-extrabold text-xs shadow-md">
+                  <i class="fa-solid fa-clock text-[var(--secondary)]"></i> Option 01 • Flex Share
+                </span>
+              </div>
+            </div>
+
+            <!-- Right Content Card (Light Theme - Soft Emerald) -->
+            <div
+              class="lg:col-span-7 relative rounded-[32px] sm:rounded-[40px] bg-[#F0FDF4] text-slate-900 p-8 sm:p-12 lg:p-14 flex flex-col justify-between h-full min-h-[440px] lg:h-[65vh] shadow-xl border border-secondary/80 overflow-hidden group">
+              <!-- Ambient Glow Decor -->
+              <div
+                class="absolute -top-20 -right-20 w-80 h-80 bg-secondary/10 rounded-full blur-3xl pointer-events-none group-hover:bg-secondary/20 transition-all duration-700">
+              </div>
+
+              <div class="relative z-10 space-y-6">
+                <div class="space-y-3">
+                  <h3 class="text-3xl sm:text-5xl font-black tracking-tight leading-[1.1] text-slate-900">
+                    Flex Share. <br />
+                    <span class="font-normal text-slate-600 text-2xl sm:text-4xl block mt-1">Share on your own custom
+                      schedule</span>
+                  </h3>
+                </div>
+
+                <p class="text-slate-600 text-sm sm:text-base font-medium leading-relaxed max-w-xl">
+                  Set your own operating hours and availability. Lock private access whenever you need personal
+                  charging, and open rental slots for nearby EV drivers when your station is idle.
+                </p>
+
+                <!-- Feature Highlights Pills -->
+                <div class="flex flex-wrap gap-2.5 pt-2">
+                  <span
+                    class="px-3.5 py-2 rounded-xl bg-white border border-secondary/80 text-xs font-bold text-slate-800 shadow-sm flex items-center gap-2">
+                    <i class="fa-solid fa-calendar-days text-[var(--secondary)]"></i> Custom Schedule
+                  </span>
+                  <span
+                    class="px-3.5 py-2 rounded-xl bg-white border border-secondary/80 text-xs font-bold text-slate-800 shadow-sm flex items-center gap-2">
+                    <i class="fa-solid fa-lock text-[var(--secondary)]"></i> Private Control
+                  </span>
+                  <span
+                    class="px-3.5 py-2 rounded-xl bg-white border border-secondary/80 text-xs font-bold text-slate-800 shadow-sm flex items-center gap-2">
+                    <i class="fa-solid fa-coins text-[var(--secondary)]"></i> Passive Income
+                  </span>
+                </div>
+              </div>
+
+              <div class="relative z-10 pt-8">
+                <a href="#host-register-section"
+                  class="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-full bg-[var(--secondary)] text-white font-extrabold text-sm sm:text-base hover:bg-[var(--secondary-hover)] shadow-xl shadow-secondary/20 transition-all duration-300 transform hover:scale-[1.03] active:scale-95 group/btn">
+                  <span>Choose Flex Share</span>
+                  <i class="fa-solid fa-arrow-right text-xs group-hover/btn:translate-x-1.5 transition-transform"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- OPTION 2: FULL SHARE -->
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch" data-aos="fade-up">
+            <!-- Image Card (Top on Mobile, Right on Desktop) -->
+            <div
+              class="lg:col-span-5 order-1 lg:order-2 relative rounded-[32px] sm:rounded-[40px] overflow-hidden h-full min-h-[380px] lg:h-[65vh] shadow-xl group border border-slate-200/80">
+              <img src="../asset/img/images/station1.jpg" alt="Full Share Charger"
+                class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out" />
+              <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent"></div>
+
+              <div class="absolute top-6 right-6 sm:top-8 sm:right-8 text-right max-w-[220px] z-10">
+                <h3 class="text-2xl sm:text-3xl font-black text-white leading-tight drop-shadow-md">
+                  24/7 Public<br />
+                  <span class="text-[var(--secondary)]">Revenue</span>
+                </h3>
+              </div>
+
+              <div class="absolute bottom-6 left-6 right-6 z-10">
+                <span
+                  class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/90 backdrop-blur-md text-slate-900 font-extrabold text-xs shadow-md">
+                  <i class="fa-solid fa-bolt text-[var(--secondary)]"></i> Option 02 • Full Share
+                </span>
+              </div>
+            </div>
+
+            <!-- Content Card (Bottom on Mobile, Left on Desktop - Light Theme) -->
+            <div
+              class="lg:col-span-7 order-2 lg:order-1 relative rounded-[32px] sm:rounded-[40px] bg-[#F8FAFC] text-slate-900 p-8 sm:p-12 lg:p-14 flex flex-col justify-between h-full min-h-[440px] lg:h-[65vh] shadow-xl border border-slate-200/80 overflow-hidden group">
+              <!-- Ambient Glow Decor -->
+              <div
+                class="absolute -top-20 -right-20 w-80 h-80 bg-blue-400/10 rounded-full blur-3xl pointer-events-none group-hover:bg-blue-400/20 transition-all duration-700">
+              </div>
+
+              <div class="relative z-10 space-y-6">
+                <div class="space-y-3">
+                  <h3 class="text-3xl sm:text-5xl font-black tracking-tight leading-[1.1] text-slate-900">
+                    Full Share. <br />
+                    <span class="font-normal text-slate-600 text-2xl sm:text-4xl block mt-1">Maximize 24/7 unlimited
+                      revenue potential</span>
+                  </h3>
+                </div>
+
+                <p class="text-slate-600 text-sm sm:text-base font-medium leading-relaxed max-w-xl">
+                  Keep your charging station publicly accessible 24 hours a day. Get top priority ranking on Voltmap's
+                  live map for maximum daily turnover and the fastest return on investment.
+                </p>
+
+                <!-- Feature Highlights Pills -->
+                <div class="flex flex-wrap gap-2.5 pt-2">
+                  <span
+                    class="px-3.5 py-2 rounded-xl bg-white border border-slate-200 text-xs font-bold text-slate-800 shadow-sm flex items-center gap-2">
+                    <i class="fa-solid fa-globe text-[var(--secondary)]"></i> 24/7 Public Access
+                  </span>
+                  <span
+                    class="px-3.5 py-2 rounded-xl bg-white border border-slate-200 text-xs font-bold text-slate-800 shadow-sm flex items-center gap-2">
+                    <i class="fa-solid fa-star text-amber-500"></i> VoltMap Priority Pin
+                  </span>
+                  <span
+                    class="px-3.5 py-2 rounded-xl bg-white border border-slate-200 text-xs font-bold text-slate-800 shadow-sm flex items-center gap-2">
+                    <i class="fa-solid fa-chart-line text-[var(--secondary)]"></i> Maximize Profit
+                  </span>
+                </div>
+              </div>
+
+              <div class="relative z-10 pt-8">
+                <a href="#host-register-section"
+                  class="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-full bg-[#0F172A] text-white font-extrabold text-sm sm:text-base hover:bg-slate-800 shadow-xl transition-all duration-300 transform hover:scale-[1.03] active:scale-95 group/btn">
+                  <span>Choose Full Share</span>
+                  <i class="fa-solid fa-arrow-right text-xs group-hover/btn:translate-x-1.5 transition-transform"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+
+      <!-- ==========================================
+           SECTION 6: P2P SHOWCASE & CALCULATOR (#p2p-calculator-section)
            ========================================== -->
       <section id="p2p-calculator-section" class="relative w-full px-4 sm:px-6 lg:px-12 overflow-hidden">
         <div class="max-w-7xl mx-auto space-y-12">
@@ -597,7 +835,7 @@
           <!-- P2P Section Header -->
           <div class="text-center max-w-3xl mx-auto space-y-3" data-aos="fade-up">
             <div
-              class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 font-extrabold text-xs uppercase tracking-widest">
+              class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-secondary/10 text-emerald-400 border border-emerald-500/30 font-extrabold text-xs uppercase tracking-widest">
               <i class="fa-solid fa-calculator"></i> Peer-to-Peer Sharing & Income
             </div>
             <h2 class="text-3xl sm:text-5xl font-black text-white tracking-tight">
@@ -744,158 +982,9 @@
         </div>
       </section>
 
-      <!-- SECTION 4: HOW IT WORKS STEP BY STEP -->
-      <section id="p2p-steps-section"
-        class="w-full px-4 sm:px-6 lg:px-12 py-12 bg-slate-900/50 border-y border-slate-800">
-        <div class="max-w-7xl mx-auto space-y-12">
-          <div class="text-center max-w-2xl mx-auto space-y-3">
-            <h2 class="text-3xl sm:text-4xl font-black text-white">4 Langkah Mudah Menjadi Host VoltMap</h2>
-            <p class="text-slate-400 text-sm sm:text-base">Proses instalasi resmi dan aktivasi akun host hanya
-              membutuhkan waktu beberapa hari.</p>
-          </div>
-
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <!-- Step 1 -->
-            <div
-              class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4 hover:border-emerald-500/40 transition-colors group">
-              <div
-                class="w-12 h-12 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-black text-xl group-hover:scale-110 transition-transform">
-                1
-              </div>
-              <h3 class="text-lg font-bold text-white">Daftar Formulir</h3>
-              <p class="text-xs text-slate-400 leading-relaxed">
-                Isi data diri dan alamat rumah/bisnis Anda melalui formulir pendaftaran di halaman ini.
-              </p>
-            </div>
-
-            <!-- Step 2 -->
-            <div
-              class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4 hover:border-emerald-500/40 transition-colors group">
-              <div
-                class="w-12 h-12 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-black text-xl group-hover:scale-110 transition-transform">
-                2
-              </div>
-              <h3 class="text-lg font-bold text-white">Survei & Instalasi</h3>
-              <p class="text-xs text-slate-400 leading-relaxed">
-                Tim sertifikasi VoltMap melakukan survei kelistrikan dan menginstal stasiun wallbox resmi.
-              </p>
-            </div>
-
-            <!-- Step 3 -->
-            <div
-              class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4 hover:border-emerald-500/40 transition-colors group">
-              <div
-                class="w-12 h-12 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-black text-xl group-hover:scale-110 transition-transform">
-                3
-              </div>
-              <h3 class="text-lg font-bold text-white">Atur Jadwal Sewa</h3>
-              <p class="text-xs text-slate-400 leading-relaxed">
-                Tentukan jam dan hari sewa pengisian daya di aplikasi sesuai preferensi pribadi Anda.
-              </p>
-            </div>
-
-            <!-- Step 4 -->
-            <div
-              class="bg-slate-900 border border-slate-800 p-6 rounded-3xl space-y-4 hover:border-emerald-500/40 transition-colors group">
-              <div
-                class="w-12 h-12 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-black text-xl group-hover:scale-110 transition-transform">
-                4
-              </div>
-              <h3 class="text-lg font-bold text-white">Terima Pembayaran</h3>
-              <p class="text-xs text-slate-400 leading-relaxed">
-                Setiap kali pengemudi selesai mengisi daya, penghasilan akan ditransfer otomatis ke rekening Anda.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- SECTION 3: HOST REGISTRATION FORM -->
-      <section id="host-register-section" class="w-full px-4 sm:px-6 lg:px-12 py-12">
-        <div
-          class="max-w-4xl mx-auto bg-slate-900 border border-slate-800 rounded-[36px] p-8 sm:p-12 shadow-2xl relative overflow-hidden">
-          <div class="absolute top-0 right-0 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none">
-          </div>
-
-          <div class="relative z-10 space-y-8">
-            <div class="text-center space-y-3">
-              <span
-                class="px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-bold border border-emerald-500/30">
-                Pendaftaran Host VoltMap
-              </span>
-              <h2 class="text-3xl sm:text-4xl font-black text-white">Formulir Pengajuan Instalasi Charger</h2>
-              <p class="text-slate-400 text-sm">Isi data di bawah ini untuk konsultasi gratis dengan spesialis teknis
-                VoltMap.</p>
-            </div>
-
-            <form id="host-registration-form" class="space-y-6">
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <div class="space-y-2">
-                  <label for="host-name" class="text-xs font-bold text-slate-300">Nama Lengkap</label>
-                  <input type="text" id="host-name" required placeholder="Contoh: Budi Santoso"
-                    class="w-full px-4 py-3.5 rounded-2xl bg-slate-800 border border-slate-700 text-white text-sm focus:outline-none focus:border-emerald-400 transition" />
-                </div>
-
-                <div class="space-y-2">
-                  <label for="host-phone" class="text-xs font-bold text-slate-300">Nomor WhatsApp / Telepon</label>
-                  <input type="tel" id="host-phone" required placeholder="Contoh: 081234567890"
-                    class="w-full px-4 py-3.5 rounded-2xl bg-slate-800 border border-slate-700 text-white text-sm focus:outline-none focus:border-emerald-400 transition" />
-                </div>
-              </div>
-
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                <div class="space-y-2">
-                  <label for="host-city" class="text-xs font-bold text-slate-300">Kota / Wilayah Lokasi</label>
-                  <input type="text" id="host-city" required placeholder="Contoh: Denpasar, Bali"
-                    class="w-full px-4 py-3.5 rounded-2xl bg-slate-800 border border-slate-700 text-white text-sm focus:outline-none focus:border-emerald-400 transition" />
-                </div>
-
-                <div class="space-y-2">
-                  <label for="host-wallbox" class="text-xs font-bold text-slate-300">Rencana Kapasitas Wallbox</label>
-                  <select id="host-wallbox"
-                    class="w-full px-4 py-3.5 rounded-2xl bg-slate-800 border border-slate-700 text-white text-sm focus:outline-none focus:border-emerald-400 transition">
-                    <option value="7">7 kW AC Wallbox (Rumah Tinggal)</option>
-                    <option value="11">11 kW AC Wallbox (Komersial Ringan)</option>
-                    <option value="22" selected>22 kW AC Wallbox (Fast Charging)</option>
-                    <option value="50">50 kW DC Fast Charger (Bisnis & SPKLU)</option>
-                  </select>
-                </div>
-              </div>
-
-              <button type="submit"
-                class="w-full py-4 rounded-2xl bg-[var(--secondary)] text-white text-base font-extrabold hover:bg-[var(--secondary-hover)] shadow-lg transition-all flex items-center justify-center gap-3">
-                <i class="fa-solid fa-paper-plane text-sm"></i>
-                <span>Kirim Permohonan Instalasi</span>
-              </button>
-            </form>
-          </div>
-        </div>
-      </section>
 
     </div>
   </main>
-
-  <!-- REGISTRATION SUCCESS MODAL -->
-  <div id="registration-success-modal"
-    class="fixed inset-0 z-[10000] bg-slate-950/80 backdrop-blur-md hidden items-center justify-center p-4">
-    <div class="bg-slate-900 border border-slate-800 rounded-3xl p-8 max-w-md w-full text-center space-y-6 shadow-2xl">
-      <div
-        class="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center font-bold text-3xl mx-auto">
-        ✓
-      </div>
-      <div class="space-y-2">
-        <h3 class="text-2xl font-black text-white">Permohonan Terkirim!</h3>
-        <p class="text-xs text-slate-400 leading-relaxed">
-          Tim spesialis teknis VoltMap akan menghubungi nomor WhatsApp Anda dalam waktu 1x24 jam untuk verifikasi lokasi
-          dan penjadwalan survei gratis.
-        </p>
-      </div>
-      <button id="close-modal-btn"
-        class="w-full py-3 rounded-xl bg-emerald-500 text-slate-950 font-extrabold text-sm hover:bg-emerald-400 transition">
-        Tutup & Kembali
-      </button>
-    </div>
-  </div>
 
   <!-- ==========================================
        2. FOOTER COMPONENT (JS)
