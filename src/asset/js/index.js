@@ -143,14 +143,19 @@ function initNavigation() {
       performPageTransition("installcharge.html");
       return;
     }
+    if (target === "about") {
+      e.preventDefault();
+      performPageTransition("about.html");
+      return;
+    }
   });
 
-  // Intercept links between index.html, exploremap.html, and installcharge.html
-  $(document).on("click", 'a[href="index.html"], a[href="exploremap.html"], a[href="installcharge.html"]', function (e) {
+  // Intercept links between index.html, exploremap.html, installcharge.html, and about.html
+  $(document).on("click", 'a[href="index.html"], a[href="exploremap.html"], a[href="installcharge.html"], a[href="about.html"]', function (e) {
     const href = $(this).attr("href");
     const currentFile = window.location.pathname.split("/").pop();
 
-    if (href !== currentFile && (href === "index.html" || href === "exploremap.html" || href === "installcharge.html")) {
+    if (href !== currentFile && (href === "index.html" || href === "exploremap.html" || href === "installcharge.html" || href === "about.html")) {
       e.preventDefault();
       performPageTransition(href);
     }

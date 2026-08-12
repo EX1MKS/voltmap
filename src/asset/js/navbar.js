@@ -23,6 +23,7 @@ export function renderNavbar(targetElementOrSelector = "#navbar-app", options = 
   const isHome = activePage === "home";
   const isExplore = activePage === "explore";
   const isInstall = activePage === "install";
+  const isAbout = activePage === "about";
 
   const navbarHtml = `
   <!-- FIXED HEADER & NAVBAR COMPONENT -->
@@ -56,10 +57,10 @@ export function renderNavbar(targetElementOrSelector = "#navbar-app", options = 
               <span>Install Charger</span>
             </button>
           </div>
-          <div data-menu="About" class="will-change-transform cursor-pointer">
-            <a href="${isHome ? '#stats-section' : 'index.html#stats-section'}" class="nav-link-btn flex items-center gap-1.5 transition duration-300 text-black/90 hover:text-black">
+          <div data-menu="About" data-nav-target="about" class="will-change-transform cursor-pointer">
+            <button class="nav-link-btn flex items-center gap-1.5 transition duration-300 ${isAbout ? 'text-secondary font-extrabold' : 'text-black/90 hover:text-black'}">
               <span>About</span>
-            </a>
+            </button>
           </div>
         </div>
 

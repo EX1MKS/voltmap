@@ -66,7 +66,7 @@
                                     <span>Charging Speed</span>
                                 </label>
                                 <select id="filter-charging-speed"
-                                    class="w-full bg-slate-100/90 border border-slate-200/90 rounded-xl py-2 px-3 pr-7 text-xs font-bold text-slate-800 focus:outline-none focus:border-[var(--secondary)] focus:bg-white focus:ring-2 focus:ring-emerald-500/20 transition cursor-pointer appearance-none">
+                                    class="w-full bg-slate-100/90 border border-slate-200/90 rounded-xl py-2 px-3 pr-7 text-xs font-bold text-slate-800 focus:outline-none focus:border-[var(--secondary)] focus:bg-white focus:ring-2 focus:ring-secondary/20 transition cursor-pointer appearance-none">
                                     <option value="All">All Speed</option>
                                     <option value="Standard">AC Standard (7-22 kW)</option>
                                     <option value="Fast">DC Fast (50 kW)</option>
@@ -83,7 +83,7 @@
                                     <span>Connector</span>
                                 </label>
                                 <select id="filter-connector-type"
-                                    class="w-full bg-slate-100/90 border border-slate-200/90 rounded-xl py-2 px-3 pr-7 text-xs font-bold text-slate-800 focus:outline-none focus:border-[var(--secondary)] focus:bg-white focus:ring-2 focus:ring-emerald-500/20 transition cursor-pointer appearance-none">
+                                    class="w-full bg-slate-100/90 border border-slate-200/90 rounded-xl py-2 px-3 pr-7 text-xs font-bold text-slate-800 focus:outline-none focus:border-[var(--secondary)] focus:bg-white focus:ring-2 focus:ring-secondary/20 transition cursor-pointer appearance-none">
                                     <option value="All">All Connector</option>
                                     <option value="CCS2">CCS2</option>
                                     <option value="Type 2">Type 2</option>
@@ -96,7 +96,7 @@
 
                         <!-- Location & Nearby Button -->
                         <button id="btn-detect-location"
-                            class="w-full py-2.5 px-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-800 hover:bg-[var(--secondary)] hover:text-white text-xs font-extrabold transition-all flex items-center justify-center gap-2 shadow-sm group cursor-pointer">
+                            class="w-full py-2.5 px-4 rounded-2xl bg-secondary/10 border border-secondary/30 text-secondary hover:bg-[var(--secondary)] hover:text-white text-xs font-extrabold transition-all flex items-center justify-center gap-2 shadow-sm group cursor-pointer">
                             <i
                                 class="fa-solid fa-location-crosshairs text-sm text-[var(--secondary)] group-hover:text-white transition-colors"></i>
                             <span>Use My Location • Find Nearby Chargers</span>
@@ -106,7 +106,7 @@
                     <div class="flex items-center justify-between gap-2 overflow-x-auto pb-1 no-scrollbar">
                         <div class="flex items-center gap-2">
                             <button data-bali-filter="All"
-                                class="px-3.5 py-1.5 rounded-full text-xs font-bold transition whitespace-nowrap bg-[var(--secondary)] text-white shadow-md shadow-emerald-500/20">All</button>
+                                class="px-3.5 py-1.5 rounded-full text-xs font-bold transition whitespace-nowrap bg-[var(--secondary)] text-white shadow-md shadow-secondary-500/20">All</button>
                             <button data-bali-filter="Public Station"
                                 class="px-3.5 py-1.5 rounded-full text-xs font-bold transition whitespace-nowrap bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-900 border border-slate-200/60">Public
                                 Station</button>
@@ -135,7 +135,8 @@
                                     <i class="fa-solid fa-route"></i>
                                 </div>
                                 <div>
-                                    <p class="text-[10px] uppercase tracking-wider font-extrabold text-sky-600">Nearest Route Navigation</p>
+                                    <p class="text-[10px] uppercase tracking-wider font-extrabold text-sky-600">Nearest
+                                        Route Navigation</p>
                                     <h4 id="route-target-name"
                                         class="text-xs font-extrabold text-slate-900 leading-tight">Station Name</h4>
                                 </div>
@@ -148,7 +149,7 @@
                         <div
                             class="flex items-center justify-between text-xs py-2 px-3 bg-slate-50 rounded-xl mb-3 border border-slate-100 font-semibold text-slate-700">
                             <div class="flex items-center gap-1.5">
-                                <i class="fa-solid fa-location-arrow text-emerald-600"></i>
+                                <i class="fa-solid fa-location-arrow text-secondary-600"></i>
                                 <span id="route-distance">0.0 km</span>
                             </div>
                             <div class="flex items-center gap-1.5">

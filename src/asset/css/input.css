@@ -533,3 +533,69 @@ body {
   -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 1) 12%, rgba(0, 0, 0, 1) 88%, transparent 100%);
   mask-image: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 1) 12%, rgba(0, 0, 0, 1) 88%, transparent 100%);
 }
+
+/* VoltMap Banner Green Animated Wave Keyframes & Classes */
+@keyframes voltmapWave1 {
+  0% { transform: translate3d(0, 0, 0) scaleY(1); }
+  50% { transform: translate3d(-15%, 0, 0) scaleY(1.1); }
+  100% { transform: translate3d(0, 0, 0) scaleY(1); }
+}
+
+@keyframes voltmapWave2 {
+  0% { transform: translate3d(-10%, 0, 0) scaleY(1.05); }
+  50% { transform: translate3d(0%, 0, 0) scaleY(0.92); }
+  100% { transform: translate3d(-10%, 0, 0) scaleY(1.05); }
+}
+
+.animate-wave-layer-1 {
+  animation: voltmapWave1 14s ease-in-out infinite;
+  will-change: transform;
+}
+
+.animate-wave-layer-2 {
+  animation: voltmapWave2 9s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* VoltMap Floating Leaves Keyframe Animations */
+@keyframes floatLeaf1 {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate3d(-18px, -30px, 0) rotate(20deg);
+  }
+}
+
+@keyframes floatLeaf2 {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate3d(24px, -36px, 0) rotate(-25deg);
+  }
+}
+
+@keyframes floatLeaf3 {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate3d(-28px, -22px, 0) rotate(30deg);
+  }
+}
+
+.animate-float-leaf-1 {
+  animation: floatLeaf1 7s ease-in-out infinite;
+  will-change: transform;
+}
+
+.animate-float-leaf-2 {
+  animation: floatLeaf2 9s ease-in-out infinite;
+  will-change: transform;
+}
+
+.animate-float-leaf-3 {
+  animation: floatLeaf3 11s ease-in-out infinite;
+  will-change: transform;
+}

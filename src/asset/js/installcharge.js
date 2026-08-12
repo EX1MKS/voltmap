@@ -1,22 +1,14 @@
-/**
- * VOLTMAP - Install Charge & P2P Sharing Page Logic
- * Dedicated module for installcharge.html
- */
-
 import { renderNavbar } from "./navbar.js";
 import { renderFooter } from "./footer.js";
 import { initNavbarEntrance, initInstallBannerAnimations } from "./animations.js";
 
 const $ = window.jQuery || window.$;
 
-// P2P Calculator State
-let p2pHours = 5;
-let p2pKw = 22;
 let isTransitioning = false;
 
 $(document).ready(() => {
   const activePage = "install";
-
+ 
   // Render Navbar and Footer
   renderNavbar("#navbar-app", { activePage });
   renderFooter("#footer-app", { activePage });
@@ -34,9 +26,6 @@ $(document).ready(() => {
 
   // Initialize Brand Marquee Parallax
   initBrandParallax();
-
-  // Initialize P2P Income Calculator
-  initP2PCalculator();
 
   // Initialize Registration Form / Modal Events
   initHostRegistrationForm();
@@ -149,51 +138,6 @@ function initHeroHoverSwitcher() {
   $btnShare.on("mouseenter focus", () => setHeroMode("share"));
 }
 
-/* ==========================================
-   P2P CALCULATOR WIDGET LOGIC
-   ========================================== */
-function initP2PCalculator() {
-  const $hoursSlider = $("#p2p-hours-slider");
-  const $hoursLabel = $("#p2p-hours-label");
-
-  if ($hoursSlider.length) {
-    $hoursSlider.on("input", function () {
-      p2pHours = parseInt($(this).val(), 10);
-      if ($hoursLabel.length) {
-        $hoursLabel.text(`${p2pHours} Hours`);
-      }
-      updateP2PIncome();
-    });
-  }
-
-  $(document).on("click", "[data-p2p-kw]", function () {
-    p2pKw = parseInt($(this).attr("data-p2p-kw"), 10);
-    $("[data-p2p-kw]").each(function () {
-      const kw = parseInt($(this).attr("data-p2p-kw"), 10);
-      if (kw === p2pKw) {
-        $(this)
-          .addClass("bg-[var(--secondary)] text-white border-[var(--secondary)] shadow-sm")
-          .removeClass("bg-gray-50 text-gray-700 border-gray-200 hover:bg-gray-100");
-      } else {
-        $(this)
-          .removeClass("bg-[var(--secondary)] text-white border-[var(--secondary)] shadow-sm")
-          .addClass("bg-gray-50 text-gray-700 border-gray-200 hover:bg-gray-100");
-      }
-    });
-    updateP2PIncome();
-  });
-
-  // Initial calculation trigger
-  updateP2PIncome();
-}
-
-function updateP2PIncome() {
-  const monthly = Math.round(p2pHours * p2pKw * 0.35 * 30);
-  const $display = $("#p2p-income-display");
-  if ($display.length) {
-    $display.html(`$${monthly.toLocaleString()} <span class="text-xs font-bold text-slate-500 font-sans">/ month</span>`);
-  }
-}
 
 /* ==========================================
    HOST REGISTRATION FORM / MODAL LOGIC
@@ -322,13 +266,18 @@ function initNavigation() {
       performPageTransition("installcharge.html");
       return;
     }
+    if (target === "about") {
+      e.preventDefault();
+      performPageTransition("about.html");
+      return;
+    }
   });
 
-  $(document).on("click", 'a[href="index.html"], a[href="exploremap.html"], a[href="installcharge.html"]', function (e) {
+  $(document).on("click", 'a[href="index.html"], a[href="exploremap.html"], a[href="installcharge.html"], a[href="about.html"]', function (e) {
     const href = $(this).attr("href");
     const currentFile = window.location.pathname.split("/").pop();
 
-    if (href !== currentFile && (href === "index.html" || href === "exploremap.html" || href === "installcharge.html")) {
+    if (href !== currentFile && (href === "index.html" || href === "exploremap.html" || href === "installcharge.html" || href === "about.html")) {
       e.preventDefault();
       performPageTransition(href);
     }

@@ -70,7 +70,7 @@ export function renderFooter(targetElementOrSelector = "#footer-app", options = 
         <div class="space-y-3">
           <h4 class="text-xs font-bold text-white uppercase tracking-wider">Company</h4>
           <ul class="space-y-2">
-            <li><a href="${isHome ? '#stats-section' : 'index.html#stats-section'}" class="hover:text-white transition">About VoltMap</a></li>
+            <li><a href="about.html" class="hover:text-white transition">About VoltMap</a></li>
             <li><a href="#" class="hover:text-white transition">Stories</a></li>
             <li><a href="#" class="hover:text-white transition">Our Mission</a></li>
             <li><a href="#" class="hover:text-white transition">Careers</a></li>

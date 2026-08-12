@@ -127,14 +127,19 @@ function initNavigation() {
       performPageTransition("installcharge.html");
       return;
     }
+    if (target === "about") {
+      e.preventDefault();
+      performPageTransition("about.html");
+      return;
+    }
   });
 
-  // Intercept links between index.html, exploremap.html, and installcharge.html
-  $(document).on("click", 'a[href="index.html"], a[href="exploremap.html"], a[href="installcharge.html"]', function (e) {
+  // Intercept links between index.html, exploremap.html, installcharge.html, and about.html
+  $(document).on("click", 'a[href="index.html"], a[href="exploremap.html"], a[href="installcharge.html"], a[href="about.html"]', function (e) {
     const href = $(this).attr("href");
     const currentFile = window.location.pathname.split("/").pop();
 
-    if (href !== currentFile && (href === "index.html" || href === "exploremap.html" || href === "installcharge.html")) {
+    if (href !== currentFile && (href === "index.html" || href === "exploremap.html" || href === "installcharge.html" || href === "about.html")) {
       e.preventDefault();
       performPageTransition(href);
     }
@@ -197,7 +202,7 @@ function initBaliMap() {
 
   L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-    minZoom: 9,
+    minZoom: 8,
     maxZoom: 18,
     noWrap: true,
     className: "vibrant-map-tiles",
@@ -285,8 +290,8 @@ function selectStation(stId, flyTo = false) {
     }
 
     // Highlight active card
-    $(".station-card-item").removeClass("border-2 border-[var(--secondary)] ring-2 ring-[var(--secondary)] bg-emerald-50/30 bg-emerald-50/40");
-    $(`[data-station-id="${stId}"]`).addClass("border-2 border-[var(--secondary)] shadow-md shadow-emerald-500/10 bg-emerald-50/40");
+    $(".station-card-item").removeClass("border-2 border-[var(--secondary)] ring-2 ring-[var(--secondary)] bg-secondary/30 bg-secondary/40");
+    $(`[data-station-id="${stId}"]`).addClass("border-2 border-[var(--secondary)] shadow-md shadow-secondary/10 bg-secondary/40");
   }
 }
 
@@ -373,7 +378,7 @@ function detectUserLocation(autoFindNearest = true, callback = null) {
     updateStationDistances(userLocation[0], userLocation[1]);
 
     if ($btn.length) {
-      $btn.html(`<i class="fa-solid fa-location-crosshairs text-sm text-emerald-600"></i><span>Location Detected • Nearest Charger</span>`);
+      $btn.html(`<i class="fa-solid fa-location-crosshairs text-sm text-secondary"></i><span>Location Detected • Nearest Charger</span>`);
     }
 
     if (typeof callback === "function") {
@@ -405,7 +410,7 @@ function detectUserLocation(autoFindNearest = true, callback = null) {
         }
 
         if ($btn.length) {
-          $btn.html(`<i class="fa-solid fa-location-crosshairs text-sm text-emerald-600"></i><span>Location Detected • Nearest Charger</span>`);
+          $btn.html(`<i class="fa-solid fa-location-crosshairs text-sm text-secondary"></i><span>Location Detected • Nearest Charger</span>`);
         }
 
         if (typeof callback === "function") {
@@ -503,7 +508,7 @@ function findAndRouteToNearestStation() {
     if ($btn.length) {
       $btn.html(`<i class="fa-solid fa-triangle-exclamation text-sm text-amber-500"></i><span>Tidak Ada Charger Sesuai Filter</span>`);
       setTimeout(() => {
-        $btn.html(`<i class="fa-solid fa-location-crosshairs text-sm text-emerald-600"></i><span>Gunakan Lokasi Saya • Cari Charger Terdekat</span>`);
+        $btn.html(`<i class="fa-solid fa-location-crosshairs text-sm text-secondary"></i><span>Gunakan Lokasi Saya • Cari Charger Terdekat</span>`);
       }, 3000);
     }
     return;
@@ -601,7 +606,7 @@ function renderBaliStations() {
       <div
         data-station-id="${st.id}"
         class="p-4 rounded-2xl bg-white border transition-all cursor-pointer station-card-item shadow-sm hover:shadow-md ${selectedStationId === st.id
-            ? "border-2 border-[var(--secondary)] shadow-md shadow-emerald-500/10 bg-emerald-50/40"
+            ? "border-2 border-[var(--secondary)] shadow-md shadow-secondary/10 bg-secondary/40"
             : "border border-slate-200/80 hover:border-slate-300 hover:bg-slate-50/60"
           }"
       >
@@ -612,7 +617,7 @@ function renderBaliStations() {
                 ${st.name}
                 <span
                   class="w-2 h-2 rounded-full ${st.status === "Available"
-            ? "bg-emerald-500 shadow-sm shadow-emerald-500"
+            ? "bg-secondary shadow-sm shadow-secondary"
             : st.status === "Busy"
               ? "bg-amber-500"
               : st.status === "Maintenance"
@@ -623,12 +628,12 @@ function renderBaliStations() {
                 ></span>
               </h3>
               ${userLocation && idx === 0
-            ? `<span class="px-2 py-0.5 rounded-full text-[10px] font-black bg-emerald-500 text-white shadow-xs">Nearest</span>`
+            ? `<span class="px-2 py-0.5 rounded-full text-[10px] font-black bg-secondary   text-white shadow-xs">Nearest</span>`
             : ""
           }
             </div>
             <p class="text-xs text-slate-500 mt-1">
-              ${st.location} • <span class="text-emerald-600 font-bold station-dist-text">${st.distance}</span>
+              ${st.location} • <span class="text-secondary font-bold station-dist-text">${st.distance}</span>
             </p>
           </div>
           <div class="flex flex-col items-end gap-1 shrink-0">
@@ -640,8 +645,8 @@ function renderBaliStations() {
           </div>
         </div>
         <div class="mt-3 flex items-center justify-between pt-2.5 border-t border-slate-100 text-xs font-medium">
-          <span class="inline-flex items-center gap-1 text-emerald-700 font-bold bg-emerald-50 px-2.5 py-0.5 rounded-full text-[11px] border border-emerald-200/60">
-            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+          <span class="inline-flex items-center gap-1 text-secondary font-bold bg-secondary/10 px-2.5 py-0.5 rounded-full text-[11px] border border-secondary">
+            <span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
             ${st.available}
           </span>
           <div class="flex items-center gap-1.5">
@@ -693,17 +698,17 @@ function renderBaliStations() {
         <div class="p-1 min-w-[200px]">
           <div class="flex items-center justify-between gap-2 mb-1">
             <h4 class="font-extrabold text-sm text-slate-900">${st.name}</h4>
-            <span class="w-2 h-2 rounded-full shrink-0 ${st.status === "Available" ? "bg-emerald-500" : st.status === "Busy" ? "bg-amber-500" : "bg-gray-400"
+            <span class="w-2 h-2 rounded-full shrink-0 ${st.status === "Available" ? "bg-secondary" : st.status === "Busy" ? "bg-amber-500" : "bg-gray-400"
         }" title="${st.status}"></span>
           </div>
-          <p class="text-xs text-gray-600 mb-2">${st.location} • <span class="popup-station-dist-${st.id} font-bold text-emerald-700">${st.distance}</span></p>
+          <p class="text-xs text-gray-600 mb-2">${st.location} • <span class="popup-station-dist-${st.id} font-bold text-secondary">${st.distance}</span></p>
           <div class="flex items-center gap-1.5 mb-3 flex-wrap">
             <span class="text-[10px] font-bold text-gray-700 bg-gray-100 px-2 py-0.5 rounded">${st.connector}</span>
-            <span class="text-xs font-bold text-[var(--secondary)] bg-emerald-50 px-2 py-0.5 rounded">${st.power}</span>
-            <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded">${st.available}</span>
+            <span class="text-xs font-bold text-[var(--secondary)] bg-secondary/10 px-2 py-0.5 rounded">${st.power}</span>
+            <span class="text-xs font-bold text-secondary bg-secondary/10 px-2 py-0.5 rounded">${st.available}</span>
           </div>
           <div class="w-full flex items-center justify-center">
-            <button data-route-id="${st.id}" class="btn-route-action py-1.5 px-2 w-full rounded-xl bg-[var(--secondary)] hover:bg-[var(--secondary-hover)] text-white text-xs font-extrabold shadow-md shadow-emerald-500/20 transition flex items-center justify-center gap-1.5 cursor-pointer">
+            <button data-route-id="${st.id}" class="btn-route-action py-1.5 px-2 w-full rounded-xl bg-[var(--secondary)] hover:bg-[var(--secondary-hover)] text-white text-xs font-extrabold shadow-md shadow-secondary/20 transition flex items-center justify-center gap-1.5 cursor-pointer">
               <i class="fa-solid fa-route text-[10px]"></i>
               <span>Route Map</span>
             </button>
@@ -773,9 +778,9 @@ function initBaliSearchAndFilter() {
     currentFilter = $(this).attr("data-bali-filter");
     $("[data-bali-filter]").each(function () {
       if ($(this).attr("data-bali-filter") === currentFilter) {
-        $(this).addClass("bg-[var(--secondary)] text-white shadow-md shadow-emerald-500/20").removeClass("bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-900 border border-slate-200/60 bg-slate-900 text-slate-400 hover:text-white");
+        $(this).addClass("bg-[var(--secondary)] text-white shadow-md shadow-secondary/20").removeClass("bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-900 border border-slate-200/60 bg-slate-900 text-slate-400 hover:text-white");
       } else {
-        $(this).removeClass("bg-[var(--secondary)] text-white shadow-md shadow-emerald-500/20").addClass("bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-900 border border-slate-200/60");
+        $(this).removeClass("bg-[var(--secondary)] text-white shadow-md shadow-secondary/20").addClass("bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-900 border border-slate-200/60");
       }
     });
     renderBaliStations();
