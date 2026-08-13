@@ -272,32 +272,36 @@ function renderVehicleCards() {
       (type, idx) => `
     <div
       data-card-idx="${idx}"
-      class="group relative rounded-[10px] overflow-hidden transition-all duration-500 cursor-pointer flex flex-col justify-end w-[82vw] shrink-0 select-none vehicle-card-item"
+      class="group relative rounded-2xl overflow-hidden transition-all duration-500 cursor-pointer flex flex-col justify-end w-[85vw] sm:w-[54vw] lg:w-[44vw] xl:w-[50vw] shrink-0 select-none vehicle-card-item "
     >
-      <div class="absolute inset-0 w-full h-full overflow-hidden pointer-events-none rounded-[10px] z-0">
+      <div class="absolute inset-0 w-full h-full overflow-hidden pointer-events-none rounded-2xl z-0">
         <div class="w-full h-full transition-transform duration-700 ease-out group-hover:scale-105">
           <img
             src="${type.image}"
             alt="${type.title}"
-            class="vehicle-card-img absolute -left-[25%] -top-[15%] w-[150%] h-[130%] max-w-none object-cover object-center transform-gpu pointer-events-none select-none"
+            class="vehicle-card-img absolute -left-[20%] -top-[10%] w-[140%] h-[120%] max-w-none object-cover object-center transform-gpu pointer-events-none select-none"
           />
         </div>
       </div>
-      <div class="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-slate-950 via-slate-950/70 to-transparent pointer-events-none z-10"></div>
-      <div class="relative z-20 p-5 sm:p-8 md:p-10 space-y-2 sm:space-y-3 mt-auto">
-        <h4 class="text-2xl sm:text-4xl md:text-5xl font-black text-white tracking-tight leading-tight">
+      <div class="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-slate-950/50 to-slate-950/10 pointer-events-none z-10"></div>
+      <div class="relative z-20 p-6 sm:p-8 md:p-10 space-y-3 mt-auto">
+        <h4 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-white tracking-tight leading-tight">
           ${type.title}
         </h4>
-        <p class="text-white text-xs sm:text-base md:text-lg font-medium leading-relaxed max-w-[55%] line-clamp-2 sm:line-clamp-none">
+        <p class="text-slate-200 text-xs sm:text-sm md:text-base font-medium leading-relaxed max-w-xl line-clamp-3">
           ${type.subtitle}
         </p>
-        <div class="pt-2 sm:pt-3 flex flex-wrap items-center gap-2 sm:gap-3 text-[11px] sm:text-sm font-bold text-emerald-400">
-          <span class="flex items-center gap-1.5">
+        <div class="pt-2 sm:pt-3 flex flex-wrap items-center gap-3 text-xs sm:text-sm font-bold text-white">
+          <a href="exploremap.html" class="inline-flex items-center gap-1.5 transition">
+            <span>Explore ${type.title}</span>
+          </a>
+          <span class="text-white/40"></span>
+          <span class="text-emerald-400 font-extrabold flex items-center gap-1">
             <i class="fa-solid fa-bolt"></i>
             <span>${type.power}</span>
           </span>
-          <span class="text-white">${type.timeRange}</span>
-          <span class="text-white">${type.connectorTypes.join(" / ")}</span>
+          <span class="text-white/40"></span>
+          <span class="text-white/80 font-semibold">${type.timeRange}</span>
         </div>
       </div>
     </div>

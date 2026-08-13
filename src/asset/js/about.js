@@ -17,12 +17,127 @@ $(document).ready(() => {
   initNavigation();
   initNavbarEvents();
   initCardParallax();
+  initWaveParallax();
 
   // Initialize AOS if available
   if (typeof AOS !== "undefined") {
     AOS.init({ duration: 800, once: true });
   }
 });
+
+/* ==========================================
+   WAVE SCROLL PARALLAX ANIMATION (LEFT TO RIGHT)
+   ========================================== */
+function initWaveParallax() {
+  const layer1 = document.querySelector(".wave-parallax-layer-1");
+  const layer2 = document.querySelector(".wave-parallax-layer-2");
+  const leaves = document.querySelector(".wave-parallax-leaves");
+  const card = document.querySelector("#our-mission .rounded-3xl") || document.querySelector("#our-mission");
+  if (!card || (!layer1 && !layer2)) return;
+
+  // 1. GSAP ScrollTrigger for strong multi-layered 3D wave parallax
+  if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
+    gsap.registerPlugin(ScrollTrigger);
+
+    if (layer1) {
+      gsap.fromTo(
+        layer1,
+        { x: "-260px", y: "35px" },
+        {
+          x: "260px",
+          y: "-35px",
+          ease: "none",
+          scrollTrigger: {
+            trigger: card,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 0.3,
+          },
+        }
+      );
+    }
+
+    if (layer2) {
+      gsap.fromTo(
+        layer2,
+        { x: "-560px", y: "-45px" },
+        {
+          x: "560px",
+          y: "45px",
+          ease: "none",
+          scrollTrigger: {
+            trigger: card,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 0.3,
+          },
+        }
+      );
+    }
+
+    if (leaves) {
+      gsap.fromTo(
+        leaves,
+        { x: "-180px", y: "60px" },
+        {
+          x: "180px",
+          y: "-60px",
+          ease: "none",
+          scrollTrigger: {
+            trigger: card,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 0.5,
+          },
+        }
+      );
+    }
+    return;
+  }
+
+  // 2. High-performance requestAnimationFrame fallback for strong scroll parallax
+  let ticking = false;
+
+  function updateWaveParallax() {
+    const windowHeight = window.innerHeight;
+    const rect = card.getBoundingClientRect();
+
+    if (rect.bottom > 0 && rect.top < windowHeight) {
+      const totalDist = windowHeight + rect.height;
+      const currentPos = windowHeight - rect.top;
+      const progress = Math.min(Math.max(currentPos / totalDist, 0), 1); // 0 to 1
+
+      if (layer1) {
+        const translateX1 = (progress - 0.5) * 520; // -260px to +260px
+        const translateY1 = (0.5 - progress) * 70;  // +35px to -35px
+        layer1.style.transform = `translate3d(${translateX1}px, ${translateY1}px, 0)`;
+      }
+      if (layer2) {
+        const translateX2 = (progress - 0.5) * 1120; // -560px to +560px
+        const translateY2 = (progress - 0.5) * 90;   // -45px to +45px
+        layer2.style.transform = `translate3d(${translateX2}px, ${translateY2}px, 0)`;
+      }
+      if (leaves) {
+        const translateXLeaves = (progress - 0.5) * 360; // -180px to +180px
+        const translateYLeaves = (0.5 - progress) * 120; // +60px to -60px
+        leaves.style.transform = `translate3d(${translateXLeaves}px, ${translateYLeaves}px, 0)`;
+      }
+    }
+
+    ticking = false;
+  }
+
+  function onScroll() {
+    if (!ticking) {
+      requestAnimationFrame(updateWaveParallax);
+      ticking = true;
+    }
+  }
+
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", onScroll, { passive: true });
+  updateWaveParallax();
+}
 
 /* ==========================================
    CARD SCROLL PARALLAX ANIMATION

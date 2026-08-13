@@ -456,21 +456,23 @@ export function initChargeTypeAnimations() {
   // 2. HORIZONTAL PARALLAX CARD SLIDER
   if (sliderPin && track) {
     const getScrollDistance = () => {
-      const parentWidth = track.parentElement ? track.parentElement.clientWidth : window.innerWidth;
+      const parentContainer = track.parentElement || track;
+      const parentWidth = parentContainer.clientWidth || window.innerWidth;
       const isMobile = window.innerWidth < 640;
-      const offset = isMobile ? 30 : 60;
-      return track.scrollWidth - parentWidth + offset;
+      const extraPad = isMobile ? 40 : 80;
+      return Math.max(0, track.scrollWidth - parentWidth + extraPad);
     };
 
     const sliderTl = gsap.timeline({
       scrollTrigger: {
         trigger: sliderPin,
         start: "top top",
-        end: () => `+=${Math.max(1400, getScrollDistance() + 400)}`,
+        end: () => `+=${Math.max(1200, getScrollDistance() + 250)}`,
         pin: true,
         pinSpacing: true,
         scrub: 1,
         anticipatePin: 1,
+        invalidateOnRefresh: true,
       },
     });
 

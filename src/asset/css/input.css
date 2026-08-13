@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300..800&display=swap');
 @import "tailwindcss";
+@source "../../page/*.html";
+@source "../../page/**/*.html";
 
 @theme {
   --font-sans: "Funnel Display", sans-serif;
@@ -536,24 +538,24 @@ body {
 
 /* VoltMap Banner Green Animated Wave Keyframes & Classes */
 @keyframes voltmapWave1 {
-  0% { transform: translate3d(0, 0, 0) scaleY(1); }
-  50% { transform: translate3d(-15%, 0, 0) scaleY(1.1); }
-  100% { transform: translate3d(0, 0, 0) scaleY(1); }
+  0% { transform: translate3d(-50%, 0, 0) scaleY(1); }
+  50% { transform: translate3d(-25%, 0, 0) scaleY(1.08); }
+  100% { transform: translate3d(0%, 0, 0) scaleY(1); }
 }
 
 @keyframes voltmapWave2 {
-  0% { transform: translate3d(-10%, 0, 0) scaleY(1.05); }
-  50% { transform: translate3d(0%, 0, 0) scaleY(0.92); }
-  100% { transform: translate3d(-10%, 0, 0) scaleY(1.05); }
+  0% { transform: translate3d(-50%, 0, 0) scaleY(1.05); }
+  50% { transform: translate3d(-25%, 0, 0) scaleY(0.92); }
+  100% { transform: translate3d(0%, 0, 0) scaleY(1.05); }
 }
 
 .animate-wave-layer-1 {
-  animation: voltmapWave1 14s ease-in-out infinite;
+  animation: voltmapWave1 18s linear infinite;
   will-change: transform;
 }
 
 .animate-wave-layer-2 {
-  animation: voltmapWave2 9s ease-in-out infinite;
+  animation: voltmapWave2 12s linear infinite;
   will-change: transform;
 }
 
