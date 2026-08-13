@@ -601,3 +601,22 @@ body {
   animation: floatLeaf3 11s ease-in-out infinite;
   will-change: transform;
 }
+
+/* Ecosystem Swiper Parallax Custom Bullet Styles */
+.ecosystem-pagination .swiper-pagination-bullet {
+  width: 12px;
+  height: 12px;
+  background: rgba(255, 255, 255, 0.45);
+  opacity: 1;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 9999px;
+  margin: 0 4px !important;
+  cursor: pointer;
+}
+
+.ecosystem-pagination .swiper-pagination-bullet-active {
+  width: 36px;
+  background: var(--secondary, #52C133);
+  box-shadow: 0 0 12px rgba(82, 193, 51, 0.6);
+  border-radius: 9999px;
+}

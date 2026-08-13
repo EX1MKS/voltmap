@@ -622,7 +622,9 @@ function renderBaliStations() {
               ? "bg-amber-500"
               : st.status === "Maintenance"
                 ? "bg-blue-500"
-                : "bg-slate-400"
+                : st.status === "Offline"
+                  ? "bg-slate-400"
+                  : "bg-slate-400"
           }"
                   title="${st.status}"
                 ></span>
@@ -698,7 +700,13 @@ function renderBaliStations() {
         <div class="p-1 min-w-[200px]">
           <div class="flex items-center justify-between gap-2 mb-1">
             <h4 class="font-extrabold text-sm text-slate-900">${st.name}</h4>
-            <span class="w-2 h-2 rounded-full shrink-0 ${st.status === "Available" ? "bg-secondary" : st.status === "Busy" ? "bg-amber-500" : "bg-gray-400"
+            <span class="w-2 h-2 rounded-full shrink-0 ${st.status === "Available"
+            ? "bg-secondary"
+            : st.status === "Busy"
+              ? "bg-amber-500"
+              : st.status === "Maintenance"
+                ? "bg-blue-500"
+                : "bg-slate-400"
         }" title="${st.status}"></span>
           </div>
           <p class="text-xs text-gray-600 mb-2">${st.location} • <span class="popup-station-dist-${st.id} font-bold text-secondary">${st.distance}</span></p>

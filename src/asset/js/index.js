@@ -296,7 +296,7 @@ function renderVehicleCards() {
             <span>Explore ${type.title}</span>
           </a>
           <span class="text-white/40"></span>
-          <span class="text-emerald-400 font-extrabold flex items-center gap-1">
+          <span class="text-secondary font-extrabold flex items-center gap-1">
             <i class="fa-solid fa-bolt"></i>
             <span>${type.power}</span>
           </span>
@@ -402,14 +402,14 @@ function initWorldMap() {
   continentMarkers.forEach((marker) => {
     const icon = L.divIcon({
       className: "custom-continent-marker",
-      html: `<div class="continent-badge border border-emerald-400/60 bg-white/95 backdrop-blur-md px-3.5 py-2 rounded-full shadow-2xl flex items-center gap-2 text-xs text-white font-bold transition-all duration-300 hover:scale-110 hover:border-emerald-400 hover:shadow-emerald-500/30 hover:z-[9999] cursor-pointer whitespace-nowrap group">
+      html: `<div class="continent-badge border border-secondary/60 bg-white/95 backdrop-blur-md px-3.5 py-2 rounded-full shadow-2xl flex items-center gap-2 text-xs text-white font-bold transition-all duration-300 hover:scale-110 hover:border-secondary hover:shadow-secondary/30 hover:z-[9999] cursor-pointer whitespace-nowrap group">
         <span class="relative flex h-2.5 w-2.5 shrink-0 items-center justify-center">
-          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-          <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-400"></span>
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-2 w-2 bg-secondary"></span>
         </span>
         <span class="text-black font-semibold tracking-wide">${marker.name}</span>
         <span class="h-3.5 w-[1px] bg-slate-700/80 mx-0.5"></span>
-        <span class="text-emerald-400 font-extrabold bg-emerald-500/15 px-2 py-0.5 rounded-md border border-emerald-500/30 text-[11px] group-hover:bg-emerald-400 group-hover:text-slate-950 transition-colors">${marker.count}</span>
+        <span class="text-secondary font-extrabold bg-secondary/15 px-2 py-0.5 rounded-md border border-secondary/30 text-[11px] group-hover:bg-secondary group-hover:text-slate-950 transition-colors">${marker.count}</span>
       </div>`,
       iconSize: null,
     });

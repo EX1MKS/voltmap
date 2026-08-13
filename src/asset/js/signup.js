@@ -71,7 +71,7 @@ export function renderSignup(targetElementOrSelector = "#signup-app", options = 
               </button>
             </div>
 
-            <div id="signup-success-msg" class="hidden text-xs font-bold items-center gap-1.5 animate-fade-in text-emerald-600">
+            <div id="signup-success-msg" class="hidden text-xs font-bold items-center gap-1.5 animate-fade-in text-secondary">
               <i class="fa-solid fa-circle-check text-sm"></i>
               <span>Thank you for connecting with Voltmap!</span>
             </div>

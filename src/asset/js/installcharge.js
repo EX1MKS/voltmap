@@ -8,7 +8,7 @@ let isTransitioning = false;
 
 $(document).ready(() => {
   const activePage = "install";
- 
+
   // Render Navbar and Footer
   renderNavbar("#navbar-app", { activePage });
   renderFooter("#footer-app", { activePage });
@@ -165,7 +165,7 @@ function initHostRegistrationForm() {
     $btn.html('<i class="fa-solid fa-circle-notch animate-spin"></i> Memproses...').prop("disabled", true);
 
     setTimeout(() => {
-      $btn.html('<i class="fa-solid fa-check"></i> Pendaftaran Berhasil!').addClass("bg-emerald-600");
+      $btn.html('<i class="fa-solid fa-check"></i> Pendaftaran Berhasil!').addClass("bg-secondary");
 
       const $modal = $("#registration-success-modal");
       if ($modal.length) {
@@ -177,7 +177,7 @@ function initHostRegistrationForm() {
       $("#host-registration-form")[0].reset();
 
       setTimeout(() => {
-        $btn.html(originalText).removeClass("bg-emerald-600").prop("disabled", false);
+        $btn.html(originalText).removeClass("bg-secondary").prop("disabled", false);
       }, 3000);
     }, 1200);
   });

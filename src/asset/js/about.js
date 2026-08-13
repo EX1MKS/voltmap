@@ -18,6 +18,7 @@ $(document).ready(() => {
   initNavbarEvents();
   initCardParallax();
   initWaveParallax();
+  initEcosystemHorizontalParallax();
 
   // Initialize AOS if available
   if (typeof AOS !== "undefined") {
@@ -356,3 +357,47 @@ function updateNavbarStyle() {
 
   $header.removeClass("opacity-0 pointer-events-none -translate-y-6").addClass("opacity-100 pointer-events-auto translate-y-0");
 }
+
+/* ==========================================
+   ECOSYSTEM PINNED HORIZONTAL PARALLAX SCROLL
+   ========================================== */
+function initEcosystemHorizontalParallax() {
+  if (typeof gsap === "undefined" || typeof ScrollTrigger === "undefined") return;
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const pinSection = document.querySelector("#ecosystem-pin-container");
+  const track = document.querySelector("#ecosystem-slider-track");
+
+  if (!pinSection || !track) return;
+
+  const getScrollDistance = () => {
+    const parentContainer = track.parentElement || track;
+    const parentWidth = parentContainer.clientWidth || window.innerWidth;
+    const isMobile = window.innerWidth < 640;
+    const extraPad = isMobile ? 40 : 100;
+    return Math.max(0, track.scrollWidth - parentWidth + extraPad);
+  };
+
+  const sliderTl = gsap.timeline({
+    scrollTrigger: {
+      trigger: pinSection,
+      start: "top top",
+      end: () => `+=${Math.max(1200, getScrollDistance() + 300)}`,
+      pin: true,
+      pinSpacing: true,
+      scrub: 1,
+      anticipatePin: 1,
+      invalidateOnRefresh: true,
+    },
+  });
+
+  sliderTl.to(track, { x: () => -getScrollDistance(), ease: "none" }, 0);
+
+  const cardImages = document.querySelectorAll(".ecosystem-card-img");
+  cardImages.forEach((img) => {
+    sliderTl.fromTo(img, { xPercent: 12 }, { xPercent: -12, ease: "none" }, 0);
+  });
+}
+
+
