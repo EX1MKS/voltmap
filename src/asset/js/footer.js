@@ -71,9 +71,9 @@ export function renderFooter(targetElementOrSelector = "#footer-app", options = 
           <h4 class="text-xs font-extrabold text-slate-900 uppercase tracking-wider">Company</h4>
           <ul class="space-y-2.5 font-medium">
             <li><a href="about.html" class="hover:text-[var(--secondary)] text-slate-600 transition">About VoltMap</a></li>
-            <li><a href="#" class="hover:text-[var(--secondary)] text-slate-600 transition">Stories</a></li>
+            <li><a href="#" class="hover:text-[var(--secondary)] text-slate-600 transition">Infrastructure</a></li>
             <li><a href="#" class="hover:text-[var(--secondary)] text-slate-600 transition">Our Mission</a></li>
-            <li><a href="#" class="hover:text-[var(--secondary)] text-slate-600 transition">Careers</a></li>
+            <li><a href="#" class="hover:text-[var(--secondary)] text-slate-600 transition">Leadership</a></li>
           </ul>
         </div>
 
