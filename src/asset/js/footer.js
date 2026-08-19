@@ -46,7 +46,7 @@ export function renderFooter(targetElementOrSelector = "#footer-app", options = 
       
       </div>
 
-      <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 text-sm text-slate-600">
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 text-sm text-slate-600">
         <div class="space-y-3">
           <h4 class="text-xs font-extrabold text-slate-900 uppercase tracking-wider">For Drivers</h4>
           <ul class="space-y-2.5 font-medium">
@@ -77,15 +77,6 @@ export function renderFooter(targetElementOrSelector = "#footer-app", options = 
           </ul>
         </div>
 
-        <div class="space-y-3">
-          <h4 class="text-xs font-extrabold text-slate-900 uppercase tracking-wider">Support</h4>
-          <ul class="space-y-2.5 font-medium">
-            <li><a href="#" class="hover:text-[var(--secondary)] text-slate-600 transition">Help Center</a></li>
-            <li><a href="#" class="hover:text-[var(--secondary)] text-slate-600 transition">24/7 Hotline</a></li>
-            <li><a href="#" class="hover:text-[var(--secondary)] text-slate-600 transition">Network Status</a></li>
-            <li><a href="#" class="hover:text-[var(--secondary)] text-slate-600 transition">Contact Us</a></li>
-          </ul>
-        </div>
 
         <div class="col-span-2 md:col-span-4 lg:col-span-1 space-y-4">
           <h4 class="text-xs font-extrabold text-slate-900 uppercase tracking-wider">Follow Us</h4>
