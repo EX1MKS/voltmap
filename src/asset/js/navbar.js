@@ -66,11 +66,11 @@ export function renderNavbar(targetElementOrSelector = "#navbar-app", options = 
 
         <!-- Right Actions -->
         <div id="nav-actions" class="flex items-center gap-3">
-          <button data-nav-target="-"
+          <a href="login.html"
             class="hidden md:flex h-11 items-center gap-2 rounded-2xl bg-[var(--secondary)] px-6 text-sm font-bold text-white shadow-sm transition hover:bg-[var(--secondary-hover)] hover:scale-[1.02] active:scale-95 will-change-transform">
             <span>Sign In</span>
             <i class="fa-solid fa-user text-xs text-white"></i>
-          </button>
+          </a>
 
           <button id="mobile-hamburger-btn" aria-label="Toggle Mobile Menu"
             class="nav-icon-circle grid h-11 w-11 place-items-center rounded-full lg:hidden transition-all duration-300 will-change-transform bg-white/15 text-white border border-white/20 hover:bg-white/25">
@@ -97,11 +97,11 @@ export function renderNavbar(targetElementOrSelector = "#navbar-app", options = 
       <div data-mobile-nav="about" class="py-1 border-b border-gray-50 cursor-pointer text-gray-800 font-bold text-base">
         About
       </div>
-      <button data-mobile-nav="-"
+      <a href="login.html"
         class="mt-2 h-12 rounded-2xl bg-[var(--secondary)] font-bold text-white flex items-center justify-center gap-2 shadow-md hover:bg-[var(--secondary-hover)] transition">
         <span>Sign In</span>
         <i class="fa-solid fa-user text-white"></i>
-      </button>
+      </a>
     </div>
   </div>
   `;
