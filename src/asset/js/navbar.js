@@ -20,6 +20,20 @@ export function renderNavbar(targetElementOrSelector = "#navbar-app", options = 
 
   if (!container) return;
 
+  // Check if current page load is a browser refresh / reload
+  const navEntries = typeof performance !== "undefined" && performance.getEntriesByType && performance.getEntriesByType("navigation");
+  const isReload = (navEntries && navEntries.length > 0 && navEntries[0].type === "reload") || (window.performance && window.performance.navigation && window.performance.navigation.type === 1);
+
+  if (isReload) {
+    sessionStorage.removeItem("voltmap_logged_in");
+    sessionStorage.removeItem("voltmap_user");
+  }
+
+  const isLoggedIn = sessionStorage.getItem("voltmap_logged_in") === "true";
+  const userDisplayName = sessionStorage.getItem("voltmap_user") || "John Doe";
+  const navBtnText = isLoggedIn ? userDisplayName : "Sign In";
+  const navBtnIcon = isLoggedIn ? "fa-solid fa-user-check" : "fa-solid fa-user";
+
   const isHome = activePage === "home";
   const isExplore = activePage === "explore";
   const isInstall = activePage === "install";
@@ -66,10 +80,10 @@ export function renderNavbar(targetElementOrSelector = "#navbar-app", options = 
 
         <!-- Right Actions -->
         <div id="nav-actions" class="flex items-center gap-3">
-          <a href="login.html"
+          <a href="login.html" data-nav-target="login"
             class="hidden md:flex h-11 items-center gap-2 rounded-2xl bg-[var(--secondary)] px-6 text-sm font-bold text-white shadow-sm transition hover:bg-[var(--secondary-hover)] hover:scale-[1.02] active:scale-95 will-change-transform">
-            <span>Sign In</span>
-            <i class="fa-solid fa-user text-xs text-white"></i>
+            <span>${navBtnText}</span>
+            <i class="${navBtnIcon} text-xs text-white"></i>
           </a>
 
           <button id="mobile-hamburger-btn" aria-label="Toggle Mobile Menu"
@@ -94,13 +108,13 @@ export function renderNavbar(targetElementOrSelector = "#navbar-app", options = 
       <div data-mobile-nav="install" data-nav-target="install" class="py-1 border-b border-gray-50 cursor-pointer text-gray-800 font-bold text-base">
         Install Charger
       </div>
-      <div data-mobile-nav="about" class="py-1 border-b border-gray-50 cursor-pointer text-gray-800 font-bold text-base">
+      <div data-mobile-nav="about" data-nav-target="about" class="py-1 border-b border-gray-50 cursor-pointer text-gray-800 font-bold text-base">
         About
       </div>
-      <a href="login.html"
+      <a href="login.html" data-nav-target="login" data-mobile-nav="login"
         class="mt-2 h-12 rounded-2xl bg-[var(--secondary)] font-bold text-white flex items-center justify-center gap-2 shadow-md hover:bg-[var(--secondary-hover)] transition">
-        <span>Sign In</span>
-        <i class="fa-solid fa-user text-white"></i>
+        <span>${navBtnText}</span>
+        <i class="${navBtnIcon} text-white"></i>
       </a>
     </div>
   </div>

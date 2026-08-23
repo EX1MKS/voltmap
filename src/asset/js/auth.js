@@ -194,17 +194,17 @@ function initConfirmPasswordCheck() {
 
   const validateMatch = () => {
     if (!confirmInput.value) {
-      matchMsg.classList.add("hidden");
+      matchMsg.className = "h-5 text-xs font-semibold flex items-center gap-1 transition-all duration-200 opacity-0 pointer-events-none";
+      matchMsg.textContent = "";
       return;
     }
 
-    matchMsg.classList.remove("hidden");
     if (passwordInput.value === confirmInput.value) {
       matchMsg.textContent = "Passwords match";
-      matchMsg.className = "text-xs font-semibold text-emerald-600 mt-1 flex items-center gap-1";
+      matchMsg.className = "h-5 text-xs font-semibold text-emerald-600 flex items-center gap-1 transition-all duration-200 opacity-100";
     } else {
       matchMsg.textContent = "Passwords do not match";
-      matchMsg.className = "text-xs font-semibold text-rose-500 mt-1 flex items-center gap-1";
+      matchMsg.className = "h-5 text-xs font-semibold text-rose-500 flex items-center gap-1 transition-all duration-200 opacity-100";
     }
   };
 
@@ -222,6 +222,8 @@ function initFormSubmissions() {
   if (loginForm) {
     loginForm.addEventListener("submit", (e) => {
       e.preventDefault();
+      sessionStorage.setItem("voltmap_logged_in", "true");
+      sessionStorage.setItem("voltmap_user", "John Doe");
       showToast("Signed in successfully! Redirecting...", "success");
       setTimeout(() => {
         performPageTransition("index.html");
@@ -239,6 +241,10 @@ function initFormSubmissions() {
         showToast("Passwords do not match. Please check again.", "error");
         return;
       }
+
+      // Ensure user is NOT logged in upon registration and redirect to login page
+      sessionStorage.removeItem("voltmap_logged_in");
+      sessionStorage.removeItem("voltmap_user");
 
       showToast("Registration successful! Redirecting to sign in...", "success");
       setTimeout(() => {

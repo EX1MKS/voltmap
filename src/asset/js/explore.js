@@ -132,14 +132,24 @@ function initNavigation() {
       performPageTransition("about.html");
       return;
     }
+    if (target === "login") {
+      e.preventDefault();
+      performPageTransition("login.html");
+      return;
+    }
+    if (target === "register") {
+      e.preventDefault();
+      performPageTransition("register.html");
+      return;
+    }
   });
 
-  // Intercept links between index.html, exploremap.html, installcharge.html, and about.html
-  $(document).on("click", 'a[href="index.html"], a[href="exploremap.html"], a[href="installcharge.html"], a[href="about.html"]', function (e) {
+  // Intercept links between index.html, exploremap.html, installcharge.html, about.html, login.html, and register.html
+  $(document).on("click", 'a[href="index.html"], a[href="exploremap.html"], a[href="installcharge.html"], a[href="about.html"], a[href="login.html"], a[href="register.html"]', function (e) {
     const href = $(this).attr("href");
     const currentFile = window.location.pathname.split("/").pop();
 
-    if (href !== currentFile && (href === "index.html" || href === "exploremap.html" || href === "installcharge.html" || href === "about.html")) {
+    if (href !== currentFile && (href === "index.html" || href === "exploremap.html" || href === "installcharge.html" || href === "about.html" || href === "login.html" || href === "register.html")) {
       e.preventDefault();
       performPageTransition(href);
     }

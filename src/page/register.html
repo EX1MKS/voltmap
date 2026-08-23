@@ -21,7 +21,8 @@
   <link rel="stylesheet" href="../asset/css/output.css" />
 </head>
 
-<body class="min-h-screen bg-slate-50 text-slate-900 flex flex-col font-sans selection:bg-emerald-100 selection:text-emerald-900">
+<body
+  class="min-h-screen bg-slate-50 text-slate-900 flex flex-col font-sans selection:bg-emerald-100 selection:text-emerald-900">
 
   <!-- ==========================================
        HEADER & NAVIGATION BAR
@@ -30,7 +31,8 @@
     <div class="max-w-7xl mx-auto flex items-center justify-between">
       <!-- Logo -->
       <a href="index.html" class="flex items-center gap-3 group">
-        <img src="../asset/img/logo.png" alt="VoltMap Logo" class="h-9 w-9 object-contain group-hover:scale-105 transition-transform duration-300" />
+        <img src="../asset/img/logo.png" alt="VoltMap Logo"
+          class="h-9 w-9 object-contain group-hover:scale-105 transition-transform duration-300" />
         <span class="font-extrabold tracking-[4px] text-xl text-slate-900">VOLTMAP</span>
       </a>
 
@@ -47,22 +49,23 @@
        MAIN CONTENT: REGISTER CARD & IMAGE SIDEBAR
        ========================================== -->
   <main class="flex-1 flex items-center justify-center py-10 md:py-16 px-4 sm:px-6 lg:px-8">
-    <div class="w-full max-w-5xl bg-white rounded-3xl sm:rounded-[32px] border border-slate-200/90 shadow-xl shadow-slate-200/50 overflow-hidden animate-page-enter">
-      
+    <div
+      class="w-full max-w-5xl bg-white rounded-3xl sm:rounded-[32px] border border-slate-200/90 shadow-xl shadow-slate-200/50 overflow-hidden animate-page-enter">
+
       <div class="grid grid-cols-1 lg:grid-cols-12 min-h-[640px]">
-        
+
         <!-- LEFT COLUMN: Image Only (Desktop Only) -->
         <div class="hidden lg:block lg:col-span-5 relative overflow-hidden bg-slate-100">
-          <img src="../asset/img/images/hero_ev_station3.jpg" alt="EV Charging Station Network"
+          <img src="../asset/img/images/abt5.jpg" alt="EV Charging Station Network"
             class="w-full h-full object-cover object-center" />
           <div class="absolute inset-0 bg-slate-900/10 backdrop-brightness-[0.98]"></div>
         </div>
 
         <!-- RIGHT COLUMN: Register Form -->
         <div class="lg:col-span-7 p-6 sm:p-10 lg:p-12 flex flex-col justify-center">
-          
+
           <div class="max-w-md mx-auto w-full space-y-6">
-            
+
             <!-- Form Header -->
             <div class="space-y-2 text-center sm:text-left">
               <h1 class="text-2xl sm:text-3xl font-black tracking-tight text-slate-900">
@@ -75,7 +78,7 @@
 
             <!-- Register Form -->
             <form id="register-form" class="space-y-4" action="#">
-              
+
               <!-- Input Full Name -->
               <div class="space-y-1.5">
                 <label for="register-name" class="block text-xs font-extrabold uppercase tracking-wider text-slate-700">
@@ -85,40 +88,39 @@
                   <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
                     <i class="fa-solid fa-user text-sm"></i>
                   </div>
-                  <input type="text" id="register-name" required
-                    placeholder="John Doe"
+                  <input type="text" id="register-name" required placeholder="John Doe"
                     class="w-full pl-10 pr-4 py-3 bg-slate-50 hover:bg-slate-100/60 focus:bg-white text-slate-900 text-sm font-medium rounded-xl border border-slate-200 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/15 outline-none transition-all duration-200" />
                 </div>
               </div>
 
               <!-- Input Email -->
               <div class="space-y-1.5">
-                <label for="register-email" class="block text-xs font-extrabold uppercase tracking-wider text-slate-700">
+                <label for="register-email"
+                  class="block text-xs font-extrabold uppercase tracking-wider text-slate-700">
                   Email Address
                 </label>
                 <div class="relative">
                   <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
                     <i class="fa-solid fa-envelope text-sm"></i>
                   </div>
-                  <input type="email" id="register-email" required
-                    placeholder="name@example.com"
+                  <input type="email" id="register-email" required placeholder="name@example.com"
                     class="w-full pl-10 pr-4 py-3 bg-slate-50 hover:bg-slate-100/60 focus:bg-white text-slate-900 text-sm font-medium rounded-xl border border-slate-200 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/15 outline-none transition-all duration-200" />
                 </div>
               </div>
 
               <!-- Input Password -->
               <div class="space-y-1.5">
-                <label for="register-password" class="block text-xs font-extrabold uppercase tracking-wider text-slate-700">
+                <label for="register-password"
+                  class="block text-xs font-extrabold uppercase tracking-wider text-slate-700">
                   Password
                 </label>
                 <div class="relative">
                   <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
                     <i class="fa-solid fa-lock text-sm"></i>
                   </div>
-                  <input type="password" id="register-password" required
-                    placeholder="At least 6 characters"
+                  <input type="password" id="register-password" required placeholder="At least 6 characters"
                     class="w-full pl-10 pr-11 py-3 bg-slate-50 hover:bg-slate-100/60 focus:bg-white text-slate-900 text-sm font-medium rounded-xl border border-slate-200 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/15 outline-none transition-all duration-200" />
-                  
+
                   <!-- Toggle Visibility Button -->
                   <button type="button" data-toggle-password="register-password" aria-label="Toggle password visibility"
                     class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600 transition-colors cursor-pointer">
@@ -133,39 +135,45 @@
                     <span id="strength-text" class="text-xs font-semibold"></span>
                   </div>
                   <div class="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
-                    <div id="strength-bar" class="h-full rounded-full transition-all duration-300 w-0 bg-slate-200"></div>
+                    <div id="strength-bar" class="h-full rounded-full transition-all duration-300 w-0 bg-slate-200">
+                    </div>
                   </div>
                 </div>
               </div>
 
               <!-- Input Confirm Password -->
               <div class="space-y-1.5">
-                <label for="register-confirm-password" class="block text-xs font-extrabold uppercase tracking-wider text-slate-700">
+                <label for="register-confirm-password"
+                  class="block text-xs font-extrabold uppercase tracking-wider text-slate-700">
                   Confirm Password
                 </label>
                 <div class="relative">
                   <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
                     <i class="fa-solid fa-shield-cat text-sm"></i>
                   </div>
-                  <input type="password" id="register-confirm-password" required
-                    placeholder="Repeat password"
+                  <input type="password" id="register-confirm-password" required placeholder="Repeat password"
                     class="w-full pl-10 pr-11 py-3 bg-slate-50 hover:bg-slate-100/60 focus:bg-white text-slate-900 text-sm font-medium rounded-xl border border-slate-200 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/15 outline-none transition-all duration-200" />
-                  
+
                   <!-- Toggle Visibility Button -->
-                  <button type="button" data-toggle-password="register-confirm-password" aria-label="Toggle password visibility"
+                  <button type="button" data-toggle-password="register-confirm-password"
+                    aria-label="Toggle password visibility"
                     class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600 transition-colors cursor-pointer">
                     <i class="fa-solid fa-eye text-sm"></i>
                   </button>
                 </div>
-                <div id="password-match-msg" class="hidden"></div>
+                <div id="password-match-msg"
+                  class="h-5 text-xs font-semibold flex items-center gap-1 transition-all duration-200 opacity-0 pointer-events-none">
+                </div>
               </div>
 
               <!-- Terms Checkbox -->
               <div class="flex items-start pt-1">
                 <input type="checkbox" id="terms-agree" required
                   class="w-4 h-4 mt-0.5 text-emerald-600 bg-slate-100 border-slate-300 rounded focus:ring-emerald-500 focus:ring-2 cursor-pointer" />
-                <label for="terms-agree" class="ml-2 text-xs font-medium text-slate-600 cursor-pointer select-none leading-relaxed">
-                  I agree to the <a href="#" class="text-emerald-600 font-bold hover:underline">Terms & Conditions</a> and <a href="#" class="text-emerald-600 font-bold hover:underline">Privacy Policy</a> of VoltMap.
+                <label for="terms-agree"
+                  class="ml-2 text-xs font-medium text-slate-600 cursor-pointer select-none leading-relaxed">
+                  I agree to the <a href="#" class="text-emerald-600 font-bold hover:underline">Terms & Conditions</a>
+                  and <a href="#" class="text-emerald-600 font-bold hover:underline">Privacy Policy</a> of VoltMap.
                 </label>
               </div>
 
@@ -204,7 +212,8 @@
             <!-- Login Navigation Link -->
             <p class="text-center text-xs sm:text-sm text-slate-600 pt-1 font-medium">
               Already have a VoltMap account?
-              <a href="login.html" class="font-extrabold text-emerald-600 hover:text-emerald-700 hover:underline transition-all">
+              <a href="login.html"
+                class="font-extrabold text-emerald-600 hover:text-emerald-700 hover:underline transition-all">
                 Sign In
               </a>
             </p>
@@ -222,7 +231,8 @@
        ========================================== -->
   <div id="auth-toast"
     class="fixed bottom-6 right-6 z-50 transform translate-y-10 opacity-0 pointer-events-none transition-all duration-300 ease-out">
-    <div class="bg-white text-slate-900 px-5 py-3.5 rounded-2xl border border-slate-200 shadow-xl flex items-center gap-3">
+    <div
+      class="bg-white text-slate-900 px-5 py-3.5 rounded-2xl border border-slate-200 shadow-xl flex items-center gap-3">
       <i class="toast-icon fa-solid fa-circle-check text-emerald-500 text-lg"></i>
       <span class="toast-message text-xs sm:text-sm font-bold text-slate-800">Notification</span>
     </div>

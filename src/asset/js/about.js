@@ -293,6 +293,26 @@ function initNavigation() {
     performPageTransition("about.html");
   });
 
+  $('[data-nav-target="login"]').on("click", function (e) {
+    e.preventDefault();
+    performPageTransition("login.html");
+  });
+
+  $('[data-nav-target="register"]').on("click", function (e) {
+    e.preventDefault();
+    performPageTransition("register.html");
+  });
+
+  $(document).on("click", 'a[href="index.html"], a[href="exploremap.html"], a[href="installcharge.html"], a[href="about.html"], a[href="login.html"], a[href="register.html"]', function (e) {
+    const href = $(this).attr("href");
+    const currentFile = window.location.pathname.split("/").pop();
+
+    if (href !== currentFile && (href === "index.html" || href === "exploremap.html" || href === "installcharge.html" || href === "about.html" || href === "login.html" || href === "register.html")) {
+      e.preventDefault();
+      performPageTransition(href);
+    }
+  });
+
   // Smooth scroll for internal anchor links
   $('a[href^="#"]').on("click", function (e) {
     const href = $(this).attr("href");
@@ -322,8 +342,8 @@ function initNavbarEvents() {
   $("[data-mobile-nav]").on("click", function () {
     const page = $(this).attr("data-mobile-nav");
     $("#mobile-drawer").attr("data-open", "false").addClass("pointer-events-none opacity-0 -translate-y-5").removeClass("opacity-100 translate-y-0");
-    if (page === "home" || page === "explore" || page === "install" || page === "about") {
-      const targetUrl = page === "home" ? "index.html" : page === "explore" ? "exploremap.html" : page === "install" ? "installcharge.html" : "about.html";
+    if (page === "home" || page === "explore" || page === "install" || page === "about" || page === "login" || page === "register") {
+      const targetUrl = page === "home" ? "index.html" : page === "explore" ? "exploremap.html" : page === "install" ? "installcharge.html" : page === "about" ? "about.html" : page === "login" ? "login.html" : "register.html";
       performPageTransition(targetUrl);
     }
   });

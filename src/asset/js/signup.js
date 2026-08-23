@@ -18,6 +18,20 @@ export function renderSignup(targetElementOrSelector = "#signup-app", options = 
 
   if (!container) return;
 
+  // If user is logged in, hide and remove the sign-up section across all pages
+  const isLoggedIn = sessionStorage.getItem("voltmap_logged_in") === "true";
+  if (isLoggedIn) {
+    container.innerHTML = "";
+    container.classList.add("hidden");
+    const signupSection = document.getElementById("signup-section");
+    if (signupSection && signupSection !== container) {
+      signupSection.remove();
+    }
+    return;
+  }
+
+  container.classList.remove("hidden");
+
   const signupHtml = `
   <!-- SECTION: SIGN UP VOLTMAP COMPONENT -->
   <section id="signup-section" class="w-full py-12 md:py-20 px-4 sm:px-6 lg:px-12 bg-white relative overflow-hidden"
