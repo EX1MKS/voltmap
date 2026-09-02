@@ -78,11 +78,11 @@ export function renderSignup(targetElementOrSelector = "#signup-app", options = 
 
             <!-- Interactive Button -->
             <div id="signup-voltmap" class="w-full flex flex-col sm:flex-row items-center gap-3">
-              <button id="signup-submit-btn"
+              <a href="login.html" id="signup-submit-btn"
                 class="w-full sm:w-auto px-6 py-2.5 rounded-full bg-[#ffffff] text-secondary text-xs sm:text-sm hover:text-white font-bold hover:bg-[var(--secondary)] hover:border-[var(--secondary)] transition-all duration-300 shadow-md flex items-center justify-center gap-2 shrink-0 group cursor-pointer whitespace-nowrap">
                 <span>Sign me up</span>
                 <i class="fa-solid fa-arrow-right text-xs group-hover:translate-x-1 transition-transform"></i>
-              </button>
+              </a>
             </div>
 
             <div id="signup-success-msg" class="hidden text-xs font-bold items-center gap-1.5 animate-fade-in text-secondary">
@@ -102,17 +102,13 @@ export function renderSignup(targetElementOrSelector = "#signup-app", options = 
 
 function initSignUpEvents(container) {
   const btn = container.querySelector("#signup-submit-btn");
-  const msg = container.querySelector("#signup-success-msg");
 
-  if (btn && msg) {
+  if (btn) {
     btn.addEventListener("click", function (e) {
-      e.preventDefault();
-      msg.classList.remove("hidden");
-      msg.classList.add("flex");
-      setTimeout(() => {
-        msg.classList.add("hidden");
-        msg.classList.remove("flex");
-      }, 5000);
+      if (typeof window.performPageTransition === "function") {
+        e.preventDefault();
+        window.performPageTransition("login.html");
+      }
     });
   }
 }

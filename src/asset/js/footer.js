@@ -118,4 +118,15 @@ export function renderFooter(targetElementOrSelector = "#footer-app", options = 
   `;
 
   container.innerHTML = footerHtml;
+
+  // Handle click on signup-submit-btn if present inside or alongside footer
+  const signupBtn = document.querySelector("#signup-submit-btn");
+  if (signupBtn) {
+    signupBtn.addEventListener("click", function (e) {
+      if (typeof window.performPageTransition === "function") {
+        e.preventDefault();
+        window.performPageTransition("login.html");
+      }
+    });
+  }
 }
